@@ -17,7 +17,8 @@ https://letsintroduceurself.atlassian.net/jira/software/projects/IY/boards/1
 **2. Baza danych (do 24.10)**
 * Diagram bazy danych
 * Instalacja pluginów Kotlin Exposed
-* Utworzenie modeli
+* Utworzenie modeli DAO
+* Utworzenie modeli Kotlinowych
 
 **3. Rejestracja i logowanie (do 3.11)**
  * Backend
@@ -25,7 +26,16 @@ https://letsintroduceurself.atlassian.net/jira/software/projects/IY/boards/1
     * Odczyt/ zapis do bazy 
  * Frontend
 
-**4. Profil użytkownika (do 14.11)**
+**4. Strona główna (do 14.11)**
+   * Wysuwane boczne menu z zakładkami:
+     * Profil
+     * Skaner
+     * ...
+     * Wyloguj
+   * RecyclerView z profilami (prototyp)
+   * Adapter do widoku
+
+**5. Profil użytkownika (do 28.11)**
   * Edycja profilu
     * Zdjęcia
     * Treści tekstowe (posty)
@@ -35,18 +45,9 @@ https://letsintroduceurself.atlassian.net/jira/software/projects/IY/boards/1
   * Frontend
     * relacyjny układ strony i stron tekstowych
 
-**5. Kody QR (do 28.11)**
+**6. Kody QR (do 12.12)**
   * Tworzenie kodów QR
   * Skaner kodów QR
-
-**6. Strona główna (do 8.12)**
-   * Wysuwane boczne menu z zakładkami:
-     * Profil
-     * Skaner
-     * ...
-     * Wyloguj
-   * RecyclerView z profilami (prototyp)
-   * Adapter do widoku
 
 **7. Karta społeczności (do 22.12)**
   * Podzakładki:
