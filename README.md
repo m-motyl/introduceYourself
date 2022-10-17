@@ -14,6 +14,7 @@
 **2. Baza danych (do 24.10)**
 * Diagram bazy danych
 * Instalacja pluginów Kotlin Exposed
+* Utworzenie modeli
 
 **3. Rejestracja i logowanie (do 3.11)**
  * Backend
