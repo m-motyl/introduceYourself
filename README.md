@@ -5,7 +5,7 @@
 * Mateusz Motyl
 * Patryk Zarzycki
 
-## (z)Jira
+## JIRA
 https://letsintroduceurself.atlassian.net/jira/software/projects/IY/boards/1
 
 ## SPRINTS
