@@ -5,6 +5,9 @@
 * Mateusz Motyl
 * Patryk Zarzycki
 
+## (z)Jira
+https://letsintroduceurself.atlassian.net/jira/software/projects/IY/boards/1
+
 ## SPRINTS
 ~~**1. Konfiguracja środowiska (do 17.10)**~~
 * Android Studio Arctic Fox 2020 3.1
