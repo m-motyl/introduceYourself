@@ -8,7 +8,7 @@ android {
 
     defaultConfig {
         applicationId "com.example.introduce_yourself"
-        minSdk 21
+        minSdk 26
         targetSdk 31
         versionCode 1
         versionName "1.0"
@@ -40,4 +40,9 @@ dependencies {
     testImplementation 'junit:junit:4.+'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
+    implementation "org.jetbrains.exposed:exposed-core:0.34.1"
+    implementation "org.jetbrains.exposed:exposed-dao:0.34.1"
+    implementation "org.jetbrains.exposed:exposed-jdbc:0.34.1"
+    implementation "org.jetbrains.exposed:exposed-java-time:0.34.1"
+    implementation "org.postgresql:postgresql:42.2.2"
 }
