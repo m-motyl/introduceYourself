@@ -15,7 +15,7 @@ class UserPost(id: EntityID<Int>) : IntEntity(id) {
 }
 
 object UserPosts : IntIdTable("UserPosts") {
-    val content = varchar("amount",300)
-    val title = varchar("amount",50)
-    val user = reference("from", Users, onDelete = ReferenceOption.CASCADE)
+    val content = varchar("content",300)
+    val title = varchar("title",50)
+    val user = reference("user", Users, onDelete = ReferenceOption.CASCADE)
 }

@@ -18,5 +18,5 @@ class UserLike(id: EntityID<Int>) : IntEntity(id) {
 object UserLikes : IntIdTable("UserLikes") {
     val time = datetime("time_sent")
     val from = reference("from", Users, onDelete = ReferenceOption.CASCADE)
-    val to = reference("from", Users, onDelete = ReferenceOption.CASCADE)
+    val to = reference("to", Users, onDelete = ReferenceOption.CASCADE)
 }

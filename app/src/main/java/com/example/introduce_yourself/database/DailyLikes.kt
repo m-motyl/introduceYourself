@@ -15,5 +15,5 @@ class DailyLike(id: EntityID<Int>) : IntEntity(id) {
 
 object DailyLikes : IntIdTable("DailyLikes") {
     val amount = integer("amount")
-    val user = reference("from", Users, onDelete = ReferenceOption.CASCADE)
+    val user = reference("user", Users, onDelete = ReferenceOption.CASCADE)
 }

@@ -20,5 +20,5 @@ object Messages : IntIdTable("Messages") {
     val content = varchar("amount",500)
     val time = datetime("time_sent")
     val from = reference("from", Users, onDelete = ReferenceOption.CASCADE)
-    val to = reference("from", Users, onDelete = ReferenceOption.CASCADE)
+    val to = reference("to", Users, onDelete = ReferenceOption.CASCADE)
 }
