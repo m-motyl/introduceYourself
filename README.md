@@ -13,6 +13,7 @@ https://letsintroduceurself.atlassian.net/jira/software/projects/IY/boards/1
 * Android Studio Arctic Fox 2020 3.1
 * Pixel 4 API 30
 * Android 11.0 (Google Play)
+* PostgreSQL (+ pgAdmin 4)
 
 **2. Baza danych (do 24.10)**
 * Diagram bazy danych
