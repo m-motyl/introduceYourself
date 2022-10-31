@@ -14,7 +14,13 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Introduce_yourself">
         <activity
+            android:name=".Activities.SignUpActivity"
+            android:exported="true" />
+        <activity
             android:name=".Activities.MainActivity"
+            android:exported="true" />
+        <activity
+            android:name=".Activities.SignInActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

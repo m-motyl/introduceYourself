@@ -9,7 +9,8 @@ import org.jetbrains.exposed.sql.ReferenceOption
 class User(id: EntityID<Int>) : IntEntity(id) {
     companion object : IntEntityClass<User>(Users)
 
-    var login by Users.login
+    var name by Users.name
+    var surename by Users.surename
     var email by Users.email
     var password by Users.password
     var profile_picture by Users.profile_picture
@@ -22,7 +23,8 @@ class User(id: EntityID<Int>) : IntEntity(id) {
 }
 
 object Users : IntIdTable("Users") {
-    val login = varchar("login", 20)
+    val name = varchar("name", 30)
+    val surename = varchar("surename", 30)
     val email = varchar("email", 50)
     val password = varchar("password", 20)
     val profile_picture = blob("profile_picture").nullable()
