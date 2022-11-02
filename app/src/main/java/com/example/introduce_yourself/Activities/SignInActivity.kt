@@ -8,12 +8,15 @@ import android.widget.Toast
 import com.example.introduce_yourself.Models.SignInModel
 import com.example.introduce_yourself.R
 import com.example.introduce_yourself.database.*
+import com.example.introduce_yourself.utils.currentUser
 import kotlinx.android.synthetic.main.activity_sign_in.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.runBlocking
 import org.jetbrains.exposed.sql.Database
 import org.jetbrains.exposed.sql.SchemaUtils
+import org.jetbrains.exposed.sql.and
 import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransaction
+import java.util.*
 
 class SignInActivity : AppCompatActivity(), View.OnClickListener {
     private var signInModel: SignInModel? = null
@@ -62,8 +65,7 @@ class SignInActivity : AppCompatActivity(), View.OnClickListener {
                                 MainActivity::class.java
                             )
                             startActivity(intent)
-                        }
-                        else{
+                        } else {
                             Toast.makeText(
                                 this,
                                 "Nieprawidłowy e-mail lub hasło!",
@@ -83,7 +85,7 @@ class SignInActivity : AppCompatActivity(), View.OnClickListener {
         }
     }
 
-    private fun connectToDb(){
+    private fun connectToDb() {
         runBlocking {
             Database.connect(
                 "jdbc:postgresql://10.0.2.2:5432/iydb", driver = "org.postgresql.Driver",
@@ -102,8 +104,19 @@ class SignInActivity : AppCompatActivity(), View.OnClickListener {
         }
     }
 
-    private fun validateUser(sim: SignInModel): Boolean{ //TODO WITOLD validate user
-        return true
+    private fun validateUser(signInModel: SignInModel): Boolean {
+        return runBlocking {
+            val result = newSuspendedTransaction(Dispatchers.IO) {
+                User.find {
+                    Users.email eq signInModel.email and
+                            (Users.password eq signInModel.password)
+                }.toList()
+            }
+            if (result.isNotEmpty()) {
+                currentUser = result.elementAt(0)
+            }
+            return@runBlocking result.isNotEmpty()
+        }
     }
 
     private fun isEmailValid(email: String): Boolean {

@@ -16,14 +16,24 @@ import android.widget.Toast
 import com.example.introduce_yourself.Models.SignInModel
 import com.example.introduce_yourself.Models.SignUpModel
 import com.example.introduce_yourself.R
+import com.example.introduce_yourself.database.Cities
+import com.example.introduce_yourself.database.City
+import com.example.introduce_yourself.database.User
+import com.example.introduce_yourself.database.Users
 import com.karumi.dexter.Dexter
 import com.karumi.dexter.MultiplePermissionsReport
 import com.karumi.dexter.PermissionToken
 import com.karumi.dexter.listener.PermissionRequest
 import com.karumi.dexter.listener.multi.MultiplePermissionsListener
 import kotlinx.android.synthetic.main.activity_sign_up.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.runBlocking
+import org.jetbrains.exposed.sql.statements.api.ExposedBlob
+import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransaction
 import java.io.ByteArrayOutputStream
 import java.io.IOException
+import java.time.LocalDateTime
+import java.util.*
 
 class SignUpActivity : AppCompatActivity(), View.OnClickListener {
 
@@ -44,7 +54,7 @@ class SignUpActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     override fun onClick(v: View?) {
-        when(v!!.id){
+        when (v!!.id) {
             R.id.su_tv_signin -> {
                 finish()
             }
@@ -129,11 +139,12 @@ class SignUpActivity : AppCompatActivity(), View.OnClickListener {
                     }
                     else -> {
                         signUpModel = SignUpModel(
-                            su_et_name.text.toString(),
-                            su_et_surname.text.toString(),
-                            su_et_email.text.toString(),
-                            su_et_password.text.toString(),
-                            saveImageByteArray
+                            name = su_et_name.text.toString(),
+                            surname = su_et_surname.text.toString(),
+                            email = su_et_email.text.toString(),
+                            password = su_et_password.text.toString(),
+                            profile_picture = saveImageByteArray,
+                            city = "rumia" //todo miasto
                         )
                         registerUser(signUpModel!!)
 
@@ -151,16 +162,34 @@ class SignUpActivity : AppCompatActivity(), View.OnClickListener {
         return android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()
     }
 
-    private fun checkIfUserExists(email: String): Boolean { //TODO: WITOLD check if user exists
-        return false
+    private fun checkIfUserExists(email: String): Boolean {
+        return runBlocking {
+            val result = newSuspendedTransaction(Dispatchers.IO) {
+                User.find { Users.email eq email }.toList()
+            }
+            return@runBlocking result.isNotEmpty()
+        }
     }
 
-    private fun registerUser(sum: SignUpModel){ //TODO: WITOLD register user
-        Toast.makeText(
-            this,
-            "Konto utworzone pomyślnie!",
-            Toast.LENGTH_SHORT
-        ).show()
+    private fun registerUser(m: SignUpModel) = runBlocking {
+        newSuspendedTransaction(Dispatchers.IO) {
+            val city_check = City.find { Cities.name eq m.city }.toList()
+            User.new {
+                name = m.name
+                surname = m.surname
+                email = m.email
+                password = m.password
+                profile_picture = ExposedBlob(m.profile_picture)
+                qr_code = null
+                description = ""
+                background_picutre = null
+                color_nr = 1
+                if (city_check.isEmpty())
+                    city = City.new { name = m.city }
+                else
+                    city = city_check[0]
+            }
+        }
     }
 
     private fun chooseFromGallery() {
@@ -204,7 +233,8 @@ class SignUpActivity : AppCompatActivity(), View.OnClickListener {
                     val uri = Uri.fromParts(
                         "package",
                         packageName,
-                        null)
+                        null
+                    )
                     intent.data = uri
                     startActivity(intent)
                 } catch (e: ActivityNotFoundException) {
@@ -215,6 +245,7 @@ class SignUpActivity : AppCompatActivity(), View.OnClickListener {
                 dialog.dismiss()
             }.show()
     }
+
     public override fun onActivityResult(
         requestCode: Int,
         resultCode: Int,
@@ -253,7 +284,7 @@ class SignUpActivity : AppCompatActivity(), View.OnClickListener {
 
     private fun saveImageByteArray(
         bitmap: Bitmap
-    ): ByteArray{
+    ): ByteArray {
         val stream = ByteArrayOutputStream()
         bitmap.compress(
             Bitmap.CompressFormat.JPEG,

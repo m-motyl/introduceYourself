@@ -27,10 +27,10 @@ object Users : IntIdTable("Users") {
     val surname = varchar("surename", 30)
     val email = varchar("email", 50)
     val password = varchar("password", 20)
-    val profile_picture = blob("profile_picture").nullable()
-    val qr_code = varchar("qr_code", 500)
+    val profile_picture = blob("profile_picture")
+    val qr_code = varchar("qr_code", 500).nullable()
     val description = varchar("description", 1000)
     val background_picture = blob("background_picture").nullable()
     val color_nr = integer("color_nr")
-    val city = reference("city", Cities, onDelete = ReferenceOption.SET_NULL)
+    val city = reference("city", Cities, onDelete = ReferenceOption.CASCADE)
 }

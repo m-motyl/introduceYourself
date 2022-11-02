@@ -10,5 +10,5 @@ data class SignUpModel(
     //val description: String,
     //val background_picture: String,
     //val color_nr: Int,
-    //val City: String
+    val city: String //todo trzeba miasta
 )
