@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="account_circle_size">200dp</dimen>
+    <dimen name="su_choose_avatar_size">150dp</dimen>
+    <dimen name="space_between_ets">20dp</dimen>
+    <dimen name="et_min_height">48dp</dimen>
+</resources>

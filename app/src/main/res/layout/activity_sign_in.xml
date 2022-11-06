@@ -1,62 +1,59 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Activities.SignInActivity">
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:background="@drawable/bg_gradient_1">
+
+    <ImageView
+        android:layout_width="@dimen/account_circle_size"
+        android:layout_height="@dimen/account_circle_size"
+        app:srcCompat="@drawable/ic_baseline_account_circle_24" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Logowanie"
+        android:textStyle="bold"
+        android:textSize="35dp"
+        android:textColor="@android:color/white"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 
     <EditText
         android:id="@+id/si_et_email"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="68dp"
-        android:ems="10"
+        style="@style/etStyle"
+        android:layout_width="match_parent"
+        android:layout_marginTop="30dp"
         android:inputType="textPersonName"
-        android:hint="E-mail"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:hint="E-mail" />
 
     <EditText
         android:id="@+id/si_et_password"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="80dp"
-        android:ems="10"
+        style="@style/etStyle"
+        android:layout_width="match_parent"
+        android:layout_marginTop="@dimen/space_between_ets"
         android:inputType="textPassword"
-        android:hint="Hasło"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/si_et_email" />
+        android:hint="Hasło" />
 
     <Button
         android:id="@+id/si_btn_signin"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="84dp"
-        android:text="Zaloguj"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/si_et_password" />
-
-    <TextView
-        android:id="@+id/si_tv_no_account"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="52dp"
-        android:text="Nie masz konta?"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/si_btn_signin" />
+        style="@style/btStyle"
+        android:layout_width="match_parent"
+        android:layout_marginTop="30dp"
+        android:text="Zaloguj" />
 
     <TextView
         android:id="@+id/si_tv_signup"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="44dp"
-        android:text="Zarejestruj się!"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/si_tv_no_account" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+        android:layout_marginTop="30dp"
+        android:text="Nie masz konta? Zarejestruj się!"
+        android:textStyle="bold"
+        android:textColor="@android:color/white"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+
+</LinearLayout>

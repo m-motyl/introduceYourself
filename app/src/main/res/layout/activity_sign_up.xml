@@ -1,144 +1,81 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="fill_parent"
-    android:layout_height="match_parent"
-    android:fillViewport="true">
-<RelativeLayout
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    tools:context=".Activities.SignUpActivity">
+    android:layout_height="match_parent"
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:background="@drawable/bg_gradient_1">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Rejestracja"
+        android:textStyle="bold"
+        android:textSize="35dp"
+        android:textColor="@android:color/white"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 
     <EditText
         android:id="@+id/su_et_name"
-        android:layout_width="wrap_content"
+        style="@style/etStyle"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginStart="100dp"
         android:layout_marginTop="30dp"
-        android:layout_marginEnd="100dp"
-        android:ems="10"
         android:hint="Imię"
-        android:inputType="textPersonName"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:inputType="textPersonName" />
 
     <EditText
         android:id="@+id/su_et_surname"
-        android:layout_width="wrap_content"
+        style="@style/etStyle"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/su_et_name"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginStart="100dp"
-        android:layout_marginTop="30dp"
-        android:layout_marginEnd="100dp"
-        android:ems="10"
+        android:layout_marginTop="@dimen/space_between_ets"
         android:hint="Nazwisko"
-        android:inputType="textPersonName"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/su_et_name" />
+        android:inputType="textPersonName" />
 
     <EditText
         android:id="@+id/su_et_email"
-        android:layout_width="wrap_content"
+        style="@style/etStyle"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/su_et_surname"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginStart="100dp"
-        android:layout_marginTop="30dp"
-        android:layout_marginEnd="100dp"
-        android:ems="10"
+        android:layout_marginTop="@dimen/space_between_ets"
         android:hint="E-mail"
-        android:inputType="textPersonName"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/su_et_surname" />
+        android:inputType="textPersonName" />
 
     <EditText
         android:id="@+id/su_et_password"
-        android:layout_width="wrap_content"
+        style="@style/etStyle"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/su_et_email"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginStart="100dp"
-        android:layout_marginTop="30dp"
-        android:layout_marginEnd="100dp"
-        android:ems="10"
+        android:layout_marginTop="@dimen/space_between_ets"
         android:hint="Hasło"
-        android:inputType="textPassword"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/su_et_email" />
+        android:inputType="textPassword" />
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/su_iv_avatar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/su_et_password"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginStart="100dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="100dp"
-        android:src="@drawable/add_screen_image_placeholder"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/su_et_password" />
+        android:layout_width="@dimen/su_choose_avatar_size"
+        android:layout_height="@dimen/su_choose_avatar_size"
+        android:layout_marginTop="30dp"
+        android:src="@drawable/add_screen_image_placeholder" />
 
     <Button
         android:id="@+id/su_btn_signup"
-        android:layout_width="282dp"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/su_iv_avatar"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginStart="100dp"
+        style="@style/btStyle"
+        android:layout_width="match_parent"
         android:layout_marginTop="30dp"
-        android:layout_marginEnd="100dp"
-        android:text="Zarejestruj"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/su_iv_avatar" />
-
-    <TextView
-        android:id="@+id/su_tv_account_exists"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/su_btn_signup"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginStart="100dp"
-        android:layout_marginTop="30dp"
-        android:layout_marginEnd="100dp"
-
-        android:textAlignment="center"
-        android:text="Masz już konto?"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/su_btn_signup" />
+        android:text="Zarejestruj" />
 
     <TextView
         android:id="@+id/su_tv_signin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/su_tv_account_exists"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginStart="100dp"
         android:layout_marginTop="30dp"
-        android:layout_marginEnd="100dp"
-        android:text="Zaloguj się!"
-        android:textAlignment="center"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/su_tv_account_exists" />
-</RelativeLayout>
-</ScrollView>
+        android:text="Masz już konto? Zaloguj się!"
+        android:textStyle="bold"
+        android:textColor="@android:color/white"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+
+</LinearLayout>
