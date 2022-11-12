@@ -4,4 +4,5 @@
     <dimen name="su_choose_avatar_size">150dp</dimen>
     <dimen name="space_between_ets">20dp</dimen>
     <dimen name="et_min_height">48dp</dimen>
+    <dimen name="si_su_screen_padding_hor">16dp</dimen>
 </resources>

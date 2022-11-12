@@ -1,58 +1,103 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingLeft="16dp"
-    android:paddingRight="16dp"
+    android:paddingHorizontal="@dimen/si_su_screen_padding_hor"
     android:orientation="vertical"
     android:gravity="center"
-    android:background="@drawable/bg_gradient_1">
+    android:background="@drawable/bg_gradient_1"
+    tools:context=".Activities.SignUpActivity">
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Rejestracja"
         android:textStyle="bold"
-        android:textSize="35dp"
+        android:textSize="35sp"
         android:textColor="@android:color/white"
         android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 
-    <EditText
-        android:id="@+id/su_et_name"
-        style="@style/etStyle"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
-        android:hint="Imię"
-        android:inputType="textPersonName" />
+        android:orientation="horizontal"
+        style="@style/si_su_et_row"
+        android:layout_marginTop="30dp" >
 
-    <EditText
-        android:id="@+id/su_et_surname"
-        style="@style/etStyle"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/space_between_ets"
-        android:hint="Nazwisko"
-        android:inputType="textPersonName" />
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_baseline_person_outline_24" />
 
-    <EditText
-        android:id="@+id/su_et_email"
-        style="@style/etStyle"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/space_between_ets"
-        android:hint="E-mail"
-        android:inputType="textPersonName" />
+        <EditText
+            android:id="@+id/su_et_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Imię"
+            android:inputType="textPersonName" />
+    </LinearLayout>
 
-    <EditText
-        android:id="@+id/su_et_password"
-        style="@style/etStyle"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/space_between_ets"
-        android:hint="Hasło"
-        android:inputType="textPassword" />
+        android:orientation="horizontal"
+        style="@style/si_su_et_row"
+        android:layout_marginTop="@dimen/space_between_ets" >
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_baseline_person_outline_24" />
+
+        <EditText
+            android:id="@+id/su_et_surname"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Nazwisko"
+            android:inputType="textPersonName" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        style="@style/si_su_et_row"
+        android:layout_marginTop="@dimen/space_between_ets" >
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_baseline_mail_outline_24" />
+
+        <EditText
+            android:id="@+id/su_et_email"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="E-mail"
+            android:inputType="textPersonName" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        style="@style/si_su_et_row"
+        android:layout_marginTop="@dimen/space_between_ets" >
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_baseline_lock_open_24" />
+
+        <EditText
+            android:id="@+id/su_et_password"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Hasło"
+            android:inputType="textPassword" />
+    </LinearLayout>
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/su_iv_avatar"
@@ -63,8 +108,9 @@
 
     <Button
         android:id="@+id/su_btn_signup"
-        style="@style/btStyle"
+        style="@style/si_su_bt"
         android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
         android:text="Zarejestruj" />
 
@@ -78,4 +124,4 @@
         android:textColor="@android:color/white"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
 
-</LinearLayout>
+</androidx.appcompat.widget.LinearLayoutCompat>

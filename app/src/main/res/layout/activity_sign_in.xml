@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingLeft="16dp"
-    android:paddingRight="16dp"
+    android:paddingHorizontal="@dimen/si_su_screen_padding_hor"
     android:orientation="vertical"
     android:gravity="center"
     android:background="@drawable/bg_gradient_1">
@@ -23,26 +23,51 @@
         android:textColor="@android:color/white"
         android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 
-    <EditText
-        android:id="@+id/si_et_email"
-        style="@style/etStyle"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_marginTop="30dp"
-        android:inputType="textPersonName"
-        android:hint="E-mail" />
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        style="@style/si_su_et_row"
+        android:layout_marginTop="30dp" >
 
-    <EditText
-        android:id="@+id/si_et_password"
-        style="@style/etStyle"
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_baseline_mail_outline_24" />
+
+        <EditText
+            android:id="@+id/si_et_email"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="E-mail"
+            android:inputType="textPersonName" />
+    </LinearLayout>
+
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_marginTop="@dimen/space_between_ets"
-        android:inputType="textPassword"
-        android:hint="Hasło" />
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        style="@style/si_su_et_row"
+        android:layout_marginTop="@dimen/space_between_ets" >
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_baseline_lock_open_24" />
+
+        <EditText
+            android:id="@+id/si_et_password"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textPassword"
+            android:hint="Hasło" />
+    </LinearLayout>
 
     <Button
         android:id="@+id/si_btn_signin"
-        style="@style/btStyle"
+        style="@style/si_su_bt"
         android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
         android:text="Zaloguj" />
 
