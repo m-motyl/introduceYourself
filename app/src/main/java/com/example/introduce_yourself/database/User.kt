@@ -26,7 +26,7 @@ object Users : IntIdTable("Users") {
     val name = varchar("name", 30)
     val surname = varchar("surename", 30)
     val email = varchar("email", 50)
-    val password = varchar("password", 20)
+    val password = varchar("password", 64)
     val profile_picture = blob("profile_picture")
     val qr_code = varchar("qr_code", 500).nullable()
     val description = varchar("description", 1000)
