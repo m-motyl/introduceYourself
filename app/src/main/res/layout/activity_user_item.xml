@@ -10,7 +10,7 @@
         android:id="@+id/toolbar_user_item"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:background="@drawable/bg_gradient_1"
+        android:background="@color/si_su_bg_gradient1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"

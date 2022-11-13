@@ -64,8 +64,10 @@ class MainActivity : AppCompatActivity() {
         for(i in list)
             readUserModelList.add(
                 ReadUserModel(
+                    name = i.name,
+                    surname = i.surname,
                     email = i.email,
-                    description = i.description,
+                    description = "Opis Opis Opis Opis Opis Opis Opis Opis Opis Opis Opis Opis Opis ",
                     profile_picture = i.profile_picture.bytes
                 )
             )

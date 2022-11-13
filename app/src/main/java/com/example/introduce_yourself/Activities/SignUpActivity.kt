@@ -171,7 +171,7 @@ class SignUpActivity : AppCompatActivity(), View.OnClickListener {
 
     private fun isPasswordValid(password: String): Boolean {
         val regex = ("^" +
-                "(?=.*[@#$%^&+=])" +     // at least 1 special character
+                "(?=.*[!@#$%^&+=])" +     // at least 1 special character
                 "(?=\\S+$)" +            // no white spaces
                 "(?=.*[A-Z])" +          // at least 1 capital letter
                 "").toRegex()
@@ -189,7 +189,6 @@ class SignUpActivity : AppCompatActivity(), View.OnClickListener {
 
     private fun registerUser(m: SignUpModel) = runBlocking {
         newSuspendedTransaction(Dispatchers.IO) {
-//            val city_check = City.find { Cities.name eq m.city }.toList()
             User.new {
                 name = m.name
                 surname = m.surname

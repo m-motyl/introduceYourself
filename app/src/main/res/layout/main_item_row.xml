@@ -41,10 +41,17 @@
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="10dp"
                     android:textColor="@color/text_dark"
-                    android:textSize="22sp"
+                    android:textSize="18sp"
                     android:textStyle="bold"
                     tools:text="User" />
-
+                <TextView
+                    android:id="@+id/main_tv_user_email"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="10dp"
+                    android:textColor="@color/text_gray"
+                    android:textSize="14sp"
+                    tools:text="E-mail" />
                 <TextView
                     android:id="@+id/main_tv_user_description"
                     android:layout_width="match_parent"
@@ -52,6 +59,8 @@
                     android:layout_marginHorizontal="10dp"
                     android:textColor="@color/text_gray"
                     android:textSize="14sp"
+                    android:maxLines="1"
+                    android:ellipsize="end"
                     tools:text="Description" />
             </LinearLayout>
         </LinearLayout>

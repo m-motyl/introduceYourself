@@ -10,6 +10,7 @@ import com.example.introduce_yourself.R
 import com.example.introduce_yourself.database.*
 import com.example.introduce_yourself.utils.currentUser
 import kotlinx.android.synthetic.main.activity_sign_in.*
+import kotlinx.android.synthetic.main.activity_sign_up.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.runBlocking
 import org.jetbrains.exposed.sql.Database
@@ -65,6 +66,7 @@ class SignInActivity : AppCompatActivity(), View.OnClickListener {
                                 this,
                                 MainActivity::class.java
                             )
+
                             startActivity(intent)
                         } else {
                             Toast.makeText(
