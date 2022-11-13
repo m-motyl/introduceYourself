@@ -70,7 +70,7 @@ class SignUpActivity : AppCompatActivity(), View.OnClickListener {
                     su_et_name.length() > 30 || su_et_name.length() < 2 -> {
                         Toast.makeText(
                             this,
-                            "Imię powinno zawierać od 2 do 30 liter!",
+                            "Imię powinno zawierać od 2 do 30 znaków!",
                             Toast.LENGTH_SHORT
                         ).show()
                     }
@@ -84,7 +84,7 @@ class SignUpActivity : AppCompatActivity(), View.OnClickListener {
                     su_et_surname.length() > 30 || su_et_surname.length() < 2 -> {
                         Toast.makeText(
                             this,
-                            "Nazwisko powinno zawierać od 2 do 30 liter!",
+                            "Nazwisko powinno zawierać od 2 do 30 znaków!",
                             Toast.LENGTH_SHORT
                         ).show()
                     }
@@ -98,7 +98,7 @@ class SignUpActivity : AppCompatActivity(), View.OnClickListener {
                     su_et_email.length() > 50 || su_et_email.length() < 5 -> {
                         Toast.makeText(
                             this,
-                            "E-mail powinien zawierać od 5 do 50 liter!",
+                            "E-mail powinien zawierać od 5 do 50 znaków!",
                             Toast.LENGTH_SHORT
                         ).show()
                     }
@@ -144,7 +144,6 @@ class SignUpActivity : AppCompatActivity(), View.OnClickListener {
                             email = su_et_email.text.toString(),
                             password = su_et_password.text.toString(),
                             profile_picture = saveImageByteArray,
-                            city = "rumia" //todo miasto
                         )
                         registerUser(signUpModel!!)
 
@@ -173,7 +172,7 @@ class SignUpActivity : AppCompatActivity(), View.OnClickListener {
 
     private fun registerUser(m: SignUpModel) = runBlocking {
         newSuspendedTransaction(Dispatchers.IO) {
-            val city_check = City.find { Cities.name eq m.city }.toList()
+//            val city_check = City.find { Cities.name eq m.city }.toList()
             User.new {
                 name = m.name
                 surname = m.surname
@@ -184,10 +183,7 @@ class SignUpActivity : AppCompatActivity(), View.OnClickListener {
                 description = ""
                 background_picutre = null
                 color_nr = 1
-                if (city_check.isEmpty())
-                    city = City.new { name = m.city }
-                else
-                    city = city_check[0]
+                city = null
             }
         }
     }

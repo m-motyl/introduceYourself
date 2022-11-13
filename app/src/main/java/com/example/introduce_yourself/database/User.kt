@@ -18,7 +18,7 @@ class User(id: EntityID<Int>) : IntEntity(id) {
     var description by Users.description
     var background_picutre by Users.background_picture
     var color_nr by Users.color_nr
-    var city by City referencedOn Users.city
+    var city by City optionalReferencedOn Users.city
 
 }
 
@@ -32,5 +32,5 @@ object Users : IntIdTable("Users") {
     val description = varchar("description", 1000)
     val background_picture = blob("background_picture").nullable()
     val color_nr = integer("color_nr")
-    val city = reference("city", Cities, onDelete = ReferenceOption.CASCADE)
+    val city = reference("city", Cities, onDelete = ReferenceOption.CASCADE).nullable()
 }

@@ -7,12 +7,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.example.introduce_yourself.Models.ReadUserModel
 import com.example.introduce_yourself.R
 import kotlinx.android.synthetic.main.main_item_row.view.*
 
 open class UsersList(
     private val context: Context,
-    private var listOfUsers: ArrayList<ReadUsermodel> //TODO: Mateusz
+    private var listOfUsers: ArrayList<ReadUserModel>
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     private var onClickListener: OnClickListener? = null
 
@@ -32,7 +33,7 @@ open class UsersList(
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val ptr = listOfUsers[position]
         if (holder is OwnViewHolder) {
-            holder.itemView.main_tv_user_name.text = ptr.login
+            holder.itemView.main_tv_user_name.text = ptr.email
             holder.itemView.main_tv_user_description.text = ptr.description //TODO: limit length ~70chars
             holder.itemView.main_iv_user_picture.setImageBitmap(byteArrayToBitmap(ptr.profile_picture))
             //passing which position was clicked on rv
@@ -54,7 +55,7 @@ open class UsersList(
     }
 
     interface OnClickListener {
-        fun onClick(position: Int, model: ReadUsermodel)
+        fun onClick(position: Int, model: ReadUserModel)
     }
 
     fun byteArrayToBitmap(data: ByteArray): Bitmap {
