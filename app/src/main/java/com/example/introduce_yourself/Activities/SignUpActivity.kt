@@ -194,7 +194,7 @@ class SignUpActivity : AppCompatActivity(), View.OnClickListener {
                 name = m.name
                 surname = m.surname
                 email = m.email
-                password = m.password
+                password = m.password //TODO: WITOLD code password
                 profile_picture = ExposedBlob(m.profile_picture)
                 qr_code = null
                 description = ""
