@@ -130,6 +130,14 @@ class SignUpActivity : AppCompatActivity(), View.OnClickListener {
                             Toast.LENGTH_SHORT
                         ).show()
                     }
+                    !isPasswordValid(su_et_password.text.toString()) -> {
+                        Toast.makeText(
+                            this,
+                            "Hasło powinno zawierać jeden znak specjalny, jedną wielką literę" +
+                                    " oraz nie posiadać białych znaków!",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
                     !isImage -> {
                         Toast.makeText(
                             this,
@@ -159,6 +167,15 @@ class SignUpActivity : AppCompatActivity(), View.OnClickListener {
 
     private fun isEmailValid(email: String): Boolean {
         return android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()
+    }
+
+    private fun isPasswordValid(password: String): Boolean {
+        val regex = ("^" +
+                "(?=.*[@#$%^&+=])" +     // at least 1 special character
+                "(?=\\S+$)" +            // no white spaces
+                "(?=.*[A-Z])" +          // at least 1 capital letter
+                "").toRegex()
+        return regex.containsMatchIn(password)
     }
 
     private fun checkIfUserExists(email: String): Boolean {
