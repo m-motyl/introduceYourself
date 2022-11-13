@@ -6,12 +6,16 @@ import android.os.Bundle
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.introduce_yourself.Models.ReadUserModel
 import com.example.introduce_yourself.R
+import com.example.introduce_yourself.database.User
 import com.example.introduce_yourself.utils.currentUser
 import com.recyclerviewapp.UsersList
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.runBlocking
+import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransaction
 
 class MainActivity : AppCompatActivity() {
-    private var readUserModel = ArrayList<ReadUserModel>()
+    private var readUserModelList = ArrayList<ReadUserModel>()
 
     companion object{
         var USER_DETAILS = "user_details"
@@ -22,14 +26,14 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         getUsersList()
-        if (readUserModel.size > 0){
-            usersRecyclerView(readUserModel)
+        if (readUserModelList.size > 0){
+            usersRecyclerView(readUserModelList)
         }
     }
-    private fun usersRecyclerView(readUserModel: ArrayList<ReadUserModel>){
+    private fun usersRecyclerView(readUserModelList: ArrayList<ReadUserModel>){
         main_recycler_view.layoutManager = LinearLayoutManager(this)
         main_recycler_view.setHasFixedSize(true)
-        val usersList = UsersList(this, readUserModel)
+        val usersList = UsersList(this, readUserModelList)
         main_recycler_view.adapter = usersList
 
         usersList.setOnClickListener(object : UsersList.OnClickListener{
@@ -49,13 +53,21 @@ class MainActivity : AppCompatActivity() {
         })
     }
 
-    private fun getUsersList() {
-        currentUser?.profile_picture?.let { ReadUserModel("mateusz", "motyl", it.bytes) }
-            ?.let { readUserModel.add(it)
-                    readUserModel.add(it)
-                    readUserModel.add(it)
-                    readUserModel.add(it)
-                    readUserModel.add(it)
-            } //test
-    }//TODO: Witold wczytaj 5 userów i przypisz do readUserModel
+    private fun getUsersList() = runBlocking{
+        newSuspendedTransaction(Dispatchers.IO) {
+            val list = User.all().limit(5).toList()
+            if (list.isNotEmpty())
+                exposedToModel(list)
+        }
+    }
+    private fun exposedToModel(list: List<User>){
+        for(i in list)
+            readUserModelList.add(
+                ReadUserModel(
+                    email = i.email,
+                    description = i.description,
+                    profile_picture = i.profile_picture.bytes
+                )
+            )
+    }
 }
