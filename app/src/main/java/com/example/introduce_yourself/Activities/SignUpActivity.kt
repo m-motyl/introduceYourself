@@ -167,7 +167,7 @@ class SignUpActivity : AppCompatActivity(), View.OnClickListener {
 
     private fun isPasswordValid(password: String): Boolean {
         val regex = ("^" +
-                "(?=.*[!@#$%^&+=])" +     // at least 1 special character
+                "(?=.*[!@#$%^&+=])" +    // at least 1 special character
                 "(?=\\S+$)" +            // no white spaces
                 "(?=.*[A-Z])" +          // at least 1 capital letter
                 "").toRegex()
