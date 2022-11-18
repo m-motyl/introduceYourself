@@ -7,21 +7,21 @@
     <color name="si_su_bg_gradient1">@color/tiffany_blue</color>
     <color name="si_su_bg_gradient2">@color/light_cyan</color>
 
-<!--    Palette: https://coolors.co/palette/0fa3b1-d9e5d6-eddea4-f7a072-ff9b42-->
+    <!--    Palette: https://coolors.co/palette/0fa3b1-d9e5d6-eddea4-f7a072-ff9b42-->
     <color name="viridian_green">#0fa3b1</color>
     <color name="honeydew">#d9e5d6</color>
     <color name="medium_champagne">#eddea4</color>
     <color name="atomic_tangerine">#f7a072</color>
     <color name="deep_saffron">#ff9b42</color>
 
-<!--    Palette: https://coolors.co/palette/ff9f1c-ffbf69-ffffff-cbf3f0-2ec4b6-->
+    <!--    Palette: https://coolors.co/palette/ff9f1c-ffbf69-ffffff-cbf3f0-2ec4b6-->
     <color name="orange_peel">#ff9f1c</color>
     <color name="mellow_apricot">#ffbf69</color>
     <color name="white">#FFFFFFFF</color>
     <color name="light_cyan">#cbf3f0</color>
     <color name="tiffany_blue">#2ec4b6</color>
 
-<!--    Palette: https://coolors.co/palette/8ecae6-219ebc-126782-023047-ffb703-fd9e02-fb8500-->
+    <!--    Palette: https://coolors.co/palette/8ecae6-219ebc-126782-023047-ffb703-fd9e02-fb8500-->
     <color name="light_cornflower_blue">#8ecae6</color>
     <color name="blue_green">#219ebc</color>
     <color name="blue_sapphire">#126782</color>
@@ -30,7 +30,7 @@
     <color name="orange_peel_dup">@color/orange_peel</color>
     <color name="tangerine">#fb8500</color>
 
-<!--    Palette: https://coolors.co/palette/f8f9fa-e9ecef-dee2e6-ced4da-adb5bd-6c757d-495057-343a40-212529-->
+    <!--    Palette: https://coolors.co/palette/f8f9fa-e9ecef-dee2e6-ced4da-adb5bd-6c757d-495057-343a40-212529-->
     <color name="gainsboro">#dee2e6</color>
     <color name="light_gray">#ced4da</color>
     <color name="cadet_blue_crayola">#adb5bd</color>
@@ -49,5 +49,11 @@
     <color name="text_gray">@color/davys_grey</color>
     <color name="text_dark">@color/eerie_black</color>
     <color name="text_black">#000000</color>
-    <color name="si_su_ion_color">#2E2E2E</color>
+    <color name="si_su_icon">#2E2E2E</color>
+    <color name="nav_header">#FFFFFF</color>
+    <color name="underline">@color/sonic_silver</color>
+    <color name="toolbar">@color/blue_green</color>
+    <color name="nav_header_user_picture_border">@color/prussian_blue</color>
+    <color name="user_item_background">@color/white</color>
+
 </resources>

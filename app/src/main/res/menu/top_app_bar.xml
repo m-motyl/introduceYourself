@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/manage_account"
+        android:icon="@drawable/ic_baseline_manage_accounts_24"
+        android:contentDescription="favorite"
+        android:title="fav"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/search"
+        android:icon="@drawable/ic_baseline_search_24"
+        android:contentDescription="search"
+        android:title="search"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/more"
+        android:contentDescription="more"
+        android:title="more"
+        app:showAsAction="never" />
+
+</menu>

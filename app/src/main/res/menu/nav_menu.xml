@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <item
+        android:id="@+id/nav_home"
+        android:icon="@drawable/ic_baseline_home_24"
+        android:title="Strona Główna" />
+
+    <item
+        android:id="@+id/nav_search"
+        android:icon="@drawable/ic_baseline_search_24"
+        android:title="Wyszukiwarka" />
+
+    <item
+        android:id="@+id/nav_qr_scanner"
+        android:icon="@drawable/ic_baseline_qr_code_scanner_24"
+        android:title="Skaner QR" />
+
+    <item
+        android:id="@+id/nav_message"
+        android:icon="@drawable/ic_baseline_message_24"
+        android:title="Wiadomości" />
+
+    <item
+        android:id="@+id/nav_settings"
+        android:icon="@drawable/ic_baseline_settings_24"
+        android:title="Ustawienia" />
+
+    <item android:title="Profil">
+        <menu>
+            <item
+                android:id="@+id/nav_edit_profile"
+                android:icon="@drawable/ic_baseline_manage_accounts_24"
+                android:title="Edytuj" />
+
+            <item
+                android:id="@+id/nav_logout"
+                android:icon="@drawable/ic_baseline_logout_24"
+                android:title="Wyloguj" />
+        </menu>
+    </item>=
+</menu>

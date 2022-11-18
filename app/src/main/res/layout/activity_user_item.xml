@@ -1,19 +1,142 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".Activities.UserItemActivity">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar_user_item"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:background="@color/si_su_bg_gradient1"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:theme="@style/CustomToolbarStyle"/>
+        android:background="@color/toolbar"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="?attr/actionBarTheme" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center_horizontal">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:background="@drawable/bg_gradient_2">
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/user_item_user_picture"
+                    android:layout_width="@dimen/user_item_profile_picture_size"
+                    android:layout_height="@dimen/user_item_profile_picture_size"
+                    android:layout_margin="@dimen/standard_page_padding"
+                    android:contentDescription="Profile picture"
+                    android:src="@drawable/add_screen_image_placeholder"
+                    app:civ_border_width="@dimen/nav_header_user_picture_border"
+                    app:civ_border_color="@color/nav_header_user_picture_border"/>
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/underline" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/standard_page_padding"
+                android:orientation="vertical"
+                android:gravity="center_horizontal"
+                android:background="@color/user_item_background">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/user_item_user_name"
+                    android:textSize="@dimen/user_item_text_size"
+                    android:text="User Name"
+                    android:textColor="@color/text_dark" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/user_item_user_surname"
+                    android:layout_marginTop="@dimen/user_item_line_spacing"
+                    android:textSize="@dimen/user_item_text_size"
+                    android:text="User Surname"
+                    android:textColor="@color/text_dark" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/user_item_user_email"
+                    android:layout_marginTop="@dimen/user_item_line_spacing"
+                    android:text="user@email.com"
+                    android:textSize="16sp"
+                    android:textColor="@color/text_gray" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/underline" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/standard_page_padding"
+                android:orientation="vertical"
+                android:gravity="center_horizontal"
+                android:background="@color/user_item_background">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/user_item_text_size"
+                    android:text="Opis:"
+                    android:textColor="@color/text_dark" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/user_item_user_description"
+                    android:layout_marginTop="@dimen/user_item_line_spacing"
+                    android:textSize="@dimen/user_item_text_size"
+                    android:text="@string/user_description_sample"
+                    android:textColor="@color/text_dark" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/underline" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/standard_page_padding"
+                android:orientation="vertical"
+                android:gravity="center_horizontal"
+                android:background="@color/user_item_background">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/user_item_text_size"
+                    android:text="Linki:"
+                    android:textColor="@color/text_dark" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/user_item_links_recycler_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+</LinearLayout>
