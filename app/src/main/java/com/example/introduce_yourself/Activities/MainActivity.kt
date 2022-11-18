@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.MenuItem
 import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
+import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.introduce_yourself.Models.ReadUserModel
@@ -18,29 +19,38 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.runBlocking
 import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransaction
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
     private var readUserModelList = ArrayList<ReadUserModel>()
-    lateinit var toggle : ActionBarDrawerToggle
+    private lateinit var drawerLayout: DrawerLayout
+    private lateinit var navigationView: NavigationView
+    private lateinit var toolbar: androidx.appcompat.widget.Toolbar
+    private lateinit var toggle : ActionBarDrawerToggle
 
     companion object{
-        var USER_DETAILS = "user_details"
+        val USER_DETAILS = "user_details"
+        val EXIT = "EXIT"
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val drawerLayout : DrawerLayout = findViewById(R.id.main_drawer_layout)
-        val navView : NavigationView = findViewById(R.id.main_nav_view)
-        val toolbar : androidx.appcompat.widget.Toolbar = findViewById(R.id.toolbar_main)
+        drawerLayout = findViewById<DrawerLayout>(R.id.main_drawer_layout)
+        navigationView = findViewById<NavigationView>(R.id.main_nav_view)
+        toolbar = findViewById<androidx.appcompat.widget.Toolbar>(R.id.toolbar_main)
 
-        toggle = ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.open, R.string.close)
+        navigationView.bringToFront()
+        toggle = ActionBarDrawerToggle(
+            this,
+            drawerLayout,
+            toolbar,
+            R.string.navigation_drawer_open,
+            R.string.navigation_drawer_close
+        )
         drawerLayout.addDrawerListener(toggle)
         toggle.syncState()
 
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
-
-        navView.setNavigationItemSelectedListener {
+        navigationView.setNavigationItemSelectedListener {
             when(it.itemId){
                 R.id.nav_home -> Toast.makeText(applicationContext, "Clicked home", Toast.LENGTH_SHORT).show()
                 R.id.nav_search -> Toast.makeText(applicationContext, "Clicked search", Toast.LENGTH_SHORT).show()
@@ -54,7 +64,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         getUsersList()
-        if (readUserModelList.size > 0){
+            if (readUserModelList.size > 0){
             usersRecyclerView(readUserModelList)
         }
     }
@@ -103,9 +113,26 @@ class MainActivity : AppCompatActivity() {
                     name = i.name,
                     surname = i.surname,
                     email = i.email,
-                    description = "Opis Opis Opis Opis Opis Opis Opis Opis Opis Opis Opis Opis Opis ",
+                    description = i.description,
                     profile_picture = i.profile_picture.bytes
                 )
             )
+    }
+
+    override fun onNavigationItemSelected(item: MenuItem): Boolean {
+        when(item.itemId) {
+            R.id.nav_signout -> {
+                val intent = Intent(this, SignInActivity::class.java)
+                intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
+                intent.putExtra(EXIT, true)
+                startActivity(intent)
+            }
+            R.id.nav_edit_profile -> {
+                val intent = Intent(this, EditProfileActivity::class.java)
+                startActivity(intent)
+            }
+        }
+        drawerLayout.closeDrawer(GravityCompat.START)
+        return true
     }
 }

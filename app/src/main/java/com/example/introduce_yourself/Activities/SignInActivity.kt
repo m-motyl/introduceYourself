@@ -3,12 +3,14 @@ package com.example.introduce_yourself.Activities
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import com.example.introduce_yourself.Models.SignInModel
 import com.example.introduce_yourself.R
 import com.example.introduce_yourself.database.*
 import com.example.introduce_yourself.utils.currentUser
+import hashString
 import kotlinx.android.synthetic.main.activity_sign_in.*
 import kotlinx.android.synthetic.main.activity_sign_up.*
 import kotlinx.coroutines.Dispatchers
@@ -112,7 +114,7 @@ class SignInActivity : AppCompatActivity(), View.OnClickListener {
             val result = newSuspendedTransaction(Dispatchers.IO) {
                 User.find {
                     Users.email eq signInModel.email and
-                            (Users.password eq signInModel.password)
+                            (Users.password eq hashString(signInModel.password))
                 }.toList()
             }
             if (result.isNotEmpty()) {

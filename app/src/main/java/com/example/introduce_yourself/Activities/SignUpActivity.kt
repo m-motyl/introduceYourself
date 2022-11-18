@@ -13,11 +13,8 @@ import android.provider.MediaStore
 import android.provider.Settings
 import android.view.View
 import android.widget.Toast
-import com.example.introduce_yourself.Models.SignInModel
 import com.example.introduce_yourself.Models.SignUpModel
 import com.example.introduce_yourself.R
-import com.example.introduce_yourself.database.Cities
-import com.example.introduce_yourself.database.City
 import com.example.introduce_yourself.database.User
 import com.example.introduce_yourself.database.Users
 import com.karumi.dexter.Dexter
@@ -25,6 +22,7 @@ import com.karumi.dexter.MultiplePermissionsReport
 import com.karumi.dexter.PermissionToken
 import com.karumi.dexter.listener.PermissionRequest
 import com.karumi.dexter.listener.multi.MultiplePermissionsListener
+import hashString
 import kotlinx.android.synthetic.main.activity_sign_up.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.runBlocking
@@ -32,8 +30,6 @@ import org.jetbrains.exposed.sql.statements.api.ExposedBlob
 import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransaction
 import java.io.ByteArrayOutputStream
 import java.io.IOException
-import java.time.LocalDateTime
-import java.util.*
 
 class SignUpActivity : AppCompatActivity(), View.OnClickListener {
 
@@ -171,7 +167,7 @@ class SignUpActivity : AppCompatActivity(), View.OnClickListener {
 
     private fun isPasswordValid(password: String): Boolean {
         val regex = ("^" +
-                "(?=.*[!@#$%^&+=])" +     // at least 1 special character
+                "(?=.*[!@#$%^&+=])" +    // at least 1 special character
                 "(?=\\S+$)" +            // no white spaces
                 "(?=.*[A-Z])" +          // at least 1 capital letter
                 "").toRegex()
@@ -193,7 +189,7 @@ class SignUpActivity : AppCompatActivity(), View.OnClickListener {
                 name = m.name
                 surname = m.surname
                 email = m.email
-                password = m.password //TODO: WITOLD code password
+                password = hashString(m.password)
                 profile_picture = ExposedBlob(m.profile_picture)
                 qr_code = null
                 description = ""
