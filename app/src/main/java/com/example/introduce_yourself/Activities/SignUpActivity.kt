@@ -21,6 +21,7 @@ import com.karumi.dexter.Dexter
 import com.karumi.dexter.MultiplePermissionsReport
 import com.karumi.dexter.PermissionToken
 import com.karumi.dexter.listener.PermissionRequest
+import com.example.introduce_yourself.utils.saveImageByteArray
 import com.karumi.dexter.listener.multi.MultiplePermissionsListener
 import hashString
 import kotlinx.android.synthetic.main.activity_sign_up.*
@@ -288,17 +289,5 @@ class SignUpActivity : AppCompatActivity(), View.OnClickListener {
                 }
             }
         }
-    }
-
-    private fun saveImageByteArray(
-        bitmap: Bitmap
-    ): ByteArray {
-        val stream = ByteArrayOutputStream()
-        bitmap.compress(
-            Bitmap.CompressFormat.JPEG,
-            100,
-            stream
-        )
-        return stream.toByteArray()
     }
 }

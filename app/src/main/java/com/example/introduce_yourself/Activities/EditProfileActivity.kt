@@ -23,7 +23,7 @@ class EditProfileActivity : AppCompatActivity(), View.OnClickListener {
 
     override fun onClick(v: View?) {
         when(v!!.id){
-            R.id.button_change_visibility -> {
+            R.id.button_change_visibility -> { //TODO: Patryk change visibility of layout items
                 if(textView2.visibility != View.VISIBLE ){
                     textView.visibility = View.GONE
                     textView2.visibility = View.VISIBLE

@@ -3,32 +3,38 @@ package com.example.introduce_yourself.Activities
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.MenuItem
 import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
-import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.introduce_yourself.Models.ReadUserModel
 import com.example.introduce_yourself.R
 import com.example.introduce_yourself.database.User
+import com.example.introduce_yourself.utils.byteArrayToBitmap
+import com.example.introduce_yourself.utils.currentUser
+import com.example.introduce_yourself.utils.saveImageByteArray
 import com.google.android.material.navigation.NavigationView
 import com.recyclerviewapp.UsersList
+import de.hdodenhof.circleimageview.CircleImageView
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.nav_header.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.runBlocking
 import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransaction
 
-class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
+class MainActivity : AppCompatActivity(){
     private var readUserModelList = ArrayList<ReadUserModel>()
     private lateinit var drawerLayout: DrawerLayout
     private lateinit var navigationView: NavigationView
+    private lateinit var imageView: CircleImageView
     private lateinit var toolbar: androidx.appcompat.widget.Toolbar
     private lateinit var toggle : ActionBarDrawerToggle
 
     companion object{
-        val USER_DETAILS = "user_details"
-        val EXIT = "EXIT"
+        const val USER_DETAILS = "user_details"
+        const val EXIT = "EXIT"
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -64,7 +70,12 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                     )
                     startActivity(intent)
                 }
-                R.id.nav_logout -> Toast.makeText(applicationContext, "Clicked logout", Toast.LENGTH_SHORT).show()
+                R.id.nav_logout -> {
+                    val intent = Intent(this, SignInActivity::class.java)
+                    intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
+                    intent.putExtra(EXIT, true)
+                    startActivity(intent)
+                }
             }
             true
         }
@@ -123,22 +134,5 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                     profile_picture = i.profile_picture.bytes
                 )
             )
-    }
-
-    override fun onNavigationItemSelected(item: MenuItem): Boolean {
-        when(item.itemId) {
-            R.id.nav_signout -> {
-                val intent = Intent(this, SignInActivity::class.java)
-                intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
-                intent.putExtra(EXIT, true)
-                startActivity(intent)
-            }
-            R.id.nav_edit_profile -> {
-                val intent = Intent(this, EditProfileActivity::class.java)
-                startActivity(intent)
-            }
-        }
-        drawerLayout.closeDrawer(GravityCompat.START)
-        return true
     }
 }

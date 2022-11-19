@@ -13,7 +13,7 @@ class UserLink(id: EntityID<Int>) : IntEntity(id) {
     var user by User referencedOn UserLinks.user
 }
 
-object UserLinks : IntIdTable("UserLinks") {
+object UserLinks : IntIdTable("UserLinks") { //TODO Witold add link label
     val link = varchar("link",100)
     val user = reference("user", Users, onDelete = ReferenceOption.CASCADE)
 }
