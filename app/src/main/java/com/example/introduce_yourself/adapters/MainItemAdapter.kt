@@ -35,7 +35,7 @@ open class UsersList(
         if (holder is OwnViewHolder) {
             holder.itemView.main_tv_user_name.text = ptr.name + " " + ptr.surname
             holder.itemView.main_tv_user_email.text = ptr.email
-            holder.itemView.main_tv_user_description.text = ptr.description //TODO: limit length ~70chars
+            holder.itemView.main_tv_user_description.text = ptr.description
             holder.itemView.main_iv_user_picture.setImageBitmap(byteArrayToBitmap(ptr.profile_picture))
             //passing which position was clicked on rv
             //passing ptr

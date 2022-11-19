@@ -61,9 +61,10 @@ class MainActivity : AppCompatActivity(){
 
         navigationView.setNavigationItemSelectedListener {
             when(it.itemId){
-                R.id.nav_home -> Toast.makeText(applicationContext, "Clicked home", Toast.LENGTH_SHORT).show()
+//                R.id.nav_home -> Toast.makeText(applicationContext, "Clicked home", Toast.LENGTH_SHORT).show()
                 R.id.nav_search -> Toast.makeText(applicationContext, "Clicked search", Toast.LENGTH_SHORT).show()
                 R.id.nav_qr_scanner -> Toast.makeText(applicationContext, "Clicked qr_scanner", Toast.LENGTH_SHORT).show()
+                R.id.nav_community -> Toast.makeText(applicationContext, "Clicked community", Toast.LENGTH_SHORT).show()
                 R.id.nav_message -> Toast.makeText(applicationContext, "Clicked message", Toast.LENGTH_SHORT).show()
                 R.id.nav_settings -> Toast.makeText(applicationContext, "Clicked settings", Toast.LENGTH_SHORT).show()
                 R.id.nav_edit_profile -> {

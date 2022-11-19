@@ -3,15 +3,20 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:showIn="navigation_view">
 
-    <item
-        android:id="@+id/nav_home"
-        android:icon="@drawable/ic_baseline_home_24"
-        android:title="Strona Główna" />
+<!--    <item-->
+<!--        android:id="@+id/nav_home"-->
+<!--        android:icon="@drawable/ic_baseline_home_24"-->
+<!--        android:title="Strona Główna" />-->
 
     <item
         android:id="@+id/nav_search"
         android:icon="@drawable/ic_baseline_search_24"
         android:title="Wyszukiwarka" />
+
+    <item
+        android:id="@+id/nav_community"
+        android:icon="@drawable/ic_baseline_person_24"
+        android:title="Społeczność" />
 
     <item
         android:id="@+id/nav_qr_scanner"
