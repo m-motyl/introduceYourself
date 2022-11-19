@@ -57,14 +57,20 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 R.id.nav_qr_scanner -> Toast.makeText(applicationContext, "Clicked qr_scanner", Toast.LENGTH_SHORT).show()
                 R.id.nav_message -> Toast.makeText(applicationContext, "Clicked message", Toast.LENGTH_SHORT).show()
                 R.id.nav_settings -> Toast.makeText(applicationContext, "Clicked settings", Toast.LENGTH_SHORT).show()
-                R.id.nav_edit_profile -> Toast.makeText(applicationContext, "Clicked edit_profile", Toast.LENGTH_SHORT).show()
+                R.id.nav_edit_profile -> {
+                    val intent = Intent(
+                        this@MainActivity,
+                        EditProfileActivity::class.java
+                    )
+                    startActivity(intent)
+                }
                 R.id.nav_logout -> Toast.makeText(applicationContext, "Clicked logout", Toast.LENGTH_SHORT).show()
             }
             true
         }
 
         getUsersList()
-            if (readUserModelList.size > 0){
+        if (readUserModelList.size > 0){
             usersRecyclerView(readUserModelList)
         }
     }
