@@ -161,6 +161,9 @@ class SignUpActivity : AppCompatActivity(), View.OnClickListener {
             }
         }
     }
+    private fun isNameValid(){ //TODO: Mateusz check if name&surname valid
+
+    }
 
     private fun isEmailValid(email: String): Boolean {
         return android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()

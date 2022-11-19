@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.MenuItem
+import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.drawerlayout.widget.DrawerLayout
@@ -20,6 +21,7 @@ import com.recyclerviewapp.UsersList
 import de.hdodenhof.circleimageview.CircleImageView
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.nav_header.*
+import kotlinx.android.synthetic.main.nav_header.view.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.runBlocking
 import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransaction
@@ -28,7 +30,7 @@ class MainActivity : AppCompatActivity(){
     private var readUserModelList = ArrayList<ReadUserModel>()
     private lateinit var drawerLayout: DrawerLayout
     private lateinit var navigationView: NavigationView
-    private lateinit var imageView: CircleImageView
+    private lateinit var headerLayout: View
     private lateinit var toolbar: androidx.appcompat.widget.Toolbar
     private lateinit var toggle : ActionBarDrawerToggle
 
@@ -43,6 +45,7 @@ class MainActivity : AppCompatActivity(){
 
         drawerLayout = findViewById<DrawerLayout>(R.id.main_drawer_layout)
         navigationView = findViewById<NavigationView>(R.id.main_nav_view)
+        headerLayout = navigationView.getHeaderView(0)
         toolbar = findViewById<androidx.appcompat.widget.Toolbar>(R.id.toolbar_main)
 
         navigationView.bringToFront()
@@ -84,6 +87,13 @@ class MainActivity : AppCompatActivity(){
         if (readUserModelList.size > 0){
             usersRecyclerView(readUserModelList)
         }
+
+        if(currentUser != null){
+            headerLayout.nav_header_user_picture.setImageBitmap(byteArrayToBitmap(currentUser!!.profile_picture.bytes))
+            headerLayout.nav_header_user_name.text = currentUser!!.name + " " + currentUser!!.surname
+            headerLayout.nav_header_user_email.text = currentUser!!.email
+        }
+
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
