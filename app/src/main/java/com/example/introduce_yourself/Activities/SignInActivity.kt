@@ -105,6 +105,7 @@ class SignInActivity : AppCompatActivity(), View.OnClickListener {
                 SchemaUtils.create(UserLikes)
                 SchemaUtils.create(UserLinks)
                 SchemaUtils.create(UserPosts)
+                SchemaUtils.create(LinkLabels)
             }
         }
     }

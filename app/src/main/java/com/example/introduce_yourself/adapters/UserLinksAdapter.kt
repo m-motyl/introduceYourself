@@ -8,14 +8,14 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.introduce_yourself.Models.ReadUserModel
-import com.example.introduce_yourself.Models.UserLinks
+import com.example.introduce_yourself.Models.UserLinksModel
 import com.example.introduce_yourself.R
 import kotlinx.android.synthetic.main.main_item_row.view.*
 import kotlinx.android.synthetic.main.user_item_links_item_row.view.*
 
 open class UserLinksAdapter(
     private val context: Context,
-    private var listOfUsers: ArrayList<UserLinks>
+    private var listOfUsers: ArrayList<UserLinksModel>
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     private var onClickListener: OnClickListener? = null
 
@@ -55,6 +55,6 @@ open class UserLinksAdapter(
     }
 
     interface OnClickListener {
-        fun onClick(position: Int, model: UserLinks)
+        fun onClick(position: Int, model: UserLinksModel)
     }
 }

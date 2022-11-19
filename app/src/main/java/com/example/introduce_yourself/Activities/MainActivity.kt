@@ -138,6 +138,7 @@ class MainActivity : AppCompatActivity(){
         for(i in list)
             readUserModelList.add(
                 ReadUserModel(
+                    id = i.id.value,
                     name = i.name,
                     surname = i.surname,
                     email = i.email,

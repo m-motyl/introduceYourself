@@ -6,17 +6,23 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.introduce_yourself.Models.ReadUserModel
-import com.example.introduce_yourself.Models.UserLinks
+import com.example.introduce_yourself.Models.UserLinksModel
 import com.example.introduce_yourself.R
+import com.example.introduce_yourself.database.*
 import com.example.introduce_yourself.utils.byteArrayToBitmap
 import com.example.introduce_yourself.utils.currentUser
 import com.recyclerviewapp.UserLinksAdapter
 import kotlinx.android.synthetic.main.activity_user_item.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.runBlocking
+import org.jetbrains.exposed.sql.select
+import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransaction
 
 class UserItemActivity : AppCompatActivity() {
     private var readUserModel: ReadUserModel? = null
-    private var userLinksList = ArrayList<UserLinks>()
+    private var userLinksList = ArrayList<UserLinksModel>()
     private var background_image: ByteArray = ByteArray(0)
+    private var stalked_user: User? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,6 +41,7 @@ class UserItemActivity : AppCompatActivity() {
         }
 
         if (readUserModel != null) {
+            readFullUser()
             supportActionBar!!.title = readUserModel!!.email
             user_item_user_picture.setImageBitmap(byteArrayToBitmap(readUserModel!!.profile_picture))
 //            user_item_user_picture.setImageBitmap(byteArrayToBitmap(currentUser!!.profile_picture.bytes))
@@ -43,23 +50,24 @@ class UserItemActivity : AppCompatActivity() {
             user_item_user_email.text = readUserModel!!.email
             user_item_user_description.text = readUserModel!!.description
             readUserLinks()
-            if(userLinksList.size > 0){
+            if (userLinksList.size > 0) {
                 usersLinksRecyclerView(userLinksList)
             }
-//            if(readUserBackground()){ TODO: Patryk create background in users profile
-//
-//            }
+            if (stalked_user!!.background_picutre != null) { //TODO: Patryk create background in users profile
+                background_image =
+                    stalked_user!!.background_picutre!!.bytes // background_image to conversion
+            }
         }
     }
 
-    private fun usersLinksRecyclerView(userLinks: ArrayList<UserLinks>){
+    private fun usersLinksRecyclerView(userLinks: ArrayList<UserLinksModel>) {
         user_item_links_recycler_view.layoutManager = LinearLayoutManager(this)
         user_item_links_recycler_view.setHasFixedSize(true)
         val userLinks = UserLinksAdapter(this, userLinks)
         user_item_links_recycler_view.adapter = userLinks
 
-        userLinks.setOnClickListener(object : UserLinksAdapter.OnClickListener{
-            override fun onClick(position: Int, model: UserLinks) {
+        userLinks.setOnClickListener(object : UserLinksAdapter.OnClickListener {
+            override fun onClick(position: Int, model: UserLinksModel) {
 
                 var link = model.link
                 if (!link.startsWith("http://") && !link.startsWith("https://"))
@@ -74,16 +82,24 @@ class UserItemActivity : AppCompatActivity() {
         })
     }
 
-    private fun readUserLinks(){ //TODO: WITOLD read user links
+    private fun readUserLinks() = runBlocking { // tmp method
+
         userLinksList.add(
-            UserLinks("link1", "www.facebook.com")
+            UserLinksModel("link1", "www.facebook.com")
         )
         userLinksList.add(
-            UserLinks("link2", "www.youtube.com")
+            UserLinksModel("link2", "www.youtube.com")
         )
     }
 
-    private fun readUserBackground(): Boolean{ //TODO: WITOLD read user background picture => background_image: ByteArray
-        return false //false if not read
+    // labels will have to be added to db manually im veri professional
+    private fun readFullUser() = runBlocking {
+        newSuspendedTransaction(Dispatchers.IO) {
+            stalked_user = User.findById(readUserModel!!.id)
+            val stalked_user_links = UserLink.find { UserLinks.user eq stalked_user!!.id }.toList()
+            if (stalked_user_links.isNotEmpty())
+                for (i in stalked_user_links)
+                    userLinksList.add(UserLinksModel(title = i.label.name, link = i.link))
+        }
     }
 }
