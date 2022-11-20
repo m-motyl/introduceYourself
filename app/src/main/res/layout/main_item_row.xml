@@ -22,10 +22,11 @@
             tools:ignore="UseCompoundDrawables"
             android:padding="5dp">
 
-            <ImageView
+            <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/main_iv_user_picture"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
+                android:layout_width="90dp"
+                android:layout_height="90dp"
+                android:padding="5dp"
                 android:contentDescription="@string/app_name"
                 android:src="@mipmap/ic_launcher_round" />
 

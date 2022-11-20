@@ -71,10 +71,13 @@ class EditProfileActivity : AppCompatActivity(), View.OnClickListener {
             }
         }
 
-        readLinks()
+//        readLinks()
 
         if(userLinksList.size > 0){
             linksRecyclerView(userLinksList)
+        }else{
+            edit_profile_no_links_tv.visibility = View.VISIBLE
+            edit_profile_links_recycler_view.visibility = View.GONE
         }
 
         user_name_edit_btn.setOnClickListener(this)
