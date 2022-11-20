@@ -34,8 +34,8 @@ import java.io.IOException
 
 class SignUpActivity : AppCompatActivity(), View.OnClickListener {
 
-    private var isImage: Boolean = false
-    private lateinit var saveImageByteArray: ByteArray
+//    private var isImage: Boolean = false
+    private var saveImageByteArray: ByteArray = ByteArray(1)
     private var signUpModel: SignUpModel? = null
 
     companion object {
@@ -135,7 +135,7 @@ class SignUpActivity : AppCompatActivity(), View.OnClickListener {
                             Toast.LENGTH_SHORT
                         ).show()
                     }
-                    !isImage -> {
+                    (saveImageByteArray.contentEquals(ByteArray(1))) -> {
                         Toast.makeText(
                             this,
                             "Dodaj zdjęcie profilowe!",
@@ -279,7 +279,6 @@ class SignUpActivity : AppCompatActivity(), View.OnClickListener {
                                 contentURI
                             )
                         saveImageByteArray = saveImageByteArray(selectedImage)
-                        isImage = true
                         su_iv_avatar.setImageBitmap(selectedImage)
                     } catch (e: IOException) {
                         e.printStackTrace()
