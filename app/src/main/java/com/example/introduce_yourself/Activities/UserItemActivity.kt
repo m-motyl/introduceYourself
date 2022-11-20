@@ -4,6 +4,8 @@ import android.content.Intent
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
+import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.introduce_yourself.Models.ReadUserModel
 import com.example.introduce_yourself.Models.UserLinksModel
@@ -21,7 +23,6 @@ import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransacti
 class UserItemActivity : AppCompatActivity() {
     private var readUserModel: ReadUserModel? = null
     private var userLinksList = ArrayList<UserLinksModel>()
-    private var background_image: ByteArray = ByteArray(0)
     private var stalked_user: User? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -42,21 +43,24 @@ class UserItemActivity : AppCompatActivity() {
 
         if (readUserModel != null) {
             readFullUser()
-            supportActionBar!!.title = readUserModel!!.email
-            user_item_user_picture.setImageBitmap(byteArrayToBitmap(readUserModel!!.profile_picture))
-            user_item_bg_picture.setImageBitmap(byteArrayToBitmap(readUserModel!!.profile_picture)) //TODO: Mateusz set user_item_bg_picture from database
-//            user_item_user_picture.setImageBitmap(byteArrayToBitmap(currentUser!!.profile_picture.bytes))
-            user_item_user_name.text = readUserModel!!.name
-            user_item_user_surname.text = readUserModel!!.surname
-            user_item_user_email.text = readUserModel!!.email
-            user_item_user_description.text = readUserModel!!.description
-            readUserLinks()
+
+            if(stalked_user != null){
+                supportActionBar!!.title = stalked_user!!.email
+                user_item_user_picture.setImageBitmap(byteArrayToBitmap(stalked_user!!.profile_picture.bytes))
+                if(stalked_user!!.background_picutre != null){
+                    user_item_bg_picture.setImageBitmap(byteArrayToBitmap(stalked_user!!.background_picutre!!.bytes))
+                }
+                user_item_user_name.text = stalked_user!!.name
+                user_item_user_surname.text = stalked_user!!.name
+                user_item_user_email.text = stalked_user!!.email
+                user_item_user_description.text = stalked_user!!.description
+            }
+
             if (userLinksList.size > 0) {
                 usersLinksRecyclerView(userLinksList)
-            }
-            if (stalked_user!!.background_picutre != null) {
-                background_image =
-                    stalked_user!!.background_picutre!!.bytes // background_image to conversion
+            }else{
+                user_item_no_links_tv.visibility = View.VISIBLE
+                user_item_links_recycler_view.visibility = View.GONE
             }
         }
     }
@@ -83,17 +87,6 @@ class UserItemActivity : AppCompatActivity() {
         })
     }
 
-    private fun readUserLinks() = runBlocking { // tmp method
-
-        userLinksList.add(
-            UserLinksModel("link1", "www.facebook.com")
-        )
-        userLinksList.add(
-            UserLinksModel("link2", "www.youtube.com")
-        )
-    }
-
-    // labels will have to be added to db manually im veri professional
     private fun readFullUser() = runBlocking {
         newSuspendedTransaction(Dispatchers.IO) {
             stalked_user = User.findById(readUserModel!!.id)

@@ -30,18 +30,18 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <ImageView
-                    android:id="@+id/edit_profile_bg_picture"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:maxHeight="@dimen/user_item_bg_max_height"
-                    android:layout_alignParentTop="true"
-                    android:layout_centerHorizontal="true"
-                    android:src="@drawable/bg_city_silhouette_at_night"
-                    android:scaleType="centerCrop"
-                    android:cropToPadding="true"
-                    android:adjustViewBounds="true"
-                    android:contentDescription="User background picture" />
+               <ImageView
+                   android:id="@+id/edit_profile_bg_picture"
+                   android:layout_width="match_parent"
+                   android:layout_height="wrap_content"
+                   android:layout_alignParentTop="true"
+                   android:layout_centerHorizontal="true"
+                   android:adjustViewBounds="true"
+                   android:contentDescription="User background picture"
+                   android:cropToPadding="true"
+                   android:maxHeight="@dimen/user_item_bg_max_height"
+                   android:scaleType="centerCrop"
+                   android:src="@drawable/bg_gradient_2" />
 
                 <ImageView
                     android:id="@+id/bg_picture_edit_btn"

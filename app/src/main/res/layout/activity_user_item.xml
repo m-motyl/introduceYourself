@@ -34,14 +34,14 @@
                     android:id="@+id/user_item_bg_picture"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:maxHeight="@dimen/user_item_bg_max_height"
                     android:layout_alignParentTop="true"
                     android:layout_centerHorizontal="true"
-                    android:src="@drawable/bg_gradient_2"
-                    android:scaleType="centerCrop"
-                    android:cropToPadding="true"
                     android:adjustViewBounds="true"
-                    android:contentDescription="User background picture" />
+                    android:contentDescription="User background picture"
+                    android:cropToPadding="true"
+                    android:maxHeight="@dimen/user_item_bg_max_height"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/bg_gradient_2" />
 
                 <de.hdodenhof.circleimageview.CircleImageView
                     android:id="@+id/user_item_user_picture"
@@ -150,8 +150,6 @@
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
-
-<!--                    TODO: Mateusz tv visible if there is no links-->
                     <TextView
                         android:id="@+id/user_item_no_links_tv"
                         android:layout_width="match_parent"
@@ -161,7 +159,6 @@
                         android:textSize="@dimen/user_item_text_size"
                         android:hint="@string/user_item_no_links_yet"
                         android:visibility="gone"/>
-
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/user_item_links_recycler_view"
                         android:layout_width="match_parent"
