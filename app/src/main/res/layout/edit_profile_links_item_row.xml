@@ -58,6 +58,10 @@
                     android:ellipsize="end"
                     android:textSize="14sp"
                     tools:text="Link" />
+
+<!--                TODO: Patryk add edit and delete icons-->
+<!--                TODO: Patryk add editTexts for editing link and link title-->
+
             </LinearLayout>
         </LinearLayout>
     </androidx.cardview.widget.CardView>
