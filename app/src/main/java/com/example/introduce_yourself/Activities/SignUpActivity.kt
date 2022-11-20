@@ -34,7 +34,6 @@ import java.io.IOException
 
 class SignUpActivity : AppCompatActivity(), View.OnClickListener {
 
-//    private var isImage: Boolean = false
     private var saveImageByteArray: ByteArray = ByteArray(1)
     private var signUpModel: SignUpModel? = null
 
@@ -71,6 +70,13 @@ class SignUpActivity : AppCompatActivity(), View.OnClickListener {
                             Toast.LENGTH_SHORT
                         ).show()
                     }
+                    !isNameValid(su_et_name.text.toString()) -> {
+                        Toast.makeText(
+                            this,
+                            "Imię powinno mieć format [A-Z][a-z]+",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
                     su_et_surname.text.isNullOrEmpty() -> {
                         Toast.makeText(
                             this,
@@ -82,6 +88,13 @@ class SignUpActivity : AppCompatActivity(), View.OnClickListener {
                         Toast.makeText(
                             this,
                             "Nazwisko powinno zawierać od 2 do 30 znaków!",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                    !isSurnameValid(su_et_surname.text.toString()) -> {
+                        Toast.makeText(
+                            this,
+                            "Nazwisko powinno mieć format [A-Z][a-z]+([-][A-Z][a-z]+)?",
                             Toast.LENGTH_SHORT
                         ).show()
                     }
@@ -161,8 +174,13 @@ class SignUpActivity : AppCompatActivity(), View.OnClickListener {
             }
         }
     }
-    private fun isNameValid(){ //TODO: Mateusz check if name&surname valid
-
+    private fun isNameValid(name: String): Boolean{
+        val regex = ("[A-Z][a-z]+").toRegex()
+        return regex.matches(name)
+    }
+    private fun isSurnameValid(surname: String): Boolean {
+        val regex = ("[A-Z][a-z]+([-][A-Z][a-z]+)?").toRegex()
+        return regex.matches(surname)
     }
 
     private fun isEmailValid(email: String): Boolean {

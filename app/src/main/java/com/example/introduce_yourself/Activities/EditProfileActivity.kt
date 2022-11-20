@@ -16,6 +16,8 @@ import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.introduce_yourself.Models.UserLinksModel
 import com.example.introduce_yourself.R
+import com.example.introduce_yourself.database.User
+import com.example.introduce_yourself.database.Users
 import com.example.introduce_yourself.utils.byteArrayToBitmap
 import com.example.introduce_yourself.utils.currentUser
 import com.example.introduce_yourself.utils.saveImageByteArray
@@ -27,7 +29,10 @@ import com.karumi.dexter.listener.multi.MultiplePermissionsListener
 import com.recyclerviewapp.UserLinksAdapter
 import kotlinx.android.synthetic.main.activity_edit_profile.*
 import kotlinx.android.synthetic.main.activity_sign_up.*
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.runBlocking
+import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
+import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransaction
 import java.io.IOException
 
 class EditProfileActivity : AppCompatActivity(), View.OnClickListener {
@@ -101,17 +106,40 @@ class EditProfileActivity : AppCompatActivity(), View.OnClickListener {
                 user_name_edit_save_btn.visibility = View.VISIBLE
             }
             R.id.user_name_edit_save_btn -> {
-                edit_profile_user_name_et.visibility = View.GONE
-                edit_profile_user_name_tv.visibility = View.VISIBLE
-                user_name_edit_save_btn.visibility = View.GONE
-                user_name_edit_btn.visibility = View.VISIBLE
-
                 if(edit_profile_user_name_tv.text.toString() != edit_profile_user_name_et.text.toString()){
                     val name = edit_profile_user_name_et.text.toString()
-                    if(validateName(name)){
-                        updateUserName(name)
+                    when {
+                        name.isNullOrEmpty() -> {
+                            Toast.makeText(
+                                this,
+                                "Podaj imię!",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
+                        name.length > 30 || name.length < 2 -> {
+                            Toast.makeText(
+                                this,
+                                "Imię powinno zawierać od 2 do 30 znaków!",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
+                        !validateName(name) -> {
+                            Toast.makeText(
+                                this,
+                                "Imię powinno mieć format [A-Z][a-z]+",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
+                        else -> {
+                            updateUserName(name)
+                            edit_profile_user_name_tv.text = name
+
+                            edit_profile_user_name_et.visibility = View.GONE
+                            edit_profile_user_name_tv.visibility = View.VISIBLE
+                            user_name_edit_save_btn.visibility = View.GONE
+                            user_name_edit_btn.visibility = View.VISIBLE
+                        }
                     }
-                    edit_profile_user_name_tv.text = name
                 }
             }
             R.id.user_surname_edit_btn -> {
@@ -121,17 +149,41 @@ class EditProfileActivity : AppCompatActivity(), View.OnClickListener {
                 user_surname_edit_save_btn.visibility = View.VISIBLE
             }
             R.id.user_surname_edit_save_btn -> {
-                edit_profile_user_surname_et.visibility = View.GONE
-                edit_profile_user_surname_tv.visibility = View.VISIBLE
-                user_surname_edit_save_btn.visibility = View.GONE
-                user_surname_edit_btn.visibility = View.VISIBLE
 
                 if(edit_profile_user_surname_tv.text.toString() != edit_profile_user_surname_et.text.toString()){
                     val surname = edit_profile_user_surname_et.text.toString()
-                    if(validateSurname(surname)){
-                        updateUserSurname(surname)
+                    when {
+                        surname.isNullOrEmpty() -> {
+                            Toast.makeText(
+                                this,
+                                "Podaj nazwisko!",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
+                        surname.length > 30 || surname.length < 2 -> {
+                            Toast.makeText(
+                                this,
+                                "Nazwisko powinno zawierać od 2 do 30 znaków!",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
+                        !validateSurname(surname) -> {
+                            Toast.makeText(
+                                this,
+                                "Nazwisko powinno mieć format [A-Z][a-z]+([-][A-Z][a-z]+)?",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
+                        else -> {
+                            updateUserSurname(surname)
+                            edit_profile_user_surname_tv.text = surname
+
+                            edit_profile_user_surname_et.visibility = View.GONE
+                            edit_profile_user_surname_tv.visibility = View.VISIBLE
+                            user_surname_edit_save_btn.visibility = View.GONE
+                            user_surname_edit_btn.visibility = View.VISIBLE
+                        }
                     }
-                    edit_profile_user_surname_tv.text = surname
                 }
             }
             R.id.user_email_edit_btn -> {
@@ -141,17 +193,48 @@ class EditProfileActivity : AppCompatActivity(), View.OnClickListener {
                 user_email_edit_save_btn.visibility = View.VISIBLE
             }
             R.id.user_email_edit_save_btn -> {
-                edit_profile_user_email_et.visibility = View.GONE
-                edit_profile_user_email_tv.visibility = View.VISIBLE
-                user_email_edit_save_btn.visibility = View.GONE
-                user_email_edit_btn.visibility = View.VISIBLE
 
                 if(edit_profile_user_email_tv.text.toString() != edit_profile_user_email_et.text.toString()){
                     val email = edit_profile_user_email_et.text.toString()
-                    if(validateEmail(email)){
-                        updateUserEmail(email)
+                    when{
+                        email.isNullOrEmpty() -> {
+                            Toast.makeText(
+                                this,
+                                "Podaj e-mail!",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
+                        email.length > 50 || email.length < 5 -> {
+                            Toast.makeText(
+                                this,
+                                "E-mail powinien zawierać od 5 do 50 znaków!",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
+                        !validateEmail(email) -> {
+                            Toast.makeText(
+                                this,
+                                "Nieprawidłowy format e-mail!",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
+                        checkIfUserExists(email) -> {
+                            Toast.makeText(
+                                this,
+                                "Użytkownik o podanym e-mailu istnieje!",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
+                        else -> {
+                            updateUserEmail(email)
+                            edit_profile_user_email_tv.text = email
+
+                            edit_profile_user_email_et.visibility = View.GONE
+                            edit_profile_user_email_tv.visibility = View.VISIBLE
+                            user_email_edit_save_btn.visibility = View.GONE
+                            user_email_edit_btn.visibility = View.VISIBLE
+                        }
                     }
-                    edit_profile_user_email_tv.text = email
                 }
             }
             R.id.user_description_edit_btn -> {
@@ -168,10 +251,24 @@ class EditProfileActivity : AppCompatActivity(), View.OnClickListener {
 
                 if(edit_profile_user_description_tv.text.toString() != edit_profile_user_description_et.text.toString()){
                     val description = edit_profile_user_description_et.text.toString()
-                    if(validateDescription(description)){
-                        updateUserDescription(description)
+                    when{
+                        description.length > 1000 -> {
+                            Toast.makeText(
+                                this,
+                                "Opis może zawierać do 1000 znaków",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
+                        else -> {
+                            updateUserDescription(description)
+                            edit_profile_user_description_tv.text = description
+
+                            edit_profile_user_description_et.visibility = View.GONE
+                            edit_profile_user_description_tv.visibility = View.VISIBLE
+                            user_description_edit_save_btn.visibility = View.GONE
+                            user_description_edit_btn.visibility = View.VISIBLE
+                        }
                     }
-                    edit_profile_user_description_tv.text = description
                 }
             }
             R.id.user_picture_edit_btn -> {
@@ -211,53 +308,54 @@ class EditProfileActivity : AppCompatActivity(), View.OnClickListener {
         })
     }
 
-    private fun readLinks() = runBlocking { // tmp method
-        userLinksList.add(
-            UserLinksModel("link1", "www.facebook.com")
-        )
-        userLinksList.add(
-            UserLinksModel("link2", "www.youtube.com")
-        )
+    //validation
+    private fun validateName(s: String): Boolean{
+        val regex = ("[A-Z][a-z]+").toRegex()
+        return regex.matches(s)
     }
+
+    private fun validateSurname(s: String): Boolean{
+        val regex = ("[A-Z][a-z]+([-][A-Z][a-z]+)?").toRegex()
+        return regex.matches(s)
+    }
+
+    private fun validateEmail(s: String): Boolean {
+        return android.util.Patterns.EMAIL_ADDRESS.matcher(s).matches()
+    }
+
+    private fun checkIfUserExists(email: String): Boolean {
+        return runBlocking {
+            val result = newSuspendedTransaction(Dispatchers.IO) {
+                User.find { Users.email eq email }.toList()
+            }
+            return@runBlocking result.isNotEmpty()
+        }
+    }
+
+    //user actions TODO: WITOLD
     private fun readUserLinks(){
         //TODO: WITOLD find user links => userLinksList: UserLinksModel
     }
-
-    private fun validateName(s: String): Boolean{ //TODO: Mateusz
-        Log.e("valdiateName", s)
-        return true
-    }
-    private fun updateUserName(s: String){ //TODO: Witold update user name
+    private fun updateUserName(s: String){
         Log.e("updateUserName", s)
     }
-    private fun validateSurname(s: String): Boolean{ //TODO: Mateusz
-        Log.e("valdiateSurame", s)
-        return true
-    }
-    private fun updateUserSurname(s: String){ //TODO: Witold update user surname
+    private fun updateUserSurname(s: String){
         Log.e("updateUserSurname", s)
     }
-    private fun validateEmail(s: String): Boolean { //TODO: Mateusz
-        Log.e("valdiateEmail", s)
-        return true
-    }
-    private fun updateUserEmail(s: String){ //TODO: Witold update
+    private fun updateUserEmail(s: String){
         Log.e("updateUserEmail", s)
     }
-    private fun validateDescription(s: String): Boolean { //TODO: Mateusz
-        Log.e("validateDescription", s)
-        return true
-    }
-    private fun updateUserDescription(s: String){ //TODO: Witold update
+    private fun updateUserDescription(s: String){
         Log.e("updateUserDescription", s)
     }
-    private fun updateUserProfilePicture(ba: ByteArray){ //TODO: Witold update
+    private fun updateUserProfilePicture(ba: ByteArray){
         Log.e("updateUserProfilePicture", "ok")
     }
-    private fun updateUserBackgroundPicture(ba: ByteArray){ //TODO: Witold update
+    private fun updateUserBackgroundPicture(ba: ByteArray){
         Log.e("updateUserBackgroundPicture", "ok")
     }
 
+    //choosing image from gallery
     private fun chooseFromGallery(code: Int) {
         Dexter.withContext(this)
             .withPermissions(
