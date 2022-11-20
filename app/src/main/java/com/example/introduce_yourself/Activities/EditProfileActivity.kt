@@ -18,20 +18,23 @@ class EditProfileActivity : AppCompatActivity(), View.OnClickListener {
         toolbar_edit_profile.setNavigationOnClickListener {
             finish()
         }
-        button_change_visibility.setOnClickListener(this)
+        user_name_edit_btn.setOnClickListener(this)
+        user_name_edit_save_btn.setOnClickListener(this)
     }
 
     override fun onClick(v: View?) {
         when(v!!.id){
-            R.id.button_change_visibility -> { //TODO: Patryk change visibility of layout items
-                if(textView2.visibility != View.VISIBLE ){
-                    textView.visibility = View.GONE
-                    textView2.visibility = View.VISIBLE
-                }
-                else{
-                    textView2.visibility = View.GONE
-                    textView.visibility = View.VISIBLE
-                }
+            R.id.user_name_edit_btn -> {
+                edit_profile_user_name_tv.visibility = View.GONE
+                edit_profile_user_name_et.visibility = View.VISIBLE
+                user_name_edit_btn.visibility = View.GONE
+                user_name_edit_save_btn.visibility = View.VISIBLE
+            }
+            R.id.user_name_edit_save_btn -> {
+                edit_profile_user_name_et.visibility = View.GONE
+                edit_profile_user_name_tv.visibility = View.VISIBLE
+                user_name_edit_save_btn.visibility = View.GONE
+                user_name_edit_btn.visibility = View.VISIBLE
             }
         }
     }

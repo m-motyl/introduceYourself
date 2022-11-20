@@ -11,4 +11,8 @@
     <dimen name="user_item_text_size">16sp</dimen>
     <dimen name="user_item_line_spacing">5dp</dimen>
     <dimen name="link_icon_size">40dp</dimen>
+    <dimen name="user_item_title_size">18sp</dimen>
+    <dimen name="user_edit_picture_icon_size">40dp</dimen>
+    <dimen name="user_edit_text_icon_size">24sp</dimen>
+    <dimen name="user_item_bg_max_height">250dp</dimen>
 </resources>

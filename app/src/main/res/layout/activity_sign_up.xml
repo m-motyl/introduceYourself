@@ -99,7 +99,7 @@
             android:inputType="textPassword" />
     </LinearLayout>
 
-    <androidx.appcompat.widget.AppCompatImageView
+    <ImageView
         android:id="@+id/su_iv_avatar"
         android:layout_width="@dimen/su_choose_avatar_size"
         android:layout_height="@dimen/su_choose_avatar_size"

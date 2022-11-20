@@ -1,49 +1,276 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Activities.EditProfileActivity">
+    android:orientation="vertical"
+    tools:context=".Activities.UserItemActivity">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar_edit_profile"
         android:layout_width="match_parent"
-        app:title="Edytuj profil"
-        app:titleTextColor="@color/black"
         android:layout_height="?attr/actionBarSize"
-        android:background="@color/si_su_bg_gradient1"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:theme="@style/CustomToolbarStyle"/>
+        android:background="@color/toolbar"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="?attr/actionBarTheme"
+        app:title="Edytuj profil" />
 
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Text1"
-        android:visibility="visible"
-        app:layout_constraintStart_toStartOf="@+id/textView2"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar_edit_profile" />
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Text2"
-        android:visibility="gone"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar_edit_profile" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center_horizontal">
 
-    <Button
-        android:id="@+id/button_change_visibility"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="80dp"
-        android:layout_marginTop="68dp"
-        android:text="Button"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar_edit_profile" />
+           <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+                <ImageView
+                    android:id="@+id/edit_profile_bg_picture"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:maxHeight="@dimen/user_item_bg_max_height"
+                    android:layout_alignParentTop="true"
+                    android:layout_centerHorizontal="true"
+                    android:src="@drawable/bg_city_silhouette_at_night"
+                    android:scaleType="centerCrop"
+                    android:cropToPadding="true"
+                    android:adjustViewBounds="true"
+                    android:contentDescription="User background picture" />
+
+                <ImageView
+                    android:id="@+id/bg_picture_edit_btn"
+                    android:layout_width="@dimen/user_edit_picture_icon_size"
+                    android:layout_height="@dimen/user_edit_picture_icon_size"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentEnd="true"
+                    android:src="@drawable/ic_outline_build_circle_24"
+                    android:background="@drawable/ic_baseline_circle_white_24"
+                    android:contentDescription="User background picture edit" />
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_centerHorizontal="true"
+                    android:layout_margin="@dimen/standard_page_padding" >
+
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        android:id="@+id/edit_profile_user_picture"
+                        android:layout_width="@dimen/user_item_profile_picture_size"
+                        android:layout_height="@dimen/user_item_profile_picture_size"
+                        android:contentDescription="Profile picture"
+                        android:src="@drawable/add_screen_image_placeholder"
+                        app:civ_border_color="@color/nav_header_user_picture_border"
+                        app:civ_border_width="@dimen/nav_header_user_picture_border"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent" />
+
+                    <ImageView
+                        android:id="@+id/user_picture_edit_btn"
+                        android:layout_width="@dimen/user_edit_picture_icon_size"
+                        android:layout_height="@dimen/user_edit_picture_icon_size"
+                        android:layout_margin="5dp"
+                        android:background="@drawable/ic_baseline_circle_white_24"
+                        android:contentDescription="User picture edit"
+                        android:src="@drawable/ic_outline_build_circle_24"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/underline" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/standard_page_padding"
+                android:orientation="vertical"
+                android:gravity="center_horizontal"
+                android:background="@color/user_item_background">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_gravity="start"
+                    android:gravity="center">
+
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1">
+
+                        <TextView
+                            android:id="@+id/edit_profile_user_name_tv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentStart="true"
+                            android:layout_alignParentTop="true"
+                            android:text="User Name mmmmmmmmmmmm mmmmmmmmmmmmmmmmmmmmm"
+                            android:textColor="@color/text_dark"
+                            android:textSize="@dimen/user_item_title_size"
+                            android:visibility="visible" />
+
+                        <EditText
+                            android:id="@+id/edit_profile_user_name_et"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentStart="true"
+                            android:layout_alignParentTop="true"
+                            android:text="User Name mmmmmmmmmmmm mmmmmmmmmmmmmmmmmmmmm"
+                            android:textColor="@color/text_dark"
+                            android:textSize="@dimen/user_item_title_size"
+                            android:visibility="gone" />
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/user_edit_text_icon_size"
+                        android:layout_weight="0">
+
+                        <ImageView
+                            android:id="@+id/user_name_edit_btn"
+                            android:layout_width="@dimen/user_edit_text_icon_size"
+                            android:layout_height="@dimen/user_edit_text_icon_size"
+                            android:layout_alignParentStart="true"
+                            android:layout_alignParentTop="true"
+                            android:contentDescription="User name edit button"
+                            android:src="@drawable/ic_outline_edit_24"
+                            android:visibility="visible" />
+
+                        <ImageView
+                            android:id="@+id/user_name_edit_save_btn"
+                            android:layout_width="@dimen/user_edit_text_icon_size"
+                            android:layout_height="@dimen/user_edit_text_icon_size"
+                            android:layout_alignParentStart="true"
+                            android:layout_alignParentTop="true"
+                            android:contentDescription="User name edit save button"
+                            android:src="@drawable/ic_baseline_check_24"
+                            android:visibility="gone" />
+                    </RelativeLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/user_item_line_spacing"
+                    android:orientation="horizontal"
+                    android:layout_gravity="start"
+                    android:gravity="center">
+
+                    <TextView
+                        android:id="@+id/edit_profile_user_surname"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="User Surname"
+                        android:textColor="@color/text_dark"
+                        android:textSize="@dimen/user_item_title_size" />
+
+                    <ImageView
+                        android:id="@+id/user_surname_edit_btn"
+                        android:layout_width="@dimen/user_edit_text_icon_size"
+                        android:layout_height="@dimen/user_edit_text_icon_size"
+                        android:layout_marginStart="@dimen/user_edit_text_icon_size"
+                        android:layout_weight="0"
+                        android:contentDescription="User surname edit button"
+                        android:src="@drawable/ic_outline_edit_24" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/user_item_line_spacing"
+                    android:orientation="horizontal"
+                    android:layout_gravity="start"
+                    android:gravity="center">
+
+                    <TextView
+                        android:id="@+id/edit_profile_user_email"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="user@email.com"
+                        android:textColor="@color/text_dark"
+                        android:textSize="@dimen/user_item_title_size" />
+
+                    <ImageView
+                        android:id="@+id/user_email_edit_btn"
+                        android:layout_width="@dimen/user_edit_text_icon_size"
+                        android:layout_height="@dimen/user_edit_text_icon_size"
+                        android:layout_marginStart="@dimen/user_edit_text_icon_size"
+                        android:layout_weight="0"
+                        android:contentDescription="User surname edit button"
+                        android:src="@drawable/ic_outline_edit_24" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/underline" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/user_item_background"
+                android:gravity="center_horizontal"
+                android:orientation="vertical"
+                android:padding="@dimen/standard_page_padding">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/user_item_text_size"
+                    android:text="@string/user_description_title"
+                    android:textColor="@color/text_dark" />
+
+                <TextView
+                    android:id="@+id/edit_profile_user_description"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/user_item_line_spacing"
+                    android:textSize="@dimen/user_item_text_size"
+                    android:hint="@string/user_item_no_user_description_yet"
+                    android:text="@string/user_description_sample"
+                    android:textColor="@color/text_dark" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/underline" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/standard_page_padding"
+                android:orientation="vertical"
+                android:gravity="center_horizontal"
+                android:background="@color/user_item_background">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/user_item_text_size"
+                    android:text="@string/user_links_title"
+                    android:textColor="@color/text_dark" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/edit_profile_links_recycler_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+</LinearLayout>

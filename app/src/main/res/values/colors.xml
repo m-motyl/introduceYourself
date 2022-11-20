@@ -50,7 +50,7 @@
     <color name="text_dark">@color/eerie_black</color>
     <color name="text_black">#000000</color>
     <color name="si_su_icon">#2E2E2E</color>
-    <color name="nav_header">#FFFFFF</color>
+    <color name="nav_header">@color/light_cornflower_blue</color>
     <color name="underline">@color/sonic_silver</color>
     <color name="toolbar">@color/blue_green</color>
     <color name="nav_header_user_picture_border">@color/prussian_blue</color>

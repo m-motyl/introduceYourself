@@ -23,24 +23,38 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:gravity="center_horizontal">
+            android:gravity="center_horizontal"
+            android:background="@color/black">
 
-            <LinearLayout
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:background="@drawable/bg_gradient_2">
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:id="@+id/user_item_bg_picture"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:maxHeight="@dimen/user_item_bg_max_height"
+                    android:layout_alignParentTop="true"
+                    android:layout_centerHorizontal="true"
+                    android:src="@drawable/bg_gradient_2"
+                    android:scaleType="centerCrop"
+                    android:cropToPadding="true"
+                    android:adjustViewBounds="true"
+                    android:contentDescription="User background picture" />
 
                 <de.hdodenhof.circleimageview.CircleImageView
                     android:id="@+id/user_item_user_picture"
                     android:layout_width="@dimen/user_item_profile_picture_size"
                     android:layout_height="@dimen/user_item_profile_picture_size"
+                    android:layout_centerVertical="true"
+                    android:layout_centerHorizontal="true"
                     android:layout_margin="@dimen/standard_page_padding"
                     android:contentDescription="Profile picture"
                     android:src="@drawable/add_screen_image_placeholder"
                     app:civ_border_width="@dimen/nav_header_user_picture_border"
                     app:civ_border_color="@color/nav_header_user_picture_border"/>
-            </LinearLayout>
+            </RelativeLayout>
 
             <View
                 android:layout_width="match_parent"
@@ -59,7 +73,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/user_item_user_name"
-                    android:textSize="@dimen/user_item_text_size"
+                    android:textSize="@dimen/user_item_title_size"
                     android:text="User Name"
                     android:textColor="@color/text_dark" />
 
@@ -68,18 +82,18 @@
                     android:layout_height="wrap_content"
                     android:id="@+id/user_item_user_surname"
                     android:layout_marginTop="@dimen/user_item_line_spacing"
-                    android:textSize="@dimen/user_item_text_size"
+                    android:textSize="@dimen/user_item_title_size"
                     android:text="User Surname"
                     android:textColor="@color/text_dark" />
 
                 <TextView
+                    android:id="@+id/user_item_user_email"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/user_item_user_email"
                     android:layout_marginTop="@dimen/user_item_line_spacing"
                     android:text="user@email.com"
-                    android:textSize="16sp"
-                    android:textColor="@color/text_gray" />
+                    android:textColor="@color/text_dark"
+                    android:textSize="@dimen/user_item_title_size" />
             </LinearLayout>
 
             <View
@@ -90,24 +104,25 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="@dimen/standard_page_padding"
-                android:orientation="vertical"
+                android:background="@color/user_item_background"
                 android:gravity="center_horizontal"
-                android:background="@color/user_item_background">
+                android:orientation="vertical"
+                android:padding="@dimen/standard_page_padding">
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textSize="@dimen/user_item_text_size"
-                    android:text="Opis:"
+                    android:text="@string/user_description_title"
                     android:textColor="@color/text_dark" />
 
                 <TextView
+                    android:id="@+id/user_item_user_description"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/user_item_user_description"
                     android:layout_marginTop="@dimen/user_item_line_spacing"
                     android:textSize="@dimen/user_item_text_size"
+                    android:hint="@string/user_item_no_user_description_yet"
                     android:text="@string/user_description_sample"
                     android:textColor="@color/text_dark" />
             </LinearLayout>
@@ -129,13 +144,32 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textSize="@dimen/user_item_text_size"
-                    android:text="Linki:"
+                    android:text="@string/user_links_title"
                     android:textColor="@color/text_dark" />
 
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/user_item_links_recycler_view"
+                <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content">
+
+<!--                    TODO: Mateusz tv visible if there is no links-->
+                    <TextView
+                        android:id="@+id/user_item_no_links_tv"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentTop="true"
+                        android:layout_alignParentStart="true"
+                        android:textSize="@dimen/user_item_text_size"
+                        android:hint="@string/user_item_no_links_yet"
+                        android:visibility="gone"/>
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/user_item_links_recycler_view"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentTop="true"
+                        android:layout_alignParentStart="true"
+                        android:visibility="visible"/>
+                </RelativeLayout>
             </LinearLayout>
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>

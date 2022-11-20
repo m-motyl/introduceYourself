@@ -6,7 +6,7 @@
     android:layout_height="wrap_content">
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/user_item_card_view_link"
+        android:id="@+id/edit_profile_card_view_link"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="5dp"
@@ -15,7 +15,7 @@
         app:cardElevation="3dp">
 
         <LinearLayout
-            android:id="@+id/user_item_card_layout"
+            android:id="@+id/edit_profile_card_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
@@ -26,7 +26,7 @@
             <!--for card bg color changing-->
 
             <ImageView
-                android:id="@+id/user_item_link_icon"
+                android:id="@+id/edit_profile_link_icon"
                 android:layout_width="@dimen/link_icon_size"
                 android:layout_height="@dimen/link_icon_size"
                 android:contentDescription="Link Image"
@@ -39,7 +39,7 @@
                 android:gravity="center">
 
                 <TextView
-                    android:id="@+id/user_item_link_title"
+                    android:id="@+id/edit_profile_link_title"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="10dp"
@@ -49,7 +49,7 @@
                     tools:text="Link Title" />
 
                 <TextView
-                    android:id="@+id/user_item_link"
+                    android:id="@+id/edit_profile_link"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="10dp"

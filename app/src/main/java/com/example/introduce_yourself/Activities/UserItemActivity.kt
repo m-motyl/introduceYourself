@@ -44,6 +44,7 @@ class UserItemActivity : AppCompatActivity() {
             readFullUser()
             supportActionBar!!.title = readUserModel!!.email
             user_item_user_picture.setImageBitmap(byteArrayToBitmap(readUserModel!!.profile_picture))
+            user_item_bg_picture.setImageBitmap(byteArrayToBitmap(readUserModel!!.profile_picture)) //TODO: Mateusz set user_item_bg_picture from database
 //            user_item_user_picture.setImageBitmap(byteArrayToBitmap(currentUser!!.profile_picture.bytes))
             user_item_user_name.text = readUserModel!!.name
             user_item_user_surname.text = readUserModel!!.surname
@@ -53,7 +54,7 @@ class UserItemActivity : AppCompatActivity() {
             if (userLinksList.size > 0) {
                 usersLinksRecyclerView(userLinksList)
             }
-            if (stalked_user!!.background_picutre != null) { //TODO: Patryk create background in users profile
+            if (stalked_user!!.background_picutre != null) {
                 background_image =
                     stalked_user!!.background_picutre!!.bytes // background_image to conversion
             }

@@ -3,4 +3,8 @@
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="user_description_sample">User Description User Description User Description User Description User Description User Description User Description User Description User Description User Description User Description User Description User Description User Description User Description User Description User Description User Description User Description User Description User Description User Description User Description User Description User Description User Description User Description User Description User Description User Description User Description User Description User Description User Description User Description User Description User Description User Description User Description User Description</string>
+    <string name="user_item_no_user_description_yet">Użytkownik nie dodał jeszcze opisu :/</string>
+    <string name="user_description_title">Opis:</string>
+    <string name="user_links_title">Linki:</string>
+    <string name="user_item_no_links_yet">Użytkownik nie dodał jeszcze żadnego linka :/</string>
 </resources>
