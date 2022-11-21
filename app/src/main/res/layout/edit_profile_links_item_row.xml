@@ -30,13 +30,15 @@
                 android:layout_width="@dimen/link_icon_size"
                 android:layout_height="@dimen/link_icon_size"
                 android:contentDescription="Link Image"
-                android:src="@drawable/ic_baseline_link_24" />
+                android:src="@drawable/ic_baseline_link_24"
+                android:layout_weight="0"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:gravity="center">
+                android:gravity="center"
+                android:layout_weight="1">
 
                 <TextView
                     android:id="@+id/edit_profile_link_title"
@@ -58,11 +60,15 @@
                     android:ellipsize="end"
                     android:textSize="14sp"
                     tools:text="Link" />
-
-<!--                TODO: Patryk add edit and delete icons-->
-<!--                TODO: Patryk add editTexts for editing link and link title-->
-
             </LinearLayout>
+
+<!--            TODO: Mateusz add delete link onclick-->
+            <ImageView
+                android:id="@+id/edit_profile_delete_link"
+                android:layout_width="@dimen/link_icon_size"
+                android:layout_height="@dimen/link_icon_size"
+                android:src="@drawable/ic_outline_delete_24"
+                android:layout_weight="0"/>
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 </LinearLayout>
