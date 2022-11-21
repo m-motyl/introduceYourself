@@ -78,13 +78,20 @@ class EditProfileActivity : AppCompatActivity(), View.OnClickListener {
         }
 
 //        readLinks()
+        userLinksList.add(
+            UserLinksModel("link1", "www.facebook.com")
+        )
+        userLinksList.add(
+            UserLinksModel("link2", "www.youtube.com")
+        )
 
         if(userLinksList.size > 0){
             linksRecyclerView(userLinksList)
-        }else{
-            edit_profile_no_links_tv.visibility = View.VISIBLE
-            edit_profile_links_recycler_view.visibility = View.GONE
         }
+//        else{
+//            edit_profile_no_links_tv.visibility = View.VISIBLE
+//            edit_profile_links_recycler_view.visibility = View.GONE
+//        }
 
         user_name_edit_btn.setOnClickListener(this)
         user_name_edit_save_btn.setOnClickListener(this)
@@ -96,6 +103,10 @@ class EditProfileActivity : AppCompatActivity(), View.OnClickListener {
         user_description_edit_save_btn.setOnClickListener(this)
         user_picture_edit_btn.setOnClickListener(this)
         user_bg_picture_edit_btn.setOnClickListener(this)
+        user_name_edit_abort_btn.setOnClickListener(this)
+        user_surname_edit_abort_btn.setOnClickListener(this)
+        user_email_edit_abort_btn.setOnClickListener(this)
+        user_description_edit_abort_btn.setOnClickListener(this)
     }
 
     override fun onClick(v: View?) {
@@ -105,6 +116,8 @@ class EditProfileActivity : AppCompatActivity(), View.OnClickListener {
                 edit_profile_user_name_et.visibility = View.VISIBLE
                 user_name_edit_btn.visibility = View.GONE
                 user_name_edit_save_btn.visibility = View.VISIBLE
+
+                user_name_edit_abort_btn.visibility = View.VISIBLE
             }
             R.id.user_name_edit_save_btn -> {
                 if(edit_profile_user_name_tv.text.toString() != edit_profile_user_name_et.text.toString()){
@@ -139,6 +152,7 @@ class EditProfileActivity : AppCompatActivity(), View.OnClickListener {
                             edit_profile_user_name_tv.visibility = View.VISIBLE
                             user_name_edit_save_btn.visibility = View.GONE
                             user_name_edit_btn.visibility = View.VISIBLE
+                            user_name_edit_abort_btn.visibility = View.GONE
                         }
                     }
                 }
@@ -148,6 +162,8 @@ class EditProfileActivity : AppCompatActivity(), View.OnClickListener {
                 edit_profile_user_surname_et.visibility = View.VISIBLE
                 user_surname_edit_btn.visibility = View.GONE
                 user_surname_edit_save_btn.visibility = View.VISIBLE
+
+                user_surname_edit_abort_btn.visibility = View.VISIBLE
             }
             R.id.user_surname_edit_save_btn -> {
 
@@ -183,6 +199,7 @@ class EditProfileActivity : AppCompatActivity(), View.OnClickListener {
                             edit_profile_user_surname_tv.visibility = View.VISIBLE
                             user_surname_edit_save_btn.visibility = View.GONE
                             user_surname_edit_btn.visibility = View.VISIBLE
+                            user_surname_edit_abort_btn.visibility = View.GONE
                         }
                     }
                 }
@@ -192,6 +209,8 @@ class EditProfileActivity : AppCompatActivity(), View.OnClickListener {
                 edit_profile_user_email_et.visibility = View.VISIBLE
                 user_email_edit_btn.visibility = View.GONE
                 user_email_edit_save_btn.visibility = View.VISIBLE
+
+                user_email_edit_abort_btn.visibility = View.VISIBLE
             }
             R.id.user_email_edit_save_btn -> {
 
@@ -234,6 +253,7 @@ class EditProfileActivity : AppCompatActivity(), View.OnClickListener {
                             edit_profile_user_email_tv.visibility = View.VISIBLE
                             user_email_edit_save_btn.visibility = View.GONE
                             user_email_edit_btn.visibility = View.VISIBLE
+                            user_email_edit_abort_btn.visibility = View.GONE
                         }
                     }
                 }
@@ -243,6 +263,8 @@ class EditProfileActivity : AppCompatActivity(), View.OnClickListener {
                 edit_profile_user_description_et.visibility = View.VISIBLE
                 user_description_edit_btn.visibility = View.GONE
                 user_description_edit_save_btn.visibility = View.VISIBLE
+
+                user_description_edit_abort_btn.visibility = View.VISIBLE
             }
             R.id.user_description_edit_save_btn -> {
 
@@ -264,6 +286,7 @@ class EditProfileActivity : AppCompatActivity(), View.OnClickListener {
                             edit_profile_user_description_tv.visibility = View.VISIBLE
                             user_description_edit_save_btn.visibility = View.GONE
                             user_description_edit_btn.visibility = View.VISIBLE
+                            user_description_edit_abort_btn.visibility = View.GONE
                         }
                     }
                 }
@@ -279,6 +302,34 @@ class EditProfileActivity : AppCompatActivity(), View.OnClickListener {
                 if(!backgroundByteArray.contentEquals(ByteArray(1))){
                     updateUserBackgroundPicture(backgroundByteArray)
                 }
+            }
+            R.id.user_name_edit_abort_btn -> {
+                edit_profile_user_name_tv.visibility = View.VISIBLE
+                edit_profile_user_name_et.visibility = View.GONE
+                user_name_edit_abort_btn.visibility = View.GONE
+                user_name_edit_save_btn.visibility = View.GONE
+                user_name_edit_btn.visibility = View.VISIBLE
+            }
+            R.id.user_surname_edit_abort_btn -> {
+                edit_profile_user_surname_tv.visibility = View.VISIBLE
+                edit_profile_user_surname_et.visibility = View.GONE
+                user_surname_edit_abort_btn.visibility = View.GONE
+                user_surname_edit_save_btn.visibility = View.GONE
+                user_surname_edit_btn.visibility = View.VISIBLE
+            }
+            R.id.user_email_edit_abort_btn -> {
+                edit_profile_user_email_tv.visibility = View.VISIBLE
+                edit_profile_user_email_et.visibility = View.GONE
+                user_email_edit_abort_btn.visibility = View.GONE
+                user_email_edit_save_btn.visibility = View.GONE
+                user_email_edit_btn.visibility = View.VISIBLE
+            }
+            R.id.user_description_edit_abort_btn -> {
+                edit_profile_user_description_tv.visibility = View.VISIBLE
+                edit_profile_user_description_et.visibility = View.GONE
+                user_description_edit_abort_btn.visibility = View.GONE
+                user_description_edit_save_btn.visibility = View.GONE
+                user_description_edit_btn.visibility = View.VISIBLE
             }
         }
     }
