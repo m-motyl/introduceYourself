@@ -33,6 +33,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.runBlocking
 import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
 import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransaction
+import org.jetbrains.exposed.sql.upperCase
 import java.io.IOException
 
 class EditProfileActivity : AppCompatActivity(), View.OnClickListener {
@@ -244,10 +245,6 @@ class EditProfileActivity : AppCompatActivity(), View.OnClickListener {
                 user_description_edit_save_btn.visibility = View.VISIBLE
             }
             R.id.user_description_edit_save_btn -> {
-                edit_profile_user_description_et.visibility = View.GONE
-                edit_profile_user_description_tv.visibility = View.VISIBLE
-                user_description_edit_save_btn.visibility = View.GONE
-                user_description_edit_btn.visibility = View.VISIBLE
 
                 if(edit_profile_user_description_tv.text.toString() != edit_profile_user_description_et.text.toString()){
                     val description = edit_profile_user_description_et.text.toString()
@@ -326,7 +323,7 @@ class EditProfileActivity : AppCompatActivity(), View.OnClickListener {
     private fun checkIfUserExists(email: String): Boolean {
         return runBlocking {
             val result = newSuspendedTransaction(Dispatchers.IO) {
-                User.find { Users.email eq email }.toList()
+                User.find { Users.email.upperCase() eq email.uppercase() }.toList()
             }
             return@runBlocking result.isNotEmpty()
         }

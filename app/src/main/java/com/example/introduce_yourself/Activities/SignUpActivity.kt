@@ -11,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.MediaStore
 import android.provider.Settings
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import com.example.introduce_yourself.Models.SignUpModel
@@ -29,6 +30,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.runBlocking
 import org.jetbrains.exposed.sql.statements.api.ExposedBlob
 import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransaction
+import org.jetbrains.exposed.sql.upperCase
 import java.io.ByteArrayOutputStream
 import java.io.IOException
 
@@ -199,7 +201,7 @@ class SignUpActivity : AppCompatActivity(), View.OnClickListener {
     private fun checkIfUserExists(email: String): Boolean {
         return runBlocking {
             val result = newSuspendedTransaction(Dispatchers.IO) {
-                User.find { Users.email eq email }.toList()
+                User.find { Users.email.upperCase() eq email.uppercase() }.toList()
             }
             return@runBlocking result.isNotEmpty()
         }
