@@ -16,8 +16,7 @@ import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.introduce_yourself.Models.UserLinksModel
 import com.example.introduce_yourself.R
-import com.example.introduce_yourself.database.User
-import com.example.introduce_yourself.database.Users
+import com.example.introduce_yourself.database.*
 import com.example.introduce_yourself.utils.byteArrayToBitmap
 import com.example.introduce_yourself.utils.currentUser
 import com.example.introduce_yourself.utils.saveImageByteArray
@@ -31,7 +30,9 @@ import kotlinx.android.synthetic.main.activity_edit_profile.*
 import kotlinx.android.synthetic.main.activity_sign_up.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.runBlocking
+import org.jetbrains.exposed.sql.SortOrder
 import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
+import org.jetbrains.exposed.sql.statements.api.ExposedBlob
 import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransaction
 import org.jetbrains.exposed.sql.upperCase
 import java.io.IOException
@@ -56,8 +57,8 @@ class EditProfileActivity : AppCompatActivity(), View.OnClickListener {
         toolbar_edit_profile.setNavigationOnClickListener {
             finish()
         }
-
-        if(currentUser != null){
+        refreshCurrentUser()
+        if (currentUser != null) {
             edit_profile_user_picture.setImageBitmap(byteArrayToBitmap(currentUser!!.profile_picture.bytes))
 
             edit_profile_user_name_tv.text = currentUser!!.name
@@ -72,12 +73,12 @@ class EditProfileActivity : AppCompatActivity(), View.OnClickListener {
             edit_profile_user_email_tv.text = currentUser!!.email
             edit_profile_user_email_et.setText(currentUser!!.email)
 
-            if(currentUser!!.background_picutre != null){
+            if (currentUser!!.background_picutre != null) {
                 edit_profile_bg_picture.setImageBitmap(byteArrayToBitmap(currentUser!!.background_picutre!!.bytes))
             }
         }
 
-//        readLinks()
+        readUserLinks()
         userLinksList.add(
             UserLinksModel("link1", "www.facebook.com")
         )
@@ -85,7 +86,7 @@ class EditProfileActivity : AppCompatActivity(), View.OnClickListener {
             UserLinksModel("link2", "www.youtube.com")
         )
 
-        if(userLinksList.size > 0){
+        if (userLinksList.size > 0) {
             linksRecyclerView(userLinksList)
         }
 //        else{
@@ -110,7 +111,7 @@ class EditProfileActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     override fun onClick(v: View?) {
-        when(v!!.id){
+        when (v!!.id) {
             R.id.user_name_edit_btn -> {
                 edit_profile_user_name_tv.visibility = View.GONE
                 edit_profile_user_name_et.visibility = View.VISIBLE
@@ -120,7 +121,7 @@ class EditProfileActivity : AppCompatActivity(), View.OnClickListener {
                 user_name_edit_abort_btn.visibility = View.VISIBLE
             }
             R.id.user_name_edit_save_btn -> {
-                if(edit_profile_user_name_tv.text.toString() != edit_profile_user_name_et.text.toString()){
+                if (edit_profile_user_name_tv.text.toString() != edit_profile_user_name_et.text.toString()) {
                     val name = edit_profile_user_name_et.text.toString()
                     when {
                         name.isNullOrEmpty() -> {
@@ -167,7 +168,7 @@ class EditProfileActivity : AppCompatActivity(), View.OnClickListener {
             }
             R.id.user_surname_edit_save_btn -> {
 
-                if(edit_profile_user_surname_tv.text.toString() != edit_profile_user_surname_et.text.toString()){
+                if (edit_profile_user_surname_tv.text.toString() != edit_profile_user_surname_et.text.toString()) {
                     val surname = edit_profile_user_surname_et.text.toString()
                     when {
                         surname.isNullOrEmpty() -> {
@@ -214,9 +215,9 @@ class EditProfileActivity : AppCompatActivity(), View.OnClickListener {
             }
             R.id.user_email_edit_save_btn -> {
 
-                if(edit_profile_user_email_tv.text.toString() != edit_profile_user_email_et.text.toString()){
+                if (edit_profile_user_email_tv.text.toString() != edit_profile_user_email_et.text.toString()) {
                     val email = edit_profile_user_email_et.text.toString()
-                    when{
+                    when {
                         email.isNullOrEmpty() -> {
                             Toast.makeText(
                                 this,
@@ -268,9 +269,9 @@ class EditProfileActivity : AppCompatActivity(), View.OnClickListener {
             }
             R.id.user_description_edit_save_btn -> {
 
-                if(edit_profile_user_description_tv.text.toString() != edit_profile_user_description_et.text.toString()){
+                if (edit_profile_user_description_tv.text.toString() != edit_profile_user_description_et.text.toString()) {
                     val description = edit_profile_user_description_et.text.toString()
-                    when{
+                    when {
                         description.length > 1000 -> {
                             Toast.makeText(
                                 this,
@@ -293,13 +294,13 @@ class EditProfileActivity : AppCompatActivity(), View.OnClickListener {
             }
             R.id.user_picture_edit_btn -> {
                 chooseFromGallery(GALLERY_P_CODE)
-                if(!profilePictureByteArray.contentEquals(ByteArray(1))){
+                if (!profilePictureByteArray.contentEquals(ByteArray(1))) {
                     updateUserProfilePicture(profilePictureByteArray)
                 }
             }
-            R.id.user_bg_picture_edit_btn ->{
+            R.id.user_bg_picture_edit_btn -> {
                 chooseFromGallery(GALLERY_BG_CODE)
-                if(!backgroundByteArray.contentEquals(ByteArray(1))){
+                if (!backgroundByteArray.contentEquals(ByteArray(1))) {
                     updateUserBackgroundPicture(backgroundByteArray)
                 }
             }
@@ -334,7 +335,7 @@ class EditProfileActivity : AppCompatActivity(), View.OnClickListener {
         }
     }
 
-    private fun linksRecyclerView(userLinks: ArrayList<UserLinksModel>){
+    private fun linksRecyclerView(userLinks: ArrayList<UserLinksModel>) {
         edit_profile_links_recycler_view.layoutManager = LinearLayoutManager(this)
         edit_profile_links_recycler_view.setHasFixedSize(true)
         val userLinks = UserLinksAdapter(this, userLinks)
@@ -357,12 +358,12 @@ class EditProfileActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     //validation
-    private fun validateName(s: String): Boolean{
+    private fun validateName(s: String): Boolean {
         val regex = ("[A-Z][a-z]+").toRegex()
         return regex.matches(s)
     }
 
-    private fun validateSurname(s: String): Boolean{
+    private fun validateSurname(s: String): Boolean {
         val regex = ("[A-Z][a-z]+([-][A-Z][a-z]+)?").toRegex()
         return regex.matches(s)
     }
@@ -380,27 +381,82 @@ class EditProfileActivity : AppCompatActivity(), View.OnClickListener {
         }
     }
 
-    //user actions TODO: WITOLD
-    private fun readUserLinks(){
-        //TODO: WITOLD find user links => userLinksList: UserLinksModel
+    private fun readUserLinks() = runBlocking {
+        newSuspendedTransaction(Dispatchers.IO) {
+            val stalked_user_links = UserLink.find { UserLinks.user eq currentUser!!.id }
+                .orderBy(UserLinks.position to SortOrder.ASC).toList()
+            if (stalked_user_links.isNotEmpty())
+                for (i in stalked_user_links)
+                    userLinksList.add(UserLinksModel(title = i.label.name, link = i.link))
+        }
     }
-    private fun updateUserName(s: String){
-        Log.e("updateUserName", s)
+
+    private fun refreshCurrentUser() = runBlocking {
+        newSuspendedTransaction(Dispatchers.IO) {
+            currentUser = User.findById(currentUser!!.id)
+        }
     }
-    private fun updateUserSurname(s: String){
-        Log.e("updateUserSurname", s)
+
+    private fun updateUserName(s: String) = runBlocking {
+        newSuspendedTransaction(Dispatchers.IO) {
+            User.findById(currentUser!!.id)!!.name = s
+        }
     }
-    private fun updateUserEmail(s: String){
-        Log.e("updateUserEmail", s)
+
+    private fun updateUserSurname(s: String) = runBlocking {
+        newSuspendedTransaction(Dispatchers.IO) {
+            User.findById(currentUser!!.id)!!.surname = s
+        }
     }
-    private fun updateUserDescription(s: String){
-        Log.e("updateUserDescription", s)
+
+    private fun updateUserEmail(s: String) = runBlocking {
+        newSuspendedTransaction(Dispatchers.IO) {
+            User.findById(currentUser!!.id)!!.email = s
+        }
     }
-    private fun updateUserProfilePicture(ba: ByteArray){
-        Log.e("updateUserProfilePicture", "ok")
+
+    private fun updateUserDescription(s: String) = runBlocking {
+        newSuspendedTransaction(Dispatchers.IO) {
+            User.findById(currentUser!!.id)!!.description = s
+        }
     }
-    private fun updateUserBackgroundPicture(ba: ByteArray){
-        Log.e("updateUserBackgroundPicture", "ok")
+
+    private fun updateUserProfilePicture(ba: ByteArray) = runBlocking {
+        newSuspendedTransaction(Dispatchers.IO) {
+            User.findById(currentUser!!.id)!!.profile_picture = ExposedBlob(ba)
+        }
+    }
+
+    private fun updateUserBackgroundPicture(ba: ByteArray) = runBlocking {
+        newSuspendedTransaction(Dispatchers.IO) {
+            User.findById(currentUser!!.id)!!.background_picutre = ExposedBlob(ba)
+        }
+    }
+
+    private fun checkIfLabLinkOg(x: UserLinksModel): Boolean
+            = userLinksList.any { i -> i.link == x.link && i.title == x.title }
+
+
+    private fun addUserLink(x: UserLinksModel) = runBlocking {
+        newSuspendedTransaction(Dispatchers.IO) {
+            val label_check = LinkLabel.find { LinkLabels.name eq x.title }.toList()
+            if (label_check.isEmpty()) {
+                UserLink.new {
+                    link = x.link
+                    position = userLinksList.size
+                    label = LinkLabel.new { name = x.title }
+                    user = currentUser!!
+                }
+            } else {
+                UserLink.new {
+                    link = x.link
+                    position = userLinksList.size
+                    label = label_check[0]
+                    user = currentUser!!
+                }
+            }
+            userLinksList.add(UserLinksModel(x.title, x.link))
+        }
     }
 
     //choosing image from gallery
@@ -426,6 +482,7 @@ class EditProfileActivity : AppCompatActivity(), View.OnClickListener {
                         )
                     }
                 }
+
                 override fun onPermissionRationaleShouldBeShown(
                     permissions: MutableList<PermissionRequest>?,
                     token: PermissionToken?
@@ -456,6 +513,7 @@ class EditProfileActivity : AppCompatActivity(), View.OnClickListener {
                 dialog.dismiss()
             }.show()
     }
+
     public override fun onActivityResult(
         requestCode: Int,
         resultCode: Int,

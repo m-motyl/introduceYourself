@@ -17,6 +17,7 @@ import com.recyclerviewapp.UserLinksAdapter
 import kotlinx.android.synthetic.main.activity_user_item.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.runBlocking
+import org.jetbrains.exposed.sql.SortOrder
 import org.jetbrains.exposed.sql.select
 import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransaction
 
@@ -44,10 +45,10 @@ class UserItemActivity : AppCompatActivity() {
         if (readUserModel != null) {
             readFullUser()
 
-            if(stalked_user != null){
+            if (stalked_user != null) {
                 supportActionBar!!.title = stalked_user!!.email
                 user_item_user_picture.setImageBitmap(byteArrayToBitmap(stalked_user!!.profile_picture.bytes))
-                if(stalked_user!!.background_picutre != null){
+                if (stalked_user!!.background_picutre != null) {
                     user_item_bg_picture.setImageBitmap(byteArrayToBitmap(stalked_user!!.background_picutre!!.bytes))
                 }
                 user_item_user_name.text = stalked_user!!.name
@@ -58,7 +59,7 @@ class UserItemActivity : AppCompatActivity() {
 
             if (userLinksList.size > 0) {
                 usersLinksRecyclerView(userLinksList)
-            }else{
+            } else {
                 user_item_no_links_tv.visibility = View.VISIBLE
                 user_item_links_recycler_view.visibility = View.GONE
             }
@@ -90,7 +91,8 @@ class UserItemActivity : AppCompatActivity() {
     private fun readFullUser() = runBlocking {
         newSuspendedTransaction(Dispatchers.IO) {
             stalked_user = User.findById(readUserModel!!.id)
-            val stalked_user_links = UserLink.find { UserLinks.user eq stalked_user!!.id }.toList()
+            val stalked_user_links = UserLink.find { UserLinks.user eq stalked_user!!.id }
+                .orderBy(UserLinks.position to SortOrder.ASC).toList()
             if (stalked_user_links.isNotEmpty())
                 for (i in stalked_user_links)
                     userLinksList.add(UserLinksModel(title = i.label.name, link = i.link))
