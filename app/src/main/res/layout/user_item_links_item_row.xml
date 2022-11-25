@@ -6,7 +6,7 @@
     android:layout_height="wrap_content">
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/user_item_card_view_link"
+        android:id="@+id/user_item_link_card_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="5dp"
@@ -15,7 +15,6 @@
         app:cardElevation="3dp">
 
         <LinearLayout
-            android:id="@+id/user_item_card_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
@@ -23,7 +22,6 @@
             tools:ignore="UseCompoundDrawables"
             android:padding="5dp"
             android:background="@color/white">
-            <!--for card bg color changing-->
 
             <ImageView
                 android:id="@+id/user_item_link_icon"

@@ -6,7 +6,7 @@
     android:layout_height="wrap_content">
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/edit_profile_card_view_link"
+        android:id="@+id/edit_profile_link_card_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="5dp"
@@ -15,7 +15,6 @@
         app:cardElevation="3dp">
 
         <LinearLayout
-            android:id="@+id/edit_profile_card_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
@@ -23,7 +22,6 @@
             tools:ignore="UseCompoundDrawables"
             android:padding="5dp"
             android:background="@color/white">
-            <!--for card bg color changing-->
 
             <ImageView
                 android:id="@+id/edit_profile_link_icon"
@@ -64,7 +62,7 @@
 
 <!--            TODO: Mateusz add delete link onclick-->
             <ImageView
-                android:id="@+id/edit_profile_delete_link"
+                android:id="@+id/edit_profile_delete_link_btn"
                 android:layout_width="@dimen/link_icon_size"
                 android:layout_height="@dimen/link_icon_size"
                 android:src="@drawable/ic_outline_delete_24"

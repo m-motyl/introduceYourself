@@ -47,13 +47,15 @@
                     android:id="@+id/user_item_user_picture"
                     android:layout_width="@dimen/user_item_profile_picture_size"
                     android:layout_height="@dimen/user_item_profile_picture_size"
-                    android:layout_centerVertical="true"
-                    android:layout_centerHorizontal="true"
-                    android:layout_margin="@dimen/standard_page_padding"
+                    android:layout_centerInParent="true"
+                    android:layout_marginStart="@dimen/standard_page_padding"
+                    android:layout_marginTop="@dimen/standard_page_padding"
+                    android:layout_marginEnd="@dimen/standard_page_padding"
+                    android:layout_marginBottom="@dimen/standard_page_padding"
                     android:contentDescription="Profile picture"
                     android:src="@drawable/add_screen_image_placeholder"
-                    app:civ_border_width="@dimen/nav_header_user_picture_border"
-                    app:civ_border_color="@color/nav_header_user_picture_border"/>
+                    app:civ_border_color="@color/user_picture_border"
+                    app:civ_border_width="@dimen/user_picture_border" />
             </RelativeLayout>
 
             <View
@@ -125,6 +127,51 @@
                     android:hint="@string/user_item_no_user_description_yet"
                     android:text="@string/user_description_sample"
                     android:textColor="@color/text_dark" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/underline" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/standard_page_padding"
+                android:orientation="vertical"
+                android:gravity="center_horizontal"
+                android:background="@color/user_item_background">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/user_item_text_size"
+                    android:text="@string/user_posts_title"
+                    android:textColor="@color/text_dark" />
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/user_item_no_posts_tv"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentTop="true"
+                        android:layout_alignParentStart="true"
+                        android:textSize="@dimen/user_item_text_size"
+                        android:hint="@string/user_item_no_posts_yet"
+                        android:visibility="gone"/>
+
+<!--                    TODO: Mateusz posts in user item-->
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/user_item_posts_recycler_view"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentTop="true"
+                        android:layout_alignParentStart="true"
+                        android:visibility="visible"/>
+                </RelativeLayout>
             </LinearLayout>
 
             <View

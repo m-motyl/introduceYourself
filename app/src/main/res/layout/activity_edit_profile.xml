@@ -66,8 +66,8 @@
                         android:layout_height="@dimen/user_item_profile_picture_size"
                         android:contentDescription="Profile picture"
                         android:src="@drawable/add_screen_image_placeholder"
-                        app:civ_border_color="@color/nav_header_user_picture_border"
-                        app:civ_border_width="@dimen/nav_header_user_picture_border"
+                        app:civ_border_color="@color/user_picture_border"
+                        app:civ_border_width="@dimen/user_picture_border"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent" />
 
@@ -165,7 +165,7 @@
                             android:layout_toEndOf="@+id/user_name_edit_save_btn"
                             android:layout_alignParentTop="true"
                             android:contentDescription="User name edit abort button"
-                            android:src="@drawable/ic_outline_delete_24"
+                            android:src="@drawable/ic_baseline_settings_backup_restore_24"
                             android:visibility="gone" />
                     </RelativeLayout>
                 </LinearLayout>
@@ -239,7 +239,7 @@
                             android:layout_toEndOf="@+id/user_surname_edit_save_btn"
                             android:layout_alignParentTop="true"
                             android:contentDescription="User surname edit abort button"
-                            android:src="@drawable/ic_outline_delete_24"
+                            android:src="@drawable/ic_baseline_settings_backup_restore_24"
                             android:visibility="gone" />
                     </RelativeLayout>
                 </LinearLayout>
@@ -313,7 +313,7 @@
                             android:layout_toEndOf="@+id/user_email_edit_save_btn"
                             android:layout_alignParentTop="true"
                             android:contentDescription="User email edit abort button"
-                            android:src="@drawable/ic_outline_delete_24"
+                            android:src="@drawable/ic_baseline_settings_backup_restore_24"
                             android:visibility="gone" />
                     </RelativeLayout>
                 </LinearLayout>
@@ -380,7 +380,7 @@
                             android:layout_toEndOf="@+id/user_description_edit_save_btn"
                             android:layout_alignParentTop="true"
                             android:contentDescription="User description edit abort button"
-                            android:src="@drawable/ic_outline_delete_24"
+                            android:src="@drawable/ic_baseline_settings_backup_restore_24"
                             android:visibility="gone" />
                     </RelativeLayout>
                 </LinearLayout>
@@ -429,6 +429,70 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:textSize="@dimen/user_item_text_size"
+                    android:text="@string/user_posts_title"
+                    android:textColor="@color/text_dark" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+<!--                    TODO: Mateusz add post-->
+                    <EditText
+                        android:id="@+id/edit_profile_add_post_title"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Tytuł posta"
+                        android:inputType="text" />
+
+                    <ImageView
+                        android:id="@+id/edit_profile_add_post_image"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:adjustViewBounds="true"
+                        android:contentDescription="Post image"
+                        android:maxHeight="@dimen/post_image_max_height"
+                        android:src="@drawable/add_screen_image_placeholder" />
+
+                    <EditText
+                        android:id="@+id/edit_profile_add_post_text"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Treść posta"
+                        android:inputType="text"/>
+
+                    <ImageView
+                        android:id="@+id/edit_profile_add_post_btn"
+                        android:layout_width="@dimen/user_edit_text_icon_size"
+                        android:layout_height="@dimen/user_edit_text_icon_size"
+                        android:src="@drawable/ic_baseline_add_24" />
+                </LinearLayout>
+
+<!--                TODO: Mateusz posts in edit profile-->
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/edit_profile_posts_recycler_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:visibility="visible"/>
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/underline" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/standard_page_padding"
+                android:orientation="vertical"
+                android:gravity="center_horizontal"
+                android:background="@color/user_item_background">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:textSize="@dimen/user_item_title_size"
                     android:text="@string/user_links_title"
                     android:textColor="@color/text_dark" />
@@ -446,7 +510,7 @@
                         android:inputType="text" />
 
                     <EditText
-                        android:id="@+id/edit_profile_add_link"
+                        android:id="@+id/edit_profile_add_link_url"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="Link"
@@ -457,14 +521,13 @@
                         android:layout_width="@dimen/user_edit_text_icon_size"
                         android:layout_height="@dimen/user_edit_text_icon_size"
                         android:src="@drawable/ic_baseline_add_24" />
-
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/edit_profile_links_recycler_view"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:visibility="visible"/>
-
                 </LinearLayout>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/edit_profile_links_recycler_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:visibility="visible"/>
             </LinearLayout>
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>

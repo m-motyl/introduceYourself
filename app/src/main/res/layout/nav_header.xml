@@ -14,8 +14,8 @@
         android:layout_marginLeft="@dimen/standard_page_padding"
         android:contentDescription="Profile picture"
         android:src="@drawable/ic_launcher_background"
-        app:civ_border_width="@dimen/nav_header_user_picture_border"
-        app:civ_border_color="@color/nav_header_user_picture_border"/>
+        app:civ_border_width="@dimen/user_picture_border"
+        app:civ_border_color="@color/user_picture_border"/>
 
     <TextView
         android:id="@+id/nav_header_user_name"
