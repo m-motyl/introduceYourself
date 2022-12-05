@@ -302,6 +302,7 @@ class EditProfileActivity : AppCompatActivity(), View.OnClickListener {
             R.id.user_bg_picture_edit_btn -> {
                 chooseFromGallery(GALLERY_BG_CODE)
                 if (!backgroundByteArray.contentEquals(ByteArray(1))) {
+                    Log.e("aaa", "AAAAA")
                     updateUserBackgroundPicture(backgroundByteArray)
                 }
             }
@@ -674,6 +675,9 @@ class EditProfileActivity : AppCompatActivity(), View.OnClickListener {
                             )
                         profilePictureByteArray = saveImageByteArray(selectedImage)
                         edit_profile_user_picture.setImageBitmap(selectedImage)
+                        if (!profilePictureByteArray.contentEquals(ByteArray(1))) {
+                            updateUserProfilePicture(profilePictureByteArray)
+                        }
                     } catch (e: IOException) {
                         e.printStackTrace()
                         Toast.makeText(
@@ -695,6 +699,9 @@ class EditProfileActivity : AppCompatActivity(), View.OnClickListener {
                             )
                         backgroundByteArray = saveImageByteArray(selectedImage)
                         edit_profile_bg_picture.setImageBitmap(selectedImage)
+                        if (!backgroundByteArray.contentEquals(ByteArray(1))) {
+                            updateUserBackgroundPicture(backgroundByteArray)
+                        }
                     } catch (e: IOException) {
                         e.printStackTrace()
                         Toast.makeText(

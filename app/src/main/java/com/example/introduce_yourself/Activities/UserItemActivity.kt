@@ -57,7 +57,7 @@ class UserItemActivity : AppCompatActivity() {
                     user_item_bg_picture.setImageBitmap(byteArrayToBitmap(stalked_user!!.background_picutre!!.bytes))
                 }
                 user_item_user_name.text = stalked_user!!.name
-                user_item_user_surname.text = stalked_user!!.name
+                user_item_user_surname.text = stalked_user!!.surname
                 user_item_user_email.text = stalked_user!!.email
                 user_item_user_description.text = stalked_user!!.description
             }

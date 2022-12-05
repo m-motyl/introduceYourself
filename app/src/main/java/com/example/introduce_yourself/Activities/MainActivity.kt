@@ -89,17 +89,31 @@ class MainActivity : AppCompatActivity(){
             true
         }
 
-        getUsersList()
-        if (readUserModelList.size > 0){
-            usersRecyclerView(readUserModelList)
-        }
-
+//        getUsersList()
+//        if (readUserModelList.size > 0){
+//            usersRecyclerView(readUserModelList)
+//        }
+//
+//        if(currentUser != null){
+//            headerLayout.nav_header_user_picture.setImageBitmap(byteArrayToBitmap(currentUser!!.profile_picture.bytes))
+//            headerLayout.nav_header_user_name.text = currentUser!!.name + " " + currentUser!!.surname
+//            headerLayout.nav_header_user_email.text = currentUser!!.email
+//        }
+    }
+    override fun onResume() {
+        super.onResume()
+        refreshCurrentUser()
         if(currentUser != null){
             headerLayout.nav_header_user_picture.setImageBitmap(byteArrayToBitmap(currentUser!!.profile_picture.bytes))
             headerLayout.nav_header_user_name.text = currentUser!!.name + " " + currentUser!!.surname
             headerLayout.nav_header_user_email.text = currentUser!!.email
         }
 
+        readUserModelList.clear()
+        getUsersList()
+        if (readUserModelList.size > 0){
+            usersRecyclerView(readUserModelList)
+        }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -151,5 +165,10 @@ class MainActivity : AppCompatActivity(){
                     profile_picture = i.profile_picture.bytes
                 )
             )
+    }
+    private fun refreshCurrentUser() = runBlocking {
+        newSuspendedTransaction(Dispatchers.IO) {
+            currentUser = User.findById(currentUser!!.id)
+        }
     }
 }
