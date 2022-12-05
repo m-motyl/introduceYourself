@@ -6,6 +6,9 @@
             android:id="@+id/nav_edit_profile"
             android:title="Edytuj profil" />
         <item
+            android:id="@+id/nav_user_qr"
+            android:title="Kod QR" />
+        <item
             android:id="@+id/nav_signout"
             android:title="Wyloguj" />
 

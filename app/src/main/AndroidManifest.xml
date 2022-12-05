@@ -14,6 +14,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Introduce_yourself">
         <activity
+            android:name=".Activities.UserQrActivity"
+            android:exported="true" />
+        <activity
             android:name=".Activities.EditProfileActivity"
             android:exported="true" />
         <activity

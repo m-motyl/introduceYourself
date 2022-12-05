@@ -41,6 +41,7 @@ class EditProfileActivity : AppCompatActivity(), View.OnClickListener {
     private var userLinksList = ArrayList<UserLinksModel>()
     private var backgroundByteArray: ByteArray = ByteArray(1)
     private var profilePictureByteArray: ByteArray = ByteArray(1)
+    private var remove: Boolean = false
 
     companion object {
         const val GALLERY_P_CODE = 1
@@ -89,10 +90,6 @@ class EditProfileActivity : AppCompatActivity(), View.OnClickListener {
         if (userLinksList.size > 0) {
             linksRecyclerView(userLinksList)
         }
-//        else{
-//            edit_profile_no_links_tv.visibility = View.VISIBLE
-//            edit_profile_links_recycler_view.visibility = View.GONE
-//        }
 
         user_name_edit_btn.setOnClickListener(this)
         user_name_edit_save_btn.setOnClickListener(this)
@@ -108,6 +105,9 @@ class EditProfileActivity : AppCompatActivity(), View.OnClickListener {
         user_surname_edit_abort_btn.setOnClickListener(this)
         user_email_edit_abort_btn.setOnClickListener(this)
         user_description_edit_abort_btn.setOnClickListener(this)
+        edit_profile_add_link_btn.setOnClickListener(this)
+        edit_profile_remove_link_btn.setOnClickListener(this)
+        edit_profile_remove_link_abort_btn.setOnClickListener(this)
     }
 
     override fun onClick(v: View?) {
@@ -332,6 +332,70 @@ class EditProfileActivity : AppCompatActivity(), View.OnClickListener {
                 user_description_edit_save_btn.visibility = View.GONE
                 user_description_edit_btn.visibility = View.VISIBLE
             }
+            R.id.edit_profile_add_link_btn -> {
+                when {
+                    edit_profile_add_link_title.text.toString().isNullOrEmpty() -> {
+                        Toast.makeText(
+                            this,
+                            "Tytuł linku nie może być pusty!",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                    edit_profile_add_link_title.text.toString().length > 20 ||
+                            edit_profile_add_link_title.text.toString().length < 2 -> {
+                        Toast.makeText(
+                            this,
+                            "Długość tytułu linku powinna mieć od 2 do 20 znaków!",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                    edit_profile_add_link_url.text.toString().isNullOrEmpty() -> {
+                        Toast.makeText(
+                            this,
+                            "Link nie może być pusty!",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                    edit_profile_add_link_url.text.toString().length > 100 ||
+                            edit_profile_add_link_title.text.toString().length < 5 -> {
+                        Toast.makeText(
+                            this,
+                            "Link może zawierać od 2 do 100 znaków!",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    } //TODO: Mateusz regex url validation
+                    else -> {
+                        val ulm = UserLinksModel(
+                            edit_profile_add_link_title.text.toString(),
+                            edit_profile_add_link_url.text.toString())
+                        if(checkIfLabLinkOg(ulm)){
+                            Toast.makeText(
+                                this,
+                                "Wprowadzony link już istnieje!",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }else {
+                            addUserLink(ulm)
+                            userLinksList.clear()
+                            edit_profile_add_link_title.text.clear()
+                            edit_profile_add_link_url.text.clear()
+
+                            readUserLinks()
+                            linksRecyclerView(userLinksList)
+                        }
+                    }
+                }
+            }
+            R.id.edit_profile_remove_link_btn -> {
+                remove = true
+                edit_profile_remove_link_btn.visibility = View.GONE
+                edit_profile_remove_link_abort_btn.visibility = View.VISIBLE
+            }
+            R.id.edit_profile_remove_link_abort_btn -> {
+                remove = false
+                edit_profile_remove_link_btn.visibility = View.VISIBLE
+                edit_profile_remove_link_abort_btn.visibility = View.GONE
+            }
         }
     }
 
@@ -343,16 +407,34 @@ class EditProfileActivity : AppCompatActivity(), View.OnClickListener {
 
         userLinks.setOnClickListener(object : UserLinksAdapter.OnClickListener {
             override fun onClick(position: Int, model: UserLinksModel) {
+                if(remove){
+                    removeLink(model)
+                }
+                else {
+                    val alert = AlertDialog.Builder(this@EditProfileActivity)
+                    alert.setTitle("Czy chcesz otworzyć ${model.link}?")
+                    val items = arrayOf(
+                        "Tak",
+                        "Nie"
+                    )
+                    alert.setItems(items) { _, n ->
+                        when (n) {
+                            0 -> {
+                                var link = model.link
+                                if (!link.startsWith("http://") && !link.startsWith("https://"))
+                                    link = "http://$link"
 
-                var link = model.link
-                if (!link.startsWith("http://") && !link.startsWith("https://"))
-                    link = "http://$link"
-
-                val intent = Intent(
-                    Intent.ACTION_VIEW,
-                    Uri.parse(link)
-                )
-                startActivity(intent)
+                                val intent = Intent(
+                                    Intent.ACTION_VIEW,
+                                    Uri.parse(link)
+                                )
+                                startActivity(intent)
+                            }
+                            1 -> {}
+                        }
+                    }
+                    alert.show()
+                }
             }
         })
     }
@@ -433,8 +515,9 @@ class EditProfileActivity : AppCompatActivity(), View.OnClickListener {
         }
     }
 
-    private fun checkIfLabLinkOg(x: UserLinksModel): Boolean
-            = userLinksList.any { i -> i.link == x.link && i.title == x.title }
+    private fun checkIfLabLinkOg(x: UserLinksModel): Boolean //TODO: WITOLD split
+            = userLinksList.any { i -> i.link.lowercase() == x.link.lowercase()
+            && i.title.lowercase() == x.title.lowercase() }
 
 
     private fun addUserLink(x: UserLinksModel) = runBlocking {
@@ -568,5 +651,8 @@ class EditProfileActivity : AppCompatActivity(), View.OnClickListener {
                 }
             }
         }
+    }
+    private fun removeLink(model: UserLinksModel) { //TODO: WITOLD REMOVE LINK
+        Log.e("model: ", model.toString())
     }
 }

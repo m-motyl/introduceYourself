@@ -1,5 +1,6 @@
 package com.example.introduce_yourself.Activities
 
+import android.app.AlertDialog
 import android.content.Intent
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
@@ -74,16 +75,29 @@ class UserItemActivity : AppCompatActivity() {
 
         userLinks.setOnClickListener(object : UserLinksAdapter.OnClickListener {
             override fun onClick(position: Int, model: UserLinksModel) {
-
-                var link = model.link
-                if (!link.startsWith("http://") && !link.startsWith("https://"))
-                    link = "http://$link"
-
-                val intent = Intent(
-                    Intent.ACTION_VIEW,
-                    Uri.parse(link)
+                val alert = AlertDialog.Builder(this@UserItemActivity)
+                alert.setTitle("Czy chcesz otworzyć ${model.link}?")
+                val items = arrayOf(
+                    "Tak",
+                    "Nie"
                 )
-                startActivity(intent)
+                alert.setItems(items) { _, n ->
+                    when (n) {
+                        0 -> {
+                            var link = model.link
+                            if (!link.startsWith("http://") && !link.startsWith("https://"))
+                                link = "http://$link"
+
+                            val intent = Intent(
+                                Intent.ACTION_VIEW,
+                                Uri.parse(link)
+                            )
+                            startActivity(intent)
+                        }
+                        1 -> {}
+                    }
+                }
+                alert.show()
             }
         })
     }
