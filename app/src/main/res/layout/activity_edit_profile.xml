@@ -438,7 +438,6 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
 
-<!--                    TODO: Mateusz add post-->
                     <EditText
                         android:id="@+id/edit_profile_add_post_title"
                         android:layout_width="match_parent"

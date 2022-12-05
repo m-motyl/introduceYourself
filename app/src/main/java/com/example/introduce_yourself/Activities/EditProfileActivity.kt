@@ -17,7 +17,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.introduce_yourself.Models.UserLinksModel
 import com.example.introduce_yourself.Models.UserPostModel
 import com.example.introduce_yourself.R
-import com.example.introduce_yourself.adapters.UserPostsAdapter
+import com.example.introduce_yourself.adapters.UserEditPostsAdapter
 import com.example.introduce_yourself.database.*
 import com.example.introduce_yourself.utils.byteArrayToBitmap
 import com.example.introduce_yourself.utils.currentUser
@@ -33,7 +33,6 @@ import kotlinx.android.synthetic.main.activity_sign_up.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.runBlocking
 import org.jetbrains.exposed.sql.SortOrder
-import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
 import org.jetbrains.exposed.sql.statements.api.ExposedBlob
 import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransaction
 import org.jetbrains.exposed.sql.upperCase
@@ -86,6 +85,7 @@ class EditProfileActivity : AppCompatActivity(), View.OnClickListener {
         if (userLinksList.size > 0) {
             linksRecyclerView(userLinksList)
         }
+
         readUserPosts()
         if (userPostsList.size > 0) {
            postsRecyclerView(userPostsList)
@@ -481,14 +481,14 @@ class EditProfileActivity : AppCompatActivity(), View.OnClickListener {
             }
         })
     }
-    private fun postsRecyclerView(userPosts: ArrayList<UserPostModel>) { //TODO: MATEUSZ posts
+    private fun postsRecyclerView(userPosts: ArrayList<UserPostModel>) {
 
         edit_profile_posts_recycler_view.layoutManager = LinearLayoutManager(this)
         edit_profile_posts_recycler_view.setHasFixedSize(true)
-        val userPosts = UserPostsAdapter(this, userPosts)
+        val userPosts = UserEditPostsAdapter(this, userPosts)
         edit_profile_posts_recycler_view.adapter = userPosts
 
-        userPosts.setOnClickListener(object : UserPostsAdapter.OnClickListener {
+        userPosts.setOnClickListener(object : UserEditPostsAdapter.OnClickListener {
             override fun onClick(position: Int, model: UserPostModel) {
             }
         })
@@ -570,9 +570,9 @@ class EditProfileActivity : AppCompatActivity(), View.OnClickListener {
         }
     }
 
-    private fun checkIfLabLinkOg(x: UserLinksModel): Boolean //TODO: WITOLD split
+    private fun checkIfLabLinkOg(x: UserLinksModel): Boolean
             = userLinksList.any { i -> i.link.lowercase() == x.link.lowercase()
-            && i.title.lowercase() == x.title.lowercase() }
+            || i.title.lowercase() == x.title.lowercase() }
 
 
     private fun addUserLink(x: UserLinksModel) = runBlocking {

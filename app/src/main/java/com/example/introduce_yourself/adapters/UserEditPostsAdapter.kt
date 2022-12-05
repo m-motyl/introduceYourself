@@ -10,9 +10,8 @@ import com.example.introduce_yourself.Models.UserPostModel
 import com.example.introduce_yourself.R
 import kotlinx.android.synthetic.main.edit_profile_posts_item_row.view.*
 import kotlinx.android.synthetic.main.user_item_links_item_row.view.*
-import kotlinx.android.synthetic.main.user_item_posts_item_row.view.*
 
-open class UserPostsAdapter(
+open class UserEditPostsAdapter(
     private val context: Context,
     private var listOfUsers: ArrayList<UserPostModel>
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
@@ -26,7 +25,7 @@ open class UserPostsAdapter(
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return OwnViewHolder(
             LayoutInflater.from(context).inflate(
-                R.layout.user_item_posts_item_row, parent, false
+                R.layout.edit_profile_posts_item_row, parent, false
             )
         )
     }
@@ -34,9 +33,9 @@ open class UserPostsAdapter(
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val ptr = listOfUsers[position]
         if (holder is OwnViewHolder) {
-            holder.itemView.user_item_post_title.text = ptr.post_title
-            holder.itemView.user_item_post_text.text = ptr.post_context
-            holder.itemView.user_item_post_date.text = ptr.date
+            holder.itemView.edit_profile_post_title_tv.text = ptr.post_title
+            holder.itemView.edit_profile_post_text_tv.text = ptr.post_context
+            holder.itemView.edit_profile_post_date.text = ptr.date
 
             holder.itemView.setOnClickListener {
                 if (onClickListener != null) {

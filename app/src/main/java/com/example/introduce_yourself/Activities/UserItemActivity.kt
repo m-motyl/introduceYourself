@@ -10,7 +10,9 @@ import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.introduce_yourself.Models.ReadUserModel
 import com.example.introduce_yourself.Models.UserLinksModel
+import com.example.introduce_yourself.Models.UserPostModel
 import com.example.introduce_yourself.R
+import com.example.introduce_yourself.adapters.UserPostsAdapter
 import com.example.introduce_yourself.database.*
 import com.example.introduce_yourself.utils.byteArrayToBitmap
 import com.example.introduce_yourself.utils.currentUser
@@ -21,10 +23,12 @@ import kotlinx.coroutines.runBlocking
 import org.jetbrains.exposed.sql.SortOrder
 import org.jetbrains.exposed.sql.select
 import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransaction
+import java.time.LocalDateTime
 
 class UserItemActivity : AppCompatActivity() {
     private var readUserModel: ReadUserModel? = null
     private var userLinksList = ArrayList<UserLinksModel>()
+    private var userPostsList = ArrayList<UserPostModel>()
     private var stalked_user: User? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -64,6 +68,15 @@ class UserItemActivity : AppCompatActivity() {
                 user_item_no_links_tv.visibility = View.VISIBLE
                 user_item_links_recycler_view.visibility = View.GONE
             }
+
+            readUserPosts()
+            if (userPostsList.size > 0) {
+                postsRecyclerView(userPostsList)
+            }else {
+                user_item_no_posts_tv.visibility = View.VISIBLE
+                user_item_posts_recycler_view.visibility = View.GONE
+            }
+
         }
     }
 
@@ -102,6 +115,19 @@ class UserItemActivity : AppCompatActivity() {
         })
     }
 
+    private fun postsRecyclerView(userPosts: ArrayList<UserPostModel>) {
+
+        user_item_posts_recycler_view.layoutManager = LinearLayoutManager(this)
+        user_item_posts_recycler_view.setHasFixedSize(true)
+        val userPosts = UserPostsAdapter(this, userPosts)
+        user_item_posts_recycler_view.adapter = userPosts
+
+        userPosts.setOnClickListener(object : UserPostsAdapter.OnClickListener {
+            override fun onClick(position: Int, model: UserPostModel) {
+            }
+        })
+    }
+
     private fun readFullUser() = runBlocking {
         newSuspendedTransaction(Dispatchers.IO) {
             stalked_user = User.findById(readUserModel!!.id)
@@ -112,4 +138,8 @@ class UserItemActivity : AppCompatActivity() {
                     userLinksList.add(UserLinksModel(title = i.label.name, link = i.link))
         }
     }
+    private fun readUserPosts() {
+        userPostsList.add(UserPostModel("Mateusz", "Motyl", LocalDateTime.now().toString()))
+    } //TODO: WITOLD READ USER POSTS
+
 }
