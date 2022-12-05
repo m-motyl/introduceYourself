@@ -53,6 +53,5 @@ class UserQrActivity : AppCompatActivity() {
         } catch (e: Exception) {
             e.printStackTrace()
         }
-
     }
 }

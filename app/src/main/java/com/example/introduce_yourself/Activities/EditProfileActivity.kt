@@ -15,7 +15,9 @@ import android.view.View
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.introduce_yourself.Models.UserLinksModel
+import com.example.introduce_yourself.Models.UserPostModel
 import com.example.introduce_yourself.R
+import com.example.introduce_yourself.adapters.UserPostsAdapter
 import com.example.introduce_yourself.database.*
 import com.example.introduce_yourself.utils.byteArrayToBitmap
 import com.example.introduce_yourself.utils.currentUser
@@ -36,9 +38,11 @@ import org.jetbrains.exposed.sql.statements.api.ExposedBlob
 import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransaction
 import org.jetbrains.exposed.sql.upperCase
 import java.io.IOException
+import java.time.LocalDateTime
 
 class EditProfileActivity : AppCompatActivity(), View.OnClickListener {
     private var userLinksList = ArrayList<UserLinksModel>()
+    private var userPostsList = ArrayList<UserPostModel>()
     private var backgroundByteArray: ByteArray = ByteArray(1)
     private var profilePictureByteArray: ByteArray = ByteArray(1)
     private var remove: Boolean = false
@@ -78,17 +82,13 @@ class EditProfileActivity : AppCompatActivity(), View.OnClickListener {
                 edit_profile_bg_picture.setImageBitmap(byteArrayToBitmap(currentUser!!.background_picutre!!.bytes))
             }
         }
-
         readUserLinks()
-        userLinksList.add(
-            UserLinksModel("link1", "www.facebook.com")
-        )
-        userLinksList.add(
-            UserLinksModel("link2", "www.youtube.com")
-        )
-
         if (userLinksList.size > 0) {
             linksRecyclerView(userLinksList)
+        }
+        readUserPosts()
+        if (userPostsList.size > 0) {
+           postsRecyclerView(userPostsList)
         }
 
         user_name_edit_btn.setOnClickListener(this)
@@ -108,6 +108,7 @@ class EditProfileActivity : AppCompatActivity(), View.OnClickListener {
         edit_profile_add_link_btn.setOnClickListener(this)
         edit_profile_remove_link_btn.setOnClickListener(this)
         edit_profile_remove_link_abort_btn.setOnClickListener(this)
+        edit_profile_add_post_btn.setOnClickListener(this)
     }
 
     override fun onClick(v: View?) {
@@ -396,6 +397,48 @@ class EditProfileActivity : AppCompatActivity(), View.OnClickListener {
                 edit_profile_remove_link_btn.visibility = View.VISIBLE
                 edit_profile_remove_link_abort_btn.visibility = View.GONE
             }
+            R.id.edit_profile_add_post_btn -> {
+                when {
+                    edit_profile_add_post_title.text.toString().isNullOrEmpty() -> {
+                        Toast.makeText(
+                            this,
+                            "Tytuł postu nie może być pusty!",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                    edit_profile_add_post_title.text.toString().length > 50
+                            || edit_profile_add_post_title.text.toString().length < 5  -> {
+                        Toast.makeText(
+                            this,
+                            "Tytuł postu musi zawieraćod 5 do 50 liter!",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                    edit_profile_add_post_text.text.toString().isNullOrEmpty() -> {
+                        Toast.makeText(
+                            this,
+                            "Post nie może być pusty!",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                    edit_profile_add_post_text.text.toString().length > 300
+                            || edit_profile_add_post_text.text.toString().length < 5  -> {
+                        Toast.makeText(
+                            this,
+                            "Post musi zawirać od 5 do 300 liter!",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                    else -> {
+                        val upm = UserPostModel(
+                            edit_profile_add_post_title.text.toString(),
+                            edit_profile_add_post_text.text.toString(),
+                            LocalDateTime.now().toString()
+                        )
+                        addPostToDB(upm)
+                    }
+                }
+            }
         }
     }
 
@@ -435,6 +478,18 @@ class EditProfileActivity : AppCompatActivity(), View.OnClickListener {
                     }
                     alert.show()
                 }
+            }
+        })
+    }
+    private fun postsRecyclerView(userPosts: ArrayList<UserPostModel>) { //TODO: MATEUSZ posts
+
+        edit_profile_posts_recycler_view.layoutManager = LinearLayoutManager(this)
+        edit_profile_posts_recycler_view.setHasFixedSize(true)
+        val userPosts = UserPostsAdapter(this, userPosts)
+        edit_profile_posts_recycler_view.adapter = userPosts
+
+        userPosts.setOnClickListener(object : UserPostsAdapter.OnClickListener {
+            override fun onClick(position: Int, model: UserPostModel) {
             }
         })
     }
@@ -655,4 +710,10 @@ class EditProfileActivity : AppCompatActivity(), View.OnClickListener {
     private fun removeLink(model: UserLinksModel) { //TODO: WITOLD REMOVE LINK
         Log.e("model: ", model.toString())
     }
+    private fun addPostToDB(upm: UserPostModel){ //TODO: WITOLD ADD POST
+
+    }
+    private fun readUserPosts() {
+        userPostsList.add(UserPostModel("Mateusz", "Motyl", LocalDateTime.now().toString()))
+    } //TODO: WITOLD READ USER POSTS
 }

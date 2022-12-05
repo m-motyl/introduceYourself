@@ -59,8 +59,8 @@
                             android:textColor="@color/text_dark"
                             android:textSize="18sp"
                             android:textStyle="bold"
-                            tools:text="Post Title"
-                            android:visibility="visible" />
+                            android:visibility="visible"
+                            tools:text="Post Title" />
 
                         <EditText
                             android:id="@+id/edit_profile_post_title_et"

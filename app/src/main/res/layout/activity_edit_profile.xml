@@ -469,7 +469,6 @@
                         android:src="@drawable/ic_baseline_add_24" />
                 </LinearLayout>
 
-<!--                TODO: Mateusz posts in edit profile-->
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/edit_profile_posts_recycler_view"
                     android:layout_width="match_parent"
