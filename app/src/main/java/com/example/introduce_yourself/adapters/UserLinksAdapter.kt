@@ -1,16 +1,12 @@
 package com.recyclerviewapp
 
 import android.content.Context
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.example.introduce_yourself.Models.ReadUserModel
 import com.example.introduce_yourself.Models.UserLinksModel
 import com.example.introduce_yourself.R
-import kotlinx.android.synthetic.main.main_item_row.view.*
 import kotlinx.android.synthetic.main.user_item_links_item_row.view.*
 
 open class UserLinksAdapter(

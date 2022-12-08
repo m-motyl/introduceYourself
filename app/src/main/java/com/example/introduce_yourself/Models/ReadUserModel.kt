@@ -7,7 +7,7 @@ data class ReadUserModel(
     val name: String,
     val surname: String,
     val email: String,
-    val description : String,
+    val description: String,
     val profile_picture: ByteArray,
 //    val background_picture: ByteArray,
-): Serializable
+) : Serializable

@@ -1,25 +1,22 @@
 package com.example.introduce_yourself.Activities
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import com.example.introduce_yourself.Models.SignInModel
 import com.example.introduce_yourself.R
 import com.example.introduce_yourself.database.*
 import com.example.introduce_yourself.utils.currentUser
 import hashString
 import kotlinx.android.synthetic.main.activity_sign_in.*
-import kotlinx.android.synthetic.main.activity_sign_up.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.runBlocking
 import org.jetbrains.exposed.sql.Database
 import org.jetbrains.exposed.sql.SchemaUtils
 import org.jetbrains.exposed.sql.and
 import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransaction
-import java.util.*
 
 class SignInActivity : AppCompatActivity(), View.OnClickListener {
     private var signInModel: SignInModel? = null
@@ -102,7 +99,7 @@ class SignInActivity : AppCompatActivity(), View.OnClickListener {
                 SchemaUtils.create(Friends)
                 SchemaUtils.create(DailyLikes)
                 SchemaUtils.create(Messages)
-                SchemaUtils.create(UserLikes)
+                SchemaUtils.create(PostLikes)
                 SchemaUtils.create(UserLinks)
                 SchemaUtils.create(UserPosts)
                 SchemaUtils.create(LinkLabels)

@@ -1,6 +1,5 @@
 package com.example.introduce_yourself.database
 
-import com.example.introduce_yourself.database.Friends.nullable
 import org.jetbrains.exposed.dao.IntEntity
 import org.jetbrains.exposed.dao.IntEntityClass
 import org.jetbrains.exposed.dao.id.EntityID

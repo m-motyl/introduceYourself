@@ -3,27 +3,26 @@ package com.example.introduce_yourself.Activities
 import android.app.AlertDialog
 import android.content.Intent
 import android.net.Uri
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.View
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.introduce_yourself.Models.ReadUserModel
 import com.example.introduce_yourself.Models.UserLinksModel
 import com.example.introduce_yourself.Models.UserPostModel
 import com.example.introduce_yourself.R
 import com.example.introduce_yourself.adapters.UserPostsAdapter
-import com.example.introduce_yourself.database.*
+import com.example.introduce_yourself.database.User
+import com.example.introduce_yourself.database.UserLink
+import com.example.introduce_yourself.database.UserLinks
 import com.example.introduce_yourself.utils.byteArrayToBitmap
-import com.example.introduce_yourself.utils.currentUser
+import com.example.introduce_yourself.utils.readUserPosts
 import com.recyclerviewapp.UserLinksAdapter
 import kotlinx.android.synthetic.main.activity_user_item.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.runBlocking
 import org.jetbrains.exposed.sql.SortOrder
-import org.jetbrains.exposed.sql.select
 import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransaction
-import java.time.LocalDateTime
 
 class UserItemActivity : AppCompatActivity() {
     private var readUserModel: ReadUserModel? = null
@@ -69,10 +68,10 @@ class UserItemActivity : AppCompatActivity() {
                 user_item_links_recycler_view.visibility = View.GONE
             }
 
-            readUserPosts()
+            userPostsList = readUserPosts(stalked_user!!.id.value)
             if (userPostsList.size > 0) {
                 postsRecyclerView(userPostsList)
-            }else {
+            } else {
                 user_item_no_posts_tv.visibility = View.VISIBLE
                 user_item_posts_recycler_view.visibility = View.GONE
             }
@@ -138,8 +137,5 @@ class UserItemActivity : AppCompatActivity() {
                     userLinksList.add(UserLinksModel(title = i.label.name, link = i.link))
         }
     }
-    private fun readUserPosts() {
-        userPostsList.add(UserPostModel("Mateusz", "Motyl", LocalDateTime.now().toString()))
-    } //TODO: WITOLD READ USER POSTS
 
 }

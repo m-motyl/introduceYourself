@@ -8,9 +8,9 @@ import org.jetbrains.exposed.dao.id.IntIdTable
 class LinkLabel(id: EntityID<Int>) : IntEntity(id) {
     companion object : IntEntityClass<LinkLabel>(LinkLabels)
 
-   var name by LinkLabels.name
+    var name by LinkLabels.name
 }
 
 object LinkLabels : IntIdTable("LinkLabels") {
-    val name = varchar("name",20)
+    val name = varchar("name", 20)
 }

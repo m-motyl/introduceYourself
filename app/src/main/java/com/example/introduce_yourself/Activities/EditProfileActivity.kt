@@ -6,13 +6,13 @@ import android.app.AlertDialog
 import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.net.Uri
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.MediaStore
 import android.provider.Settings
 import android.util.Log
 import android.view.View
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.introduce_yourself.Models.UserLinksModel
 import com.example.introduce_yourself.Models.UserPostModel
@@ -21,6 +21,7 @@ import com.example.introduce_yourself.adapters.UserEditPostsAdapter
 import com.example.introduce_yourself.database.*
 import com.example.introduce_yourself.utils.byteArrayToBitmap
 import com.example.introduce_yourself.utils.currentUser
+import com.example.introduce_yourself.utils.readUserPosts
 import com.example.introduce_yourself.utils.saveImageByteArray
 import com.karumi.dexter.Dexter
 import com.karumi.dexter.MultiplePermissionsReport
@@ -29,7 +30,6 @@ import com.karumi.dexter.listener.PermissionRequest
 import com.karumi.dexter.listener.multi.MultiplePermissionsListener
 import com.recyclerviewapp.UserLinksAdapter
 import kotlinx.android.synthetic.main.activity_edit_profile.*
-import kotlinx.android.synthetic.main.activity_sign_up.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.runBlocking
 import org.jetbrains.exposed.sql.SortOrder
@@ -86,9 +86,9 @@ class EditProfileActivity : AppCompatActivity(), View.OnClickListener {
             linksRecyclerView(userLinksList)
         }
 
-        readUserPosts()
+        userPostsList = readUserPosts(currentUser!!.id.value)
         if (userPostsList.size > 0) {
-           postsRecyclerView(userPostsList)
+            postsRecyclerView(userPostsList)
         }
 
         user_name_edit_btn.setOnClickListener(this)
@@ -369,14 +369,15 @@ class EditProfileActivity : AppCompatActivity(), View.OnClickListener {
                     else -> {
                         val ulm = UserLinksModel(
                             edit_profile_add_link_title.text.toString(),
-                            edit_profile_add_link_url.text.toString())
-                        if(checkIfLabLinkOg(ulm)){
+                            edit_profile_add_link_url.text.toString()
+                        )
+                        if (checkIfLabLinkOg(ulm)) {
                             Toast.makeText(
                                 this,
                                 "Wprowadzony link już istnieje!",
                                 Toast.LENGTH_SHORT
                             ).show()
-                        }else {
+                        } else {
                             addUserLink(ulm)
                             userLinksList.clear()
                             edit_profile_add_link_title.text.clear()
@@ -408,7 +409,7 @@ class EditProfileActivity : AppCompatActivity(), View.OnClickListener {
                         ).show()
                     }
                     edit_profile_add_post_title.text.toString().length > 50
-                            || edit_profile_add_post_title.text.toString().length < 5  -> {
+                            || edit_profile_add_post_title.text.toString().length < 5 -> {
                         Toast.makeText(
                             this,
                             "Tytuł postu musi zawieraćod 5 do 50 liter!",
@@ -423,7 +424,7 @@ class EditProfileActivity : AppCompatActivity(), View.OnClickListener {
                         ).show()
                     }
                     edit_profile_add_post_text.text.toString().length > 300
-                            || edit_profile_add_post_text.text.toString().length < 5  -> {
+                            || edit_profile_add_post_text.text.toString().length < 5 -> {
                         Toast.makeText(
                             this,
                             "Post musi zawirać od 5 do 300 liter!",
@@ -434,7 +435,8 @@ class EditProfileActivity : AppCompatActivity(), View.OnClickListener {
                         val upm = UserPostModel(
                             edit_profile_add_post_title.text.toString(),
                             edit_profile_add_post_text.text.toString(),
-                            LocalDateTime.now().toString()
+                            LocalDateTime.now(),
+                            image = null
                         )
                         addPostToDB(upm)
                     }
@@ -451,10 +453,9 @@ class EditProfileActivity : AppCompatActivity(), View.OnClickListener {
 
         userLinks.setOnClickListener(object : UserLinksAdapter.OnClickListener {
             override fun onClick(position: Int, model: UserLinksModel) {
-                if(remove){
+                if (remove) {
                     removeLink(model)
-                }
-                else {
+                } else {
                     val alert = AlertDialog.Builder(this@EditProfileActivity)
                     alert.setTitle("Czy chcesz otworzyć ${model.link}?")
                     val items = arrayOf(
@@ -482,6 +483,7 @@ class EditProfileActivity : AppCompatActivity(), View.OnClickListener {
             }
         })
     }
+
     private fun postsRecyclerView(userPosts: ArrayList<UserPostModel>) {
 
         edit_profile_posts_recycler_view.layoutManager = LinearLayoutManager(this)
@@ -571,9 +573,10 @@ class EditProfileActivity : AppCompatActivity(), View.OnClickListener {
         }
     }
 
-    private fun checkIfLabLinkOg(x: UserLinksModel): Boolean
-            = userLinksList.any { i -> i.link.lowercase() == x.link.lowercase()
-            || i.title.lowercase() == x.title.lowercase() }
+    private fun checkIfLabLinkOg(x: UserLinksModel): Boolean = userLinksList.any { i ->
+        i.link.lowercase() == x.link.lowercase()
+                || i.title.lowercase() == x.title.lowercase()
+    }
 
 
     private fun addUserLink(x: UserLinksModel) = runBlocking {
@@ -594,7 +597,7 @@ class EditProfileActivity : AppCompatActivity(), View.OnClickListener {
                     user = currentUser!!
                 }
             }
-            userLinksList.add(UserLinksModel(x.title, x.link))
+            userLinksList.add(UserLinksModel(x.title, x.link, x.id))
         }
     }
 
@@ -714,13 +717,23 @@ class EditProfileActivity : AppCompatActivity(), View.OnClickListener {
             }
         }
     }
-    private fun removeLink(model: UserLinksModel) { //TODO: WITOLD REMOVE LINK
-        Log.e("model: ", model.toString())
-    }
-    private fun addPostToDB(upm: UserPostModel){ //TODO: WITOLD ADD POST
+
+    private fun removeLink(model: UserLinksModel) = runBlocking {
+        newSuspendedTransaction(Dispatchers.IO) { UserLink.findById(model.id!!)!!.delete() }
 
     }
-    private fun readUserPosts() {
-        userPostsList.add(UserPostModel("Mateusz", "Motyl", LocalDateTime.now().toString()))
-    } //TODO: WITOLD READ USER POSTS
+
+    private fun addPostToDB(upm: UserPostModel) = runBlocking {
+        newSuspendedTransaction(Dispatchers.IO) {
+            UserPost.new {
+                content = upm.post_content
+                image = if (upm.image != null) ExposedBlob(upm.image) else null
+                date = upm.date
+                title = upm.post_title
+                user = currentUser!!
+            }
+        }
+    }
+
+
 }

@@ -2,19 +2,14 @@ package com.example.introduce_yourself.Activities
 
 import android.graphics.Bitmap
 import android.graphics.Point
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Display
-import android.view.WindowManager
-import android.widget.Button
-import android.widget.EditText
 import android.widget.ImageView
-import com.example.introduce_yourself.R
 import androidmads.library.qrgenearator.QRGContents
 import androidmads.library.qrgenearator.QRGEncoder
+import androidx.appcompat.app.AppCompatActivity
+import com.example.introduce_yourself.R
 import com.example.introduce_yourself.utils.currentUser
-import kotlinx.android.synthetic.main.activity_user_item.*
-import kotlinx.android.synthetic.main.activity_user_item.toolbar_user_item
 import kotlinx.android.synthetic.main.activity_user_qr.*
 
 class UserQrActivity : AppCompatActivity() {

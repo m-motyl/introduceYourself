@@ -5,24 +5,22 @@ import android.app.Activity
 import android.app.AlertDialog
 import android.content.ActivityNotFoundException
 import android.content.Intent
-import android.graphics.Bitmap
 import android.net.Uri
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.MediaStore
 import android.provider.Settings
-import android.util.Log
 import android.view.View
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import com.example.introduce_yourself.Models.SignUpModel
 import com.example.introduce_yourself.R
 import com.example.introduce_yourself.database.User
 import com.example.introduce_yourself.database.Users
+import com.example.introduce_yourself.utils.saveImageByteArray
 import com.karumi.dexter.Dexter
 import com.karumi.dexter.MultiplePermissionsReport
 import com.karumi.dexter.PermissionToken
 import com.karumi.dexter.listener.PermissionRequest
-import com.example.introduce_yourself.utils.saveImageByteArray
 import com.karumi.dexter.listener.multi.MultiplePermissionsListener
 import hashString
 import kotlinx.android.synthetic.main.activity_sign_up.*
@@ -31,7 +29,6 @@ import kotlinx.coroutines.runBlocking
 import org.jetbrains.exposed.sql.statements.api.ExposedBlob
 import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransaction
 import org.jetbrains.exposed.sql.upperCase
-import java.io.ByteArrayOutputStream
 import java.io.IOException
 
 class SignUpActivity : AppCompatActivity(), View.OnClickListener {
@@ -176,10 +173,12 @@ class SignUpActivity : AppCompatActivity(), View.OnClickListener {
             }
         }
     }
-    private fun isNameValid(name: String): Boolean{
+
+    private fun isNameValid(name: String): Boolean {
         val regex = ("[A-Z][a-z]+").toRegex()
         return regex.matches(name)
     }
+
     private fun isSurnameValid(surname: String): Boolean {
         val regex = ("[A-Z][a-z]+([-][A-Z][a-z]+)?").toRegex()
         return regex.matches(surname)

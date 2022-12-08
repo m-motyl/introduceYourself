@@ -5,11 +5,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.example.introduce_yourself.Models.UserLinksModel
 import com.example.introduce_yourself.Models.UserPostModel
 import com.example.introduce_yourself.R
 import kotlinx.android.synthetic.main.edit_profile_posts_item_row.view.*
-import kotlinx.android.synthetic.main.user_item_links_item_row.view.*
+import java.time.format.DateTimeFormatter
 
 open class UserEditPostsAdapter(
     private val context: Context,
@@ -34,8 +33,9 @@ open class UserEditPostsAdapter(
         val ptr = listOfUsers[position]
         if (holder is OwnViewHolder) {
             holder.itemView.edit_profile_post_title_tv.text = ptr.post_title
-            holder.itemView.edit_profile_post_text_tv.text = ptr.post_context
-            holder.itemView.edit_profile_post_date.text = ptr.date
+            holder.itemView.edit_profile_post_text_tv.text = ptr.post_content
+            holder.itemView.edit_profile_post_date.text =
+                ptr.date.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"))
 
             holder.itemView.setOnClickListener {
                 if (onClickListener != null) {

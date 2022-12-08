@@ -1,7 +1,11 @@
 package com.example.introduce_yourself.Models
 
+
 data class UserPostModel(
     val post_title: String,
-    val post_context: String,
-    val date: String
+    val post_content: String,
+    val date: java.time.LocalDateTime,
+    val image: ByteArray? = null,
+    val likes: Int? = 0,
+    val dislikes: Int? = 0
 )

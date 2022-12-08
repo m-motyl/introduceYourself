@@ -16,7 +16,7 @@ class UserLink(id: EntityID<Int>) : IntEntity(id) {
 }
 
 object UserLinks : IntIdTable("UserLinks") {
-    val link = varchar("link",100)
+    val link = varchar("link", 100)
     val position = integer("position")
     val label = reference("label", LinkLabels, onDelete = ReferenceOption.CASCADE)
     val user = reference("user", Users, onDelete = ReferenceOption.CASCADE)
