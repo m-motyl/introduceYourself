@@ -45,6 +45,10 @@ class UserItemActivity : AppCompatActivity() {
             readUserModel = intent.getSerializableExtra(MainActivity.USER_DETAILS)
                     as ReadUserModel
         }
+        if (intent.hasExtra(UserQrActivity.QR_USER_FOUND)) {
+            readUserModel = intent.getSerializableExtra(UserQrActivity.QR_USER_FOUND)
+                    as ReadUserModel
+        }
 
         if (readUserModel != null) {
             readFullUser()
