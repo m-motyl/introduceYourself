@@ -13,6 +13,7 @@ import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.introduce_yourself.Models.UserLinksModel
 import com.example.introduce_yourself.Models.UserPostModel
@@ -81,6 +82,7 @@ class EditProfileActivity : AppCompatActivity(), View.OnClickListener {
 
             if (currentUser!!.background_picutre != null) {
                 edit_profile_bg_picture.setImageBitmap(byteArrayToBitmap(currentUser!!.background_picutre!!.bytes))
+                user_bg_picture_remove_btn.visibility = View.VISIBLE
             }
         }
         readUserLinks()
@@ -111,10 +113,34 @@ class EditProfileActivity : AppCompatActivity(), View.OnClickListener {
         edit_profile_remove_link_btn.setOnClickListener(this)
         edit_profile_remove_link_abort_btn.setOnClickListener(this)
         edit_profile_add_post_btn.setOnClickListener(this)
+        user_bg_picture_remove_btn.setOnClickListener(this)
+        user_post_picture_edit_btn.setOnClickListener(this)
+        user_post_picture_remove_btn.setOnClickListener(this)
     }
 
     override fun onClick(v: View?) {
         when (v!!.id) {
+            R.id.user_post_picture_remove_btn -> {
+                edit_profile_post_picture.setImageDrawable(
+                    ContextCompat.getDrawable(
+                        this,
+                        R.drawable.add_screen_image_placeholder
+                    )
+                )
+                postByteArray = ByteArray(1)
+                user_post_picture_remove_btn.visibility = View.GONE
+            }
+            R.id.user_post_picture_edit_btn -> {
+                chooseFromGallery(GALLERY_POST_CODE)
+            }
+            R.id.user_bg_picture_remove_btn -> {
+                edit_profile_bg_picture.setImageDrawable(
+                    ContextCompat.getDrawable(this, R.drawable.bg_gradient_2)
+                )
+                user_bg_picture_remove_btn.visibility = View.GONE
+                removeUserBackgroundPicture()
+            }
+
             R.id.user_name_edit_btn -> {
                 edit_profile_user_name_tv.visibility = View.GONE
                 edit_profile_user_name_et.visibility = View.VISIBLE
@@ -387,6 +413,12 @@ class EditProfileActivity : AppCompatActivity(), View.OnClickListener {
 
                             readUserLinks()
                             linksRecyclerView(userLinksList)
+
+                            Toast.makeText(
+                                this@EditProfileActivity,
+                                "Dodano link!",
+                                Toast.LENGTH_SHORT
+                            ).show()
                         }
                     }
                 }
@@ -441,7 +473,26 @@ class EditProfileActivity : AppCompatActivity(), View.OnClickListener {
                             postByteArray
                         )
                         addPostToDB(upm)
+                        userPostsList.clear()
+                        userPostsList = readUserPosts(currentUser!!.id.value)
+                        postsRecyclerView(userPostsList)
+
+                        edit_profile_post_picture.setImageDrawable(
+                            ContextCompat.getDrawable(
+                                this,
+                                R.drawable.add_screen_image_placeholder
+                            )
+                        )
                         postByteArray = ByteArray(1)
+                        user_post_picture_remove_btn.visibility = View.GONE
+                        edit_profile_add_post_title.text.clear()
+                        edit_profile_add_post_text.text.clear()
+
+                        Toast.makeText(
+                            this@EditProfileActivity,
+                            "Opublikowano post!",
+                            Toast.LENGTH_SHORT
+                        ).show()
                     }
                 }
             }
@@ -576,6 +627,11 @@ class EditProfileActivity : AppCompatActivity(), View.OnClickListener {
     private fun updateUserBackgroundPicture(ba: ByteArray) = runBlocking {
         newSuspendedTransaction(Dispatchers.IO) {
             User.findById(currentUser!!.id)!!.background_picutre = ExposedBlob(ba)
+        }
+    }
+    private fun removeUserBackgroundPicture() = runBlocking {
+        newSuspendedTransaction(Dispatchers.IO) {
+            User.findById(currentUser!!.id)!!.background_picutre = null
         }
     }
 
@@ -731,8 +787,10 @@ class EditProfileActivity : AppCompatActivity(), View.OnClickListener {
                                 contentURI
                             )
                         postByteArray = saveImageByteArray(selectedImage)
-                        edit_profile_bg_picture.setImageBitmap(selectedImage)
-
+                        edit_profile_post_picture.setImageBitmap(selectedImage)
+                        if(!postByteArray.contentEquals(ByteArray(1))){
+                            user_post_picture_remove_btn.visibility = View.VISIBLE
+                        }
                     } catch (e: IOException) {
                         e.printStackTrace()
                         Toast.makeText(

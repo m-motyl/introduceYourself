@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.introduce_yourself.Models.UserPostModel
 import com.example.introduce_yourself.R
+import com.example.introduce_yourself.utils.byteArrayToBitmap
 import kotlinx.android.synthetic.main.edit_profile_posts_item_row.view.*
 import java.time.format.DateTimeFormatter
 
@@ -36,10 +37,14 @@ open class UserEditPostsAdapter(
             holder.itemView.edit_profile_post_text_tv.text = ptr.post_content
             holder.itemView.edit_profile_post_date.text =
                 ptr.date.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"))
+
             if(ptr.image.contentEquals(ByteArray(1))){
                 holder.itemView.edit_profile_post_image.visibility = View.GONE
                 holder.itemView.post_image_edit_btn.visibility = View.GONE
+            }else{
+                holder.itemView.edit_profile_post_image.setImageBitmap(byteArrayToBitmap(ptr.image))
             }
+
             holder.itemView.setOnClickListener {
                 if (onClickListener != null) {
                     onClickListener!!.onClick(position, ptr)

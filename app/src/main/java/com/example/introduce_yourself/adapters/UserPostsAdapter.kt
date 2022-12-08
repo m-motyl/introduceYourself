@@ -7,6 +7,8 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.introduce_yourself.Models.UserPostModel
 import com.example.introduce_yourself.R
+import com.example.introduce_yourself.utils.byteArrayToBitmap
+import kotlinx.android.synthetic.main.edit_profile_posts_item_row.view.*
 import kotlinx.android.synthetic.main.user_item_posts_item_row.view.*
 import java.time.format.DateTimeFormatter
 
@@ -36,6 +38,12 @@ open class UserPostsAdapter(
             holder.itemView.user_item_post_text.text = ptr.post_content
             holder.itemView.user_item_post_date.text =
                 ptr.date.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"))
+
+            if(ptr.image.contentEquals(ByteArray(1))){
+                holder.itemView.user_item_post_image.visibility = View.GONE
+            }else{
+                holder.itemView.user_item_post_image.setImageBitmap(byteArrayToBitmap(ptr.image))
+            }
 
             holder.itemView.setOnClickListener {
                 if (onClickListener != null) {

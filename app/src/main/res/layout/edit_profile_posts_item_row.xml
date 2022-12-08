@@ -28,15 +28,15 @@
                 android:gravity="center"
                 android:orientation="horizontal">
 
-                <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/edit_profile_post_user_picture"
-                    android:layout_width="@dimen/post_profile_picture_size"
-                    android:layout_height="@dimen/post_profile_picture_size"
-                    android:contentDescription="Post profile picture"
-                    android:src="@drawable/add_screen_image_placeholder"
-                    app:civ_border_color="@color/user_picture_border"
-                    app:civ_border_width="@dimen/small_user_picture_border"
-                    android:layout_weight="0"/>
+<!--                <de.hdodenhof.circleimageview.CircleImageView-->
+<!--                    android:id="@+id/edit_profile_post_user_picture"-->
+<!--                    android:layout_width="@dimen/post_profile_picture_size"-->
+<!--                    android:layout_height="@dimen/post_profile_picture_size"-->
+<!--                    android:contentDescription="Post profile picture"-->
+<!--                    android:src="@drawable/add_screen_image_placeholder"-->
+<!--                    app:civ_border_color="@color/user_picture_border"-->
+<!--                    app:civ_border_width="@dimen/small_user_picture_border"-->
+<!--                    android:layout_weight="0"/>-->
 
                 <LinearLayout
                     android:layout_width="match_parent"
