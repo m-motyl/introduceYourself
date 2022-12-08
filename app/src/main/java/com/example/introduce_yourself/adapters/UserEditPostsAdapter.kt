@@ -36,7 +36,10 @@ open class UserEditPostsAdapter(
             holder.itemView.edit_profile_post_text_tv.text = ptr.post_content
             holder.itemView.edit_profile_post_date.text =
                 ptr.date.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"))
-
+            if(ptr.image.contentEquals(ByteArray(1))){
+                holder.itemView.edit_profile_post_image.visibility = View.GONE
+                holder.itemView.post_image_edit_btn.visibility = View.GONE
+            }
             holder.itemView.setOnClickListener {
                 if (onClickListener != null) {
                     onClickListener!!.onClick(position, ptr)

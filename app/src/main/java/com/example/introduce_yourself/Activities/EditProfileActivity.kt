@@ -45,10 +45,12 @@ class EditProfileActivity : AppCompatActivity(), View.OnClickListener {
     private var backgroundByteArray: ByteArray = ByteArray(1)
     private var profilePictureByteArray: ByteArray = ByteArray(1)
     private var remove: Boolean = false
+    private var postByteArray = ByteArray(1)
 
     companion object {
         const val GALLERY_P_CODE = 1
         const val GALLERY_BG_CODE = 2
+        const val GALLERY_POST_CODE = 3
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -359,7 +361,7 @@ class EditProfileActivity : AppCompatActivity(), View.OnClickListener {
                         ).show()
                     }
                     edit_profile_add_link_url.text.toString().length > 100 ||
-                            edit_profile_add_link_title.text.toString().length < 5 -> {
+                            edit_profile_add_link_url.text.toString().length < 5 -> {
                         Toast.makeText(
                             this,
                             "Link może zawierać od 2 do 100 znaków!",
@@ -436,9 +438,10 @@ class EditProfileActivity : AppCompatActivity(), View.OnClickListener {
                             edit_profile_add_post_title.text.toString(),
                             edit_profile_add_post_text.text.toString(),
                             LocalDateTime.now(),
-                            image = null
+                            postByteArray
                         )
                         addPostToDB(upm)
+                        postByteArray = ByteArray(1)
                     }
                 }
             }
@@ -455,6 +458,9 @@ class EditProfileActivity : AppCompatActivity(), View.OnClickListener {
             override fun onClick(position: Int, model: UserLinksModel) {
                 if (remove) {
                     removeLink(model)
+                    userLinksList.clear()
+                    readUserLinks()
+                    linksRecyclerView(userLinksList)
                 } else {
                     val alert = AlertDialog.Builder(this@EditProfileActivity)
                     alert.setTitle("Czy chcesz otworzyć ${model.link}?")
@@ -527,7 +533,7 @@ class EditProfileActivity : AppCompatActivity(), View.OnClickListener {
                 .orderBy(UserLinks.position to SortOrder.ASC).toList()
             if (stalked_user_links.isNotEmpty())
                 for (i in stalked_user_links)
-                    userLinksList.add(UserLinksModel(title = i.label.name, link = i.link))
+                    userLinksList.add(UserLinksModel(title = i.label.name, link = i.link, id=i.id.value))
         }
     }
 
@@ -715,19 +721,44 @@ class EditProfileActivity : AppCompatActivity(), View.OnClickListener {
                     }
                 }
             }
+            if (requestCode == GALLERY_POST_CODE) {
+                if (data != null) {
+                    val contentURI = data.data
+                    try {
+                        val selectedImage =
+                            MediaStore.Images.Media.getBitmap(
+                                this.contentResolver,
+                                contentURI
+                            )
+                        postByteArray = saveImageByteArray(selectedImage)
+                        edit_profile_bg_picture.setImageBitmap(selectedImage)
+
+                    } catch (e: IOException) {
+                        e.printStackTrace()
+                        Toast.makeText(
+                            this@EditProfileActivity,
+                            "Błąd!",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                }
+            }
         }
     }
 
     private fun removeLink(model: UserLinksModel) = runBlocking {
         newSuspendedTransaction(Dispatchers.IO) { UserLink.findById(model.id!!)!!.delete() }
-
     }
 
     private fun addPostToDB(upm: UserPostModel) = runBlocking {
         newSuspendedTransaction(Dispatchers.IO) {
             UserPost.new {
                 content = upm.post_content
-                image = if (upm.image != null) ExposedBlob(upm.image) else null
+                if (upm.image.contentEquals(ByteArray(0))){
+                    image = ExposedBlob(ByteArray(0))
+                }else{
+                    image = ExposedBlob(upm.image)
+                }
                 date = upm.date
                 title = upm.post_title
                 user = currentUser!!

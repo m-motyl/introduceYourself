@@ -166,6 +166,7 @@
                     android:layout_centerHorizontal="true" >
 
 <!--                    TODO: Mateusz change image bt visibility and onclick-->
+
                     <ImageView
                         android:id="@+id/edit_profile_post_image"
                         android:layout_width="wrap_content"
@@ -174,6 +175,7 @@
                         android:contentDescription="Post image"
                         android:maxHeight="@dimen/post_image_max_height"
                         android:src="@drawable/add_screen_image_placeholder"
+                        android:visibility="visible"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent" />
 

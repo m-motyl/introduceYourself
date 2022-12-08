@@ -21,7 +21,7 @@ fun readUserPosts(who: Int): ArrayList<UserPostModel> {
                         post_title = i.title,
                         post_content = i.content,
                         date = i.date,
-                        image = if (i.image != null) i.image!!.bytes else null,
+                        image = i.image!!.bytes,
                         likes = if (tmp[true] != null) tmp[true]!!.size else 0,
                         dislikes = if (tmp[false] != null) tmp[false]!!.size else 0,
                     )
