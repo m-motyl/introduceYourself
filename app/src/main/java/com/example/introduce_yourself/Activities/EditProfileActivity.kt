@@ -50,8 +50,9 @@ class EditProfileActivity : AppCompatActivity(), View.OnClickListener {
 
     private var backgroundByteArray: ByteArray = ByteArray(1)
     private var profilePictureByteArray: ByteArray = ByteArray(1)
-    private var remove: Boolean = false
     private var postByteArray = ByteArray(1)
+
+    private var remove: Boolean = false
 
     companion object {
         const val GALLERY_P_CODE = 1
@@ -628,17 +629,42 @@ class EditProfileActivity : AppCompatActivity(), View.OnClickListener {
         val userPosts = UserEditPostsAdapter(this, userPosts)
         edit_profile_posts_recycler_view.adapter = userPosts
 
-        userPosts.setOnClickListener(object : UserEditPostsAdapter.OnClickListener {
-            override fun onClick(position: Int, model: UserPostModel) {
+            userPosts.setOnClickListener(object : UserEditPostsAdapter.OnClickListener {
+                override fun onClick(position: Int, model: UserPostModel) {
+                }
+            },
+            object : UserEditPostsAdapter.OnDeleteClickListener {
+                override fun onClick(position: Int, model: UserPostModel) {
+                    Log.e("delete", model.toString())
+                    removePost(model)
+                    //TODO: MOTYL repair list after deleting
+                }
+            },
+            object : UserEditPostsAdapter.OnEditClickListener {
+                override fun onClick(position: Int, model: UserPostModel) {
+                    Log.e("edit", model.toString())
+                    //TODO: MOTYL edit post
+                }
+            },
+            object : UserEditPostsAdapter.OnEditSaveClickListener {
+                override fun onClick(position: Int, model: UserPostModel) {
+                    Log.e("edit save", model.toString())
+                    //TODO: MOTYL edit save
+                }
+            },
+            object : UserEditPostsAdapter.OnEditAbortClickListener {
+                override fun onClick(position: Int, model: UserPostModel) {
+                    Log.e("edit abort", model.toString())
+                    //TODO: MOTYL edit abort
+                }
+            },
+            object : UserEditPostsAdapter.OnEditImageClickListener {
+                override fun onClick(position: Int, model: UserPostModel) {
+                    Log.e("edit image", model.toString())
+                    //TODO: MOTYL edit image
+                }
             }
-        },
-        object : UserEditPostsAdapter.OnDeleteClickListener {
-            override fun onClick(position: Int, model: UserPostModel) {
-                Log.e("delete", model.toString())
-                removePost(model)
-                //TODO: MOTYL repair list after deleting
-            }
-        })
+        )
     }
 
     //validation
@@ -853,6 +879,7 @@ class EditProfileActivity : AppCompatActivity(), View.OnClickListener {
                         edit_profile_bg_picture.setImageBitmap(selectedImage)
                         if (!backgroundByteArray.contentEquals(ByteArray(1))) {
                             updateUserBackgroundPicture(backgroundByteArray)
+                            user_bg_picture_remove_btn.visibility = View.VISIBLE
                         }
                     } catch (e: IOException) {
                         e.printStackTrace()

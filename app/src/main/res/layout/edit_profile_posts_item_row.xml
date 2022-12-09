@@ -183,6 +183,7 @@
                         android:layout_margin="5dp"
                         android:background="@drawable/ic_baseline_circle_white_24"
                         android:contentDescription="Post image edit"
+                        android:visibility="gone"
                         android:src="@drawable/ic_outline_build_circle_24"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent" />
@@ -201,10 +202,10 @@
                         android:layout_alignParentTop="true"
                         android:textColor="@color/text_dark"
                         android:textSize="18sp"
-                        tools:text="@tools:sample/lorem"
-                        android:visibility="visible" />
+                        android:visibility="visible"
+                        tools:text="@tools:sample/lorem" />
 
-                    <TextView
+                    <EditText
                         android:id="@+id/edit_profile_post_text_et"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -212,8 +213,8 @@
                         android:layout_alignParentTop="true"
                         android:textColor="@color/text_dark"
                         android:textSize="18sp"
-                        tools:text="@tools:sample/lorem"
-                        android:visibility="gone" />
+                        android:visibility="gone"
+                        tools:text="@tools:sample/lorem" />
                 </RelativeLayout>
             </LinearLayout>
 

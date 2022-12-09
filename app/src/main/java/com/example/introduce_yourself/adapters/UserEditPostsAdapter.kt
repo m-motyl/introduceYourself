@@ -17,6 +17,10 @@ open class UserEditPostsAdapter(
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     private var onClickListener: OnClickListener? = null
     private var onDeleteClickListener: OnDeleteClickListener? = null
+    private var onEditClickListener: OnEditClickListener? = null
+    private var onEditSaveClickListener: OnEditSaveClickListener? = null
+    private var onEditAbortClickListener: OnEditAbortClickListener? = null
+    private var onEditImageClickListener: OnEditImageClickListener? = null
 
     private class OwnViewHolder(
         view: View
@@ -56,6 +60,82 @@ open class UserEditPostsAdapter(
                     onDeleteClickListener!!.onClick(position, ptr)
                 }
             }
+            holder.itemView.post_edit_btn.setOnClickListener{
+                if (onEditClickListener != null){
+                    onEditClickListener!!.onClick(position, ptr)
+
+                    holder.itemView.post_edit_btn.visibility = View.GONE
+                    holder.itemView.post_delete_btn.visibility = View.GONE
+
+                    holder.itemView.post_edit_save_btn.visibility = View.VISIBLE
+                    holder.itemView.post_edit_abort_btn.visibility = View.VISIBLE
+
+                    //edit title
+                    holder.itemView.edit_profile_post_title_tv.visibility = View.GONE
+                    holder.itemView.edit_profile_post_title_et.visibility = View.VISIBLE
+                    holder.itemView.edit_profile_post_title_et.setText(ptr.post_title)
+
+                    //edit description
+                    holder.itemView.edit_profile_post_text_tv.visibility = View.GONE
+                    holder.itemView.edit_profile_post_text_et.visibility = View.VISIBLE
+                    holder.itemView.edit_profile_post_text_et.setText(ptr.post_content)
+
+                    //show edit photo button
+                    if(!ptr.image.contentEquals(ByteArray(1))) {
+                        holder.itemView.post_image_edit_btn.visibility = View.VISIBLE
+                    }
+
+                }
+            }
+            holder.itemView.post_edit_save_btn.setOnClickListener{
+                if (onEditSaveClickListener != null){
+                    onEditSaveClickListener!!.onClick(position, ptr)
+
+                    holder.itemView.post_edit_btn.visibility = View.VISIBLE
+                    holder.itemView.post_delete_btn.visibility = View.VISIBLE
+
+                    holder.itemView.post_edit_save_btn.visibility = View.GONE
+                    holder.itemView.post_edit_abort_btn.visibility = View.GONE
+
+                    //save edit title
+                    holder.itemView.edit_profile_post_title_tv.visibility = View.VISIBLE
+                    holder.itemView.edit_profile_post_title_et.visibility = View.GONE
+
+                    //save edit post
+                    holder.itemView.edit_profile_post_text_tv.visibility = View.VISIBLE
+                    holder.itemView.edit_profile_post_text_et.visibility = View.GONE
+
+                    //save edit image
+                    holder.itemView.post_image_edit_btn.visibility = View.GONE
+                }
+            }
+            holder.itemView.post_edit_abort_btn.setOnClickListener{
+                if (onEditAbortClickListener != null){
+                    onEditAbortClickListener!!.onClick(position, ptr)
+
+                    holder.itemView.post_edit_btn.visibility = View.VISIBLE
+                    holder.itemView.post_delete_btn.visibility = View.VISIBLE
+
+                    holder.itemView.post_edit_save_btn.visibility = View.GONE
+                    holder.itemView.post_edit_abort_btn.visibility = View.GONE
+
+                    //abort edit title
+                    holder.itemView.edit_profile_post_title_tv.visibility = View.VISIBLE
+                    holder.itemView.edit_profile_post_title_et.visibility = View.GONE
+
+                    //abort edit post
+                    holder.itemView.edit_profile_post_text_tv.visibility = View.VISIBLE
+                    holder.itemView.edit_profile_post_text_et.visibility = View.GONE
+
+                    //abort edit image
+                    holder.itemView.post_image_edit_btn.visibility = View.GONE
+                }
+            }
+            holder.itemView.post_image_edit_btn.setOnClickListener{
+                if (onEditImageClickListener != null) {
+                    onEditImageClickListener!!.onClick(position, ptr)
+                }
+            }
         }
     }
 
@@ -63,15 +143,38 @@ open class UserEditPostsAdapter(
         return listOfUsers.size
     }
 
-    fun setOnClickListener(onClickListener: OnClickListener, onDeleteClickListener: OnDeleteClickListener) {
-        this.onClickListener = onClickListener
-        this.onDeleteClickListener = onDeleteClickListener
+    fun setOnClickListener(
+        onClickListener: OnClickListener,
+        onDeleteClickListener: OnDeleteClickListener,
+        onEditClickListener: OnEditClickListener,
+        onEditSaveClickListener: OnEditSaveClickListener,
+        onEditAbortClickListener: OnEditAbortClickListener,
+        onEditImageClickListener: OnEditImageClickListener
+    ) {
+            this.onClickListener = onClickListener
+            this.onDeleteClickListener = onDeleteClickListener
+            this.onEditClickListener = onEditClickListener
+            this.onEditSaveClickListener = onEditSaveClickListener
+            this.onEditAbortClickListener = onEditAbortClickListener
+            this.onEditImageClickListener = onEditImageClickListener
     }
 
     interface OnClickListener {
         fun onClick(position: Int, model: UserPostModel)
     }
     interface OnDeleteClickListener {
+        fun onClick(position: Int, model: UserPostModel)
+    }
+    interface OnEditClickListener {
+        fun onClick(position: Int, model: UserPostModel)
+    }
+    interface OnEditSaveClickListener {
+        fun onClick(position: Int, model: UserPostModel)
+    }
+    interface OnEditAbortClickListener{
+        fun onClick(position: Int, model: UserPostModel)
+    }
+    interface OnEditImageClickListener{
         fun onClick(position: Int, model: UserPostModel)
     }
 }
