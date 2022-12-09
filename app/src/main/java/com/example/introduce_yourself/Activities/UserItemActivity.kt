@@ -24,10 +24,14 @@ import kotlinx.coroutines.runBlocking
 import org.jetbrains.exposed.sql.SortOrder
 import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransaction
 
-class UserItemActivity : AppCompatActivity() {
+class UserItemActivity : AppCompatActivity(), View.OnClickListener {
     private var readUserModel: ReadUserModel? = null
     private var userLinksList = ArrayList<UserLinksModel>()
+    private var initLinksList = ArrayList<UserLinksModel>()
+
     private var userPostsList = ArrayList<UserPostModel>()
+    private var initPostsList = ArrayList<UserPostModel>()
+
     private var stalked_user: User? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -66,21 +70,34 @@ class UserItemActivity : AppCompatActivity() {
             }
 
             if (userLinksList.size > 0) {
-                usersLinksRecyclerView(userLinksList)
+                initLinksList.add(userLinksList[0])
+                usersLinksRecyclerView(initLinksList)
+                if(userLinksList.size < 2){
+                    user_item_links_expand_more.visibility = View.GONE
+                }
             } else {
                 user_item_no_links_tv.visibility = View.VISIBLE
                 user_item_links_recycler_view.visibility = View.GONE
+                user_item_links_expand_more.visibility = View.GONE
             }
 
             userPostsList = readUserPosts(stalked_user!!.id.value)
             if (userPostsList.size > 0) {
-                postsRecyclerView(userPostsList)
+                initPostsList.add(userPostsList[0])
+                postsRecyclerView(initPostsList)
+                if(userPostsList.size < 2){
+                    user_item_posts_expand_more.visibility = View.GONE
+                }
             } else {
                 user_item_no_posts_tv.visibility = View.VISIBLE
                 user_item_posts_recycler_view.visibility = View.GONE
             }
 
         }
+        user_item_posts_expand_more.setOnClickListener(this)
+        user_item_posts_expand_less.setOnClickListener(this)
+        user_item_links_expand_more.setOnClickListener(this)
+        user_item_links_expand_less.setOnClickListener(this)
     }
 
     private fun usersLinksRecyclerView(userLinks: ArrayList<UserLinksModel>) {
@@ -139,6 +156,36 @@ class UserItemActivity : AppCompatActivity() {
             if (stalked_user_links.isNotEmpty())
                 for (i in stalked_user_links)
                     userLinksList.add(UserLinksModel(title = i.label.name, link = i.link))
+        }
+    }
+
+    override fun onClick(v: View?) {
+        when(v!!.id){
+            R.id.user_item_posts_expand_more -> {
+
+                postsRecyclerView(userPostsList)
+
+                user_item_posts_expand_more.visibility = View.GONE
+                user_item_posts_expand_less.visibility = View.VISIBLE
+            }
+            R.id.user_item_posts_expand_less -> {
+                postsRecyclerView(initPostsList)
+
+                user_item_posts_expand_more.visibility = View.VISIBLE
+                user_item_posts_expand_less.visibility = View.GONE
+            }
+            R.id.user_item_links_expand_more -> {
+                usersLinksRecyclerView(userLinksList)
+
+                user_item_links_expand_more.visibility = View.GONE
+                user_item_links_expand_less.visibility = View.VISIBLE
+            }
+            R.id.user_item_links_expand_less -> {
+                usersLinksRecyclerView(initLinksList)
+
+                user_item_links_expand_more.visibility = View.VISIBLE
+                user_item_links_expand_less.visibility = View.GONE
+            }
         }
     }
 

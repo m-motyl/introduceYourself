@@ -31,6 +31,7 @@ import com.karumi.dexter.listener.PermissionRequest
 import com.karumi.dexter.listener.multi.MultiplePermissionsListener
 import com.recyclerviewapp.UserLinksAdapter
 import kotlinx.android.synthetic.main.activity_edit_profile.*
+import kotlinx.android.synthetic.main.activity_user_item.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.runBlocking
 import org.jetbrains.exposed.sql.SortOrder
@@ -42,7 +43,11 @@ import java.time.LocalDateTime
 
 class EditProfileActivity : AppCompatActivity(), View.OnClickListener {
     private var userLinksList = ArrayList<UserLinksModel>()
+    private var initUserLinksList = ArrayList<UserLinksModel>()
+
     private var userPostsList = ArrayList<UserPostModel>()
+    private var initPostsList = ArrayList<UserPostModel>()
+
     private var backgroundByteArray: ByteArray = ByteArray(1)
     private var profilePictureByteArray: ByteArray = ByteArray(1)
     private var remove: Boolean = false
@@ -87,12 +92,20 @@ class EditProfileActivity : AppCompatActivity(), View.OnClickListener {
         }
         readUserLinks()
         if (userLinksList.size > 0) {
-            linksRecyclerView(userLinksList)
+            initUserLinksList.add(userLinksList[0])
+            linksRecyclerView(initUserLinksList)
+            if(userLinksList.size < 2) {
+                edit_profile_links_expand_more.visibility = View.GONE
+            }
         }
 
         userPostsList = readUserPosts(currentUser!!.id.value)
         if (userPostsList.size > 0) {
-            postsRecyclerView(userPostsList)
+            initPostsList.add(userPostsList[0])
+            postsRecyclerView(initPostsList)
+            if(userPostsList.size < 2){
+                edit_profile_posts_expand_more.visibility = View.GONE
+            }
         }
 
         user_name_edit_btn.setOnClickListener(this)
@@ -116,10 +129,39 @@ class EditProfileActivity : AppCompatActivity(), View.OnClickListener {
         user_bg_picture_remove_btn.setOnClickListener(this)
         user_post_picture_edit_btn.setOnClickListener(this)
         user_post_picture_remove_btn.setOnClickListener(this)
+        edit_profile_posts_expand_more.setOnClickListener(this)
+        edit_profile_posts_expand_less.setOnClickListener(this)
+        edit_profile_links_expand_more.setOnClickListener(this)
+        edit_profile_links_expand_less.setOnClickListener(this)
     }
 
     override fun onClick(v: View?) {
         when (v!!.id) {
+            R.id.edit_profile_links_expand_more -> {
+                linksRecyclerView(userLinksList)
+
+                edit_profile_links_expand_more.visibility = View.GONE
+                edit_profile_links_expand_less.visibility = View.VISIBLE
+            }
+            R.id.edit_profile_links_expand_less -> {
+                linksRecyclerView(initUserLinksList)
+
+                edit_profile_links_expand_more.visibility = View.VISIBLE
+                edit_profile_links_expand_less.visibility = View.GONE
+            }
+
+            R.id.edit_profile_posts_expand_less -> {
+                postsRecyclerView(initPostsList)
+                edit_profile_posts_expand_more.visibility = View.VISIBLE
+                edit_profile_posts_expand_less.visibility = View.GONE
+
+            }
+            R.id.edit_profile_posts_expand_more -> {
+                postsRecyclerView(userPostsList)
+                edit_profile_posts_expand_more.visibility = View.GONE
+                edit_profile_posts_expand_less.visibility = View.VISIBLE
+
+            }
             R.id.user_post_picture_remove_btn -> {
                 edit_profile_post_picture.setImageDrawable(
                     ContextCompat.getDrawable(
@@ -390,7 +432,7 @@ class EditProfileActivity : AppCompatActivity(), View.OnClickListener {
                             edit_profile_add_link_url.text.toString().length < 5 -> {
                         Toast.makeText(
                             this,
-                            "Link może zawierać od 2 do 100 znaków!",
+                            "Link może zawierać od 5 do 100 znaków!",
                             Toast.LENGTH_SHORT
                         ).show()
                     } //TODO: Mateusz regex url validation
@@ -413,6 +455,10 @@ class EditProfileActivity : AppCompatActivity(), View.OnClickListener {
 
                             readUserLinks()
                             linksRecyclerView(userLinksList)
+                            edit_profile_links_expand_more.visibility = View.GONE
+                            if(userLinksList.size > 1){
+                                edit_profile_links_expand_less.visibility = View.VISIBLE
+                            }
 
                             Toast.makeText(
                                 this@EditProfileActivity,
@@ -510,8 +556,21 @@ class EditProfileActivity : AppCompatActivity(), View.OnClickListener {
                 if (remove) {
                     removeLink(model)
                     userLinksList.clear()
+                    initUserLinksList.clear()
+
                     readUserLinks()
                     linksRecyclerView(userLinksList)
+
+                    if(userLinksList.size > 0){
+                        initUserLinksList.add(userLinksList[0])
+                        if(userLinksList.size < 2){
+                            edit_profile_links_expand_more.visibility = View.GONE
+                            edit_profile_links_expand_less.visibility = View.GONE
+                        }else{
+                            edit_profile_links_expand_more.visibility = View.GONE
+                            edit_profile_links_expand_less.visibility = View.VISIBLE
+                        }
+                    }
                 } else {
                     val alert = AlertDialog.Builder(this@EditProfileActivity)
                     alert.setTitle("Czy chcesz otworzyć ${model.link}?")
