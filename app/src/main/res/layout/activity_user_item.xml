@@ -190,7 +190,6 @@
                         android:hint="@string/user_item_no_posts_yet"
                         android:visibility="gone"/>
 
-<!--                    TODO: Mateusz posts in user item-->
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/user_item_posts_recycler_view"
                         android:layout_width="match_parent"

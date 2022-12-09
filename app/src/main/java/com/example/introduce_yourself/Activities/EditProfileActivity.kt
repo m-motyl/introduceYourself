@@ -435,7 +435,13 @@ class EditProfileActivity : AppCompatActivity(), View.OnClickListener {
                             "Link może zawierać od 5 do 100 znaków!",
                             Toast.LENGTH_SHORT
                         ).show()
-                    } //TODO: Mateusz regex url validation
+                    !isLinkValid(edit_profile_add_link_url.text.toString()) -> {
+                        Toast.makeText(
+                            this,
+                            "Wprowadzono niedozwolony link!",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
                     else -> {
                         val ulm = UserLinksModel(
                             edit_profile_add_link_title.text.toString(),
@@ -609,6 +615,13 @@ class EditProfileActivity : AppCompatActivity(), View.OnClickListener {
 
         userPosts.setOnClickListener(object : UserEditPostsAdapter.OnClickListener {
             override fun onClick(position: Int, model: UserPostModel) {
+            }
+        },
+        object : UserEditPostsAdapter.OnDeleteClickListener {
+            override fun onClick(position: Int, model: UserPostModel) {
+                Log.e("delete", model.toString())
+                removePost(model)
+                //TODO: MOTYL repair list after deleting
             }
         })
     }
@@ -866,6 +879,9 @@ class EditProfileActivity : AppCompatActivity(), View.OnClickListener {
     private fun removeLink(model: UserLinksModel) = runBlocking {
         newSuspendedTransaction(Dispatchers.IO) { UserLink.findById(model.id!!)!!.delete() }
     }
+    private fun removePost(model: UserPostModel) { //TODO: WITOLD remove post
+
+    }
 
     private fun addPostToDB(upm: UserPostModel) = runBlocking {
         newSuspendedTransaction(Dispatchers.IO) {
@@ -882,6 +898,12 @@ class EditProfileActivity : AppCompatActivity(), View.OnClickListener {
             }
         }
     }
-
-
+    private fun isLinkValid(s: String): Boolean {
+        val regex = (
+                "(https?:\\/\\/(?:www\\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\\." +
+                "[^\\s]{2,}|www\\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\\.[^\\s]{2,}|https?:\\/\\" +
+                "/(?:www\\.|(?!www))[a-zA-Z0-9]+\\.[^\\s]{2,}|www\\.[a-zA-Z0-9]+\\.[^\\s]{2,})"
+                ).toRegex()
+        return regex.matches(s)
+    }
 }

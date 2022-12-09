@@ -16,6 +16,7 @@ open class UserEditPostsAdapter(
     private var listOfUsers: ArrayList<UserPostModel>
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     private var onClickListener: OnClickListener? = null
+    private var onDeleteClickListener: OnDeleteClickListener? = null
 
     private class OwnViewHolder(
         view: View
@@ -50,6 +51,11 @@ open class UserEditPostsAdapter(
                     onClickListener!!.onClick(position, ptr)
                 }
             }
+            holder.itemView.post_delete_btn.setOnClickListener{
+                if (onDeleteClickListener != null){
+                    onDeleteClickListener!!.onClick(position, ptr)
+                }
+            }
         }
     }
 
@@ -57,11 +63,15 @@ open class UserEditPostsAdapter(
         return listOfUsers.size
     }
 
-    fun setOnClickListener(onClickListener: OnClickListener) {
+    fun setOnClickListener(onClickListener: OnClickListener, onDeleteClickListener: OnDeleteClickListener) {
         this.onClickListener = onClickListener
+        this.onDeleteClickListener = onDeleteClickListener
     }
 
     interface OnClickListener {
+        fun onClick(position: Int, model: UserPostModel)
+    }
+    interface OnDeleteClickListener {
         fun onClick(position: Int, model: UserPostModel)
     }
 }
