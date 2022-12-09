@@ -176,17 +176,17 @@
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent" />
 
-                    <ImageView
-                        android:id="@+id/post_image_edit_btn"
-                        android:layout_width="@dimen/user_edit_picture_icon_size"
-                        android:layout_height="@dimen/user_edit_picture_icon_size"
-                        android:layout_margin="5dp"
-                        android:background="@drawable/ic_baseline_circle_white_24"
-                        android:contentDescription="Post image edit"
-                        android:visibility="gone"
-                        android:src="@drawable/ic_outline_build_circle_24"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent" />
+<!--                    <ImageView-->
+<!--                        android:id="@+id/post_image_edit_btn"-->
+<!--                        android:layout_width="@dimen/user_edit_picture_icon_size"-->
+<!--                        android:layout_height="@dimen/user_edit_picture_icon_size"-->
+<!--                        android:layout_margin="5dp"-->
+<!--                        android:background="@drawable/ic_baseline_circle_white_24"-->
+<!--                        android:contentDescription="Post image edit"-->
+<!--                        android:visibility="gone"-->
+<!--                        android:src="@drawable/ic_outline_build_circle_24"-->
+<!--                        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--                        app:layout_constraintEnd_toEndOf="parent" />-->
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <RelativeLayout

@@ -1,14 +1,19 @@
 package com.example.introduce_yourself.adapters
 
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
+import com.example.introduce_yourself.Activities.EditProfileActivity
 import com.example.introduce_yourself.Models.UserPostModel
 import com.example.introduce_yourself.R
+import com.example.introduce_yourself.database.UserPost
 import com.example.introduce_yourself.utils.byteArrayToBitmap
 import kotlinx.android.synthetic.main.edit_profile_posts_item_row.view.*
+import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
 open class UserEditPostsAdapter(
@@ -20,7 +25,7 @@ open class UserEditPostsAdapter(
     private var onEditClickListener: OnEditClickListener? = null
     private var onEditSaveClickListener: OnEditSaveClickListener? = null
     private var onEditAbortClickListener: OnEditAbortClickListener? = null
-    private var onEditImageClickListener: OnEditImageClickListener? = null
+//    private var onEditImageClickListener: OnEditImageClickListener? = null
 
     private class OwnViewHolder(
         view: View
@@ -45,7 +50,7 @@ open class UserEditPostsAdapter(
 
             if(ptr.image.contentEquals(ByteArray(1))){
                 holder.itemView.edit_profile_post_image.visibility = View.GONE
-                holder.itemView.post_image_edit_btn.visibility = View.GONE
+//                holder.itemView.post_image_edit_btn.visibility = View.GONE
             }else{
                 holder.itemView.edit_profile_post_image.setImageBitmap(byteArrayToBitmap(ptr.image))
             }
@@ -81,32 +86,68 @@ open class UserEditPostsAdapter(
                     holder.itemView.edit_profile_post_text_et.setText(ptr.post_content)
 
                     //show edit photo button
-                    if(!ptr.image.contentEquals(ByteArray(1))) {
-                        holder.itemView.post_image_edit_btn.visibility = View.VISIBLE
-                    }
+//                    if(!ptr.image.contentEquals(ByteArray(1))) {
+//                        holder.itemView.post_image_edit_btn.visibility = View.VISIBLE
+//                    }
 
                 }
             }
             holder.itemView.post_edit_save_btn.setOnClickListener{
                 if (onEditSaveClickListener != null){
                     onEditSaveClickListener!!.onClick(position, ptr)
+                    when {
+                        ((holder.itemView.edit_profile_post_title_et.text.toString() == ptr.post_title) and
+                            (holder.itemView.edit_profile_post_text_et.text.toString() == ptr.post_content)) -> {}
 
-                    holder.itemView.post_edit_btn.visibility = View.VISIBLE
-                    holder.itemView.post_delete_btn.visibility = View.VISIBLE
+                        holder.itemView.edit_profile_post_title_et.text.toString().length < 5 ||
+                                holder.itemView.edit_profile_post_title_et.text.toString().length > 50 -> {}
 
-                    holder.itemView.post_edit_save_btn.visibility = View.GONE
-                    holder.itemView.post_edit_abort_btn.visibility = View.GONE
+                        holder.itemView.edit_profile_post_text_et.text.toString().length < 5 ||
+                                holder.itemView.edit_profile_post_text_et.text.toString().length > 300 -> {}
 
-                    //save edit title
-                    holder.itemView.edit_profile_post_title_tv.visibility = View.VISIBLE
-                    holder.itemView.edit_profile_post_title_et.visibility = View.GONE
+                        holder.itemView.edit_profile_post_title_et.text.toString().isNullOrEmpty() -> {}
+                        holder.itemView.edit_profile_post_text_et.text.toString().isNullOrEmpty() -> {}
 
-                    //save edit post
-                    holder.itemView.edit_profile_post_text_tv.visibility = View.VISIBLE
-                    holder.itemView.edit_profile_post_text_et.visibility = View.GONE
+                        else -> {
+                            editPost(
+                                ptr,
+                                holder.itemView.edit_profile_post_title_et.text.toString(),
+                                holder.itemView.edit_profile_post_text_et.text.toString(),
+                                LocalDateTime.now()
+                            )
+                            //TODO: MOTYL update posts list after editing
 
-                    //save edit image
-                    holder.itemView.post_image_edit_btn.visibility = View.GONE
+                            //new title
+                            holder.itemView.edit_profile_post_title_tv.setText(
+                                holder.itemView.edit_profile_post_title_et.text.toString()
+                            )
+
+                            //new context
+                            holder.itemView.edit_profile_post_text_tv.setText(
+                                holder.itemView.edit_profile_post_text_et.text.toString()
+                            )
+//                            //new date
+                            holder.itemView.edit_profile_post_date.text = LocalDateTime.now()
+                                .format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"))
+
+                            holder.itemView.post_edit_btn.visibility = View.VISIBLE
+                            holder.itemView.post_delete_btn.visibility = View.VISIBLE
+
+                            holder.itemView.post_edit_save_btn.visibility = View.GONE
+                            holder.itemView.post_edit_abort_btn.visibility = View.GONE
+
+                            //save edit title
+                            holder.itemView.edit_profile_post_title_tv.visibility = View.VISIBLE
+                            holder.itemView.edit_profile_post_title_et.visibility = View.GONE
+
+                            //save edit post
+                            holder.itemView.edit_profile_post_text_tv.visibility = View.VISIBLE
+                            holder.itemView.edit_profile_post_text_et.visibility = View.GONE
+
+                            //save edit image
+//                          holder.itemView.post_image_edit_btn.visibility = View.GONE
+                        }
+                    }
                 }
             }
             holder.itemView.post_edit_abort_btn.setOnClickListener{
@@ -128,15 +169,24 @@ open class UserEditPostsAdapter(
                     holder.itemView.edit_profile_post_text_et.visibility = View.GONE
 
                     //abort edit image
-                    holder.itemView.post_image_edit_btn.visibility = View.GONE
+//                    holder.itemView.post_image_edit_btn.visibility = View.GONE
                 }
             }
-            holder.itemView.post_image_edit_btn.setOnClickListener{
-                if (onEditImageClickListener != null) {
-                    onEditImageClickListener!!.onClick(position, ptr)
-                }
-            }
+//            holder.itemView.post_image_edit_btn.setOnClickListener{
+//                if (onEditImageClickListener != null) {
+//                    onEditImageClickListener!!.onClick(position, ptr)
+//                }
+//            }
         }
+    }
+
+    private fun editPost(
+        oldPost: UserPostModel,
+        newPostTitle: String,
+        newPostContext: String,
+        newDate: LocalDateTime
+    ) { //TODO: WITOLD update post
+
     }
 
     override fun getItemCount(): Int {
@@ -149,14 +199,14 @@ open class UserEditPostsAdapter(
         onEditClickListener: OnEditClickListener,
         onEditSaveClickListener: OnEditSaveClickListener,
         onEditAbortClickListener: OnEditAbortClickListener,
-        onEditImageClickListener: OnEditImageClickListener
+//        onEditImageClickListener: OnEditImageClickListener
     ) {
             this.onClickListener = onClickListener
             this.onDeleteClickListener = onDeleteClickListener
             this.onEditClickListener = onEditClickListener
             this.onEditSaveClickListener = onEditSaveClickListener
             this.onEditAbortClickListener = onEditAbortClickListener
-            this.onEditImageClickListener = onEditImageClickListener
+//            this.onEditImageClickListener = onEditImageClickListener
     }
 
     interface OnClickListener {
@@ -174,7 +224,7 @@ open class UserEditPostsAdapter(
     interface OnEditAbortClickListener{
         fun onClick(position: Int, model: UserPostModel)
     }
-    interface OnEditImageClickListener{
-        fun onClick(position: Int, model: UserPostModel)
-    }
+//    interface OnEditImageClickListener{
+//        fun onClick(position: Int, model: UserPostModel)
+//    }
 }

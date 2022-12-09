@@ -373,7 +373,6 @@ class EditProfileActivity : AppCompatActivity(), View.OnClickListener {
             R.id.user_bg_picture_edit_btn -> {
                 chooseFromGallery(GALLERY_BG_CODE)
                 if (!backgroundByteArray.contentEquals(ByteArray(1))) {
-                    Log.e("aaa", "AAAAA")
                     updateUserBackgroundPicture(backgroundByteArray)
                 }
             }
@@ -643,27 +642,23 @@ class EditProfileActivity : AppCompatActivity(), View.OnClickListener {
             object : UserEditPostsAdapter.OnEditClickListener {
                 override fun onClick(position: Int, model: UserPostModel) {
                     Log.e("edit", model.toString())
-                    //TODO: MOTYL edit post
                 }
             },
             object : UserEditPostsAdapter.OnEditSaveClickListener {
                 override fun onClick(position: Int, model: UserPostModel) {
                     Log.e("edit save", model.toString())
-                    //TODO: MOTYL edit save
                 }
             },
             object : UserEditPostsAdapter.OnEditAbortClickListener {
                 override fun onClick(position: Int, model: UserPostModel) {
                     Log.e("edit abort", model.toString())
-                    //TODO: MOTYL edit abort
                 }
             },
-            object : UserEditPostsAdapter.OnEditImageClickListener {
-                override fun onClick(position: Int, model: UserPostModel) {
-                    Log.e("edit image", model.toString())
-                    //TODO: MOTYL edit image
-                }
-            }
+//            object : UserEditPostsAdapter.OnEditImageClickListener {
+//                override fun onClick(position: Int, model: UserPostModel) {
+//                    Log.e("edit image", model.toString())
+//                }
+//            }
         )
     }
 
