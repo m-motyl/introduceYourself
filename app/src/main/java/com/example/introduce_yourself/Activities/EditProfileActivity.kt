@@ -435,6 +435,7 @@ class EditProfileActivity : AppCompatActivity(), View.OnClickListener {
                             "Link może zawierać od 5 do 100 znaków!",
                             Toast.LENGTH_SHORT
                         ).show()
+                    }
                     !isLinkValid(edit_profile_add_link_url.text.toString()) -> {
                         Toast.makeText(
                             this,
