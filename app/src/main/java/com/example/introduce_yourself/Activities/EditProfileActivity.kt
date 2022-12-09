@@ -561,23 +561,37 @@ class EditProfileActivity : AppCompatActivity(), View.OnClickListener {
         userLinks.setOnClickListener(object : UserLinksAdapter.OnClickListener {
             override fun onClick(position: Int, model: UserLinksModel) {
                 if (remove) {
-                    removeLink(model)
-                    userLinksList.clear()
-                    initUserLinksList.clear()
+                    val alert = AlertDialog.Builder(this@EditProfileActivity)
+                    alert.setTitle("Czy na pewno chcesz usnąć ${model.link}?")
+                    val items = arrayOf(
+                        "Tak",
+                        "Nie"
+                    )
+                    alert.setItems(items) { _, n ->
+                        when (n) {
+                            0 -> {
+                                removeLink(model)
+                                userLinksList.clear()
+                                initUserLinksList.clear()
 
-                    readUserLinks()
-                    linksRecyclerView(userLinksList)
+                                readUserLinks()
+                                linksRecyclerView(userLinksList)
 
-                    if(userLinksList.size > 0){
-                        initUserLinksList.add(userLinksList[0])
-                        if(userLinksList.size < 2){
-                            edit_profile_links_expand_more.visibility = View.GONE
-                            edit_profile_links_expand_less.visibility = View.GONE
-                        }else{
-                            edit_profile_links_expand_more.visibility = View.GONE
-                            edit_profile_links_expand_less.visibility = View.VISIBLE
+                                if(userLinksList.size > 0){
+                                    initUserLinksList.add(userLinksList[0])
+                                    if(userLinksList.size < 2){
+                                        edit_profile_links_expand_more.visibility = View.GONE
+                                        edit_profile_links_expand_less.visibility = View.GONE
+                                    }else{
+                                        edit_profile_links_expand_more.visibility = View.GONE
+                                        edit_profile_links_expand_less.visibility = View.VISIBLE
+                                    }
+                                }
+                            }
+                            1 -> {}
                         }
                     }
+                    alert.show()
                 } else {
                     val alert = AlertDialog.Builder(this@EditProfileActivity)
                     alert.setTitle("Czy chcesz otworzyć ${model.link}?")
