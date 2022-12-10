@@ -7,5 +7,6 @@ data class UserPostModel(
     val date: java.time.LocalDateTime,
     val image: ByteArray,
     val likes: Int? = 0,
-    val dislikes: Int? = 0
+    val dislikes: Int? = 0,
+    var id: Int? = 0,
 )

@@ -95,7 +95,7 @@ class EditProfileActivity : AppCompatActivity(), View.OnClickListener {
         if (userLinksList.size > 0) {
             initUserLinksList.add(userLinksList[0])
             linksRecyclerView(initUserLinksList)
-            if(userLinksList.size < 2) {
+            if (userLinksList.size < 2) {
                 edit_profile_links_expand_more.visibility = View.GONE
             }
         }
@@ -104,7 +104,7 @@ class EditProfileActivity : AppCompatActivity(), View.OnClickListener {
         if (userPostsList.size > 0) {
             initPostsList.add(userPostsList[0])
             postsRecyclerView(initPostsList)
-            if(userPostsList.size < 2){
+            if (userPostsList.size < 2) {
                 edit_profile_posts_expand_more.visibility = View.GONE
             }
         }
@@ -463,7 +463,7 @@ class EditProfileActivity : AppCompatActivity(), View.OnClickListener {
                             readUserLinks()
                             linksRecyclerView(userLinksList)
                             edit_profile_links_expand_more.visibility = View.GONE
-                            if(userLinksList.size > 1){
+                            if (userLinksList.size > 1) {
                                 edit_profile_links_expand_less.visibility = View.VISIBLE
                             }
 
@@ -525,7 +525,7 @@ class EditProfileActivity : AppCompatActivity(), View.OnClickListener {
                             LocalDateTime.now(),
                             postByteArray
                         )
-                        addPostToDB(upm)
+                        upm.id = addPostToDB(upm)
                         userPostsList.clear()
                         userPostsList = readUserPosts(currentUser!!.id.value)
                         postsRecyclerView(userPostsList)
@@ -577,12 +577,12 @@ class EditProfileActivity : AppCompatActivity(), View.OnClickListener {
                                 readUserLinks()
                                 linksRecyclerView(userLinksList)
 
-                                if(userLinksList.size > 0){
+                                if (userLinksList.size > 0) {
                                     initUserLinksList.add(userLinksList[0])
-                                    if(userLinksList.size < 2){
+                                    if (userLinksList.size < 2) {
                                         edit_profile_links_expand_more.visibility = View.GONE
                                         edit_profile_links_expand_less.visibility = View.GONE
-                                    }else{
+                                    } else {
                                         edit_profile_links_expand_more.visibility = View.GONE
                                         edit_profile_links_expand_less.visibility = View.VISIBLE
                                     }
@@ -628,7 +628,8 @@ class EditProfileActivity : AppCompatActivity(), View.OnClickListener {
         val userPosts = UserEditPostsAdapter(this, userPosts)
         edit_profile_posts_recycler_view.adapter = userPosts
 
-            userPosts.setOnClickListener(object : UserEditPostsAdapter.OnClickListener {
+        userPosts.setOnClickListener(
+            object : UserEditPostsAdapter.OnClickListener {
                 override fun onClick(position: Int, model: UserPostModel) {
                 }
             },
@@ -692,7 +693,13 @@ class EditProfileActivity : AppCompatActivity(), View.OnClickListener {
                 .orderBy(UserLinks.position to SortOrder.ASC).toList()
             if (stalked_user_links.isNotEmpty())
                 for (i in stalked_user_links)
-                    userLinksList.add(UserLinksModel(title = i.label.name, link = i.link, id=i.id.value))
+                    userLinksList.add(
+                        UserLinksModel(
+                            title = i.label.name,
+                            link = i.link,
+                            id = i.id.value
+                        )
+                    )
         }
     }
 
@@ -737,6 +744,7 @@ class EditProfileActivity : AppCompatActivity(), View.OnClickListener {
             User.findById(currentUser!!.id)!!.background_picutre = ExposedBlob(ba)
         }
     }
+
     private fun removeUserBackgroundPicture() = runBlocking {
         newSuspendedTransaction(Dispatchers.IO) {
             User.findById(currentUser!!.id)!!.background_picutre = null
@@ -897,7 +905,7 @@ class EditProfileActivity : AppCompatActivity(), View.OnClickListener {
                             )
                         postByteArray = saveImageByteArray(selectedImage)
                         edit_profile_post_picture.setImageBitmap(selectedImage)
-                        if(!postByteArray.contentEquals(ByteArray(1))){
+                        if (!postByteArray.contentEquals(ByteArray(1))) {
                             user_post_picture_remove_btn.visibility = View.VISIBLE
                         }
                     } catch (e: IOException) {
@@ -916,30 +924,37 @@ class EditProfileActivity : AppCompatActivity(), View.OnClickListener {
     private fun removeLink(model: UserLinksModel) = runBlocking {
         newSuspendedTransaction(Dispatchers.IO) { UserLink.findById(model.id!!)!!.delete() }
     }
-    private fun removePost(model: UserPostModel) { //TODO: WITOLD remove post
 
+    private fun removePost(model: UserPostModel) = runBlocking {
+        newSuspendedTransaction(Dispatchers.IO) {
+            UserPost.findById(model.id!!)!!.delete()
+        }
     }
 
-    private fun addPostToDB(upm: UserPostModel) = runBlocking {
-        newSuspendedTransaction(Dispatchers.IO) {
-            UserPost.new {
-                content = upm.post_content
-                if (upm.image.contentEquals(ByteArray(0))){
-                    image = ExposedBlob(ByteArray(0))
-                }else{
-                    image = ExposedBlob(upm.image)
+    private fun addPostToDB(upm: UserPostModel):Int {
+        return runBlocking {
+            return@runBlocking newSuspendedTransaction(Dispatchers.IO) {
+                val u = UserPost.new {
+                    content = upm.post_content
+                    if (upm.image.contentEquals(ByteArray(0))) {
+                        image = ExposedBlob(ByteArray(0))
+                    } else {
+                        image = ExposedBlob(upm.image)
+                    }
+                    date = upm.date
+                    title = upm.post_title
+                    user = currentUser!!
                 }
-                date = upm.date
-                title = upm.post_title
-                user = currentUser!!
+                return@newSuspendedTransaction u.id.value
             }
         }
     }
+
     private fun isLinkValid(s: String): Boolean {
         val regex = (
                 "(https?:\\/\\/(?:www\\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\\." +
-                "[^\\s]{2,}|www\\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\\.[^\\s]{2,}|https?:\\/\\" +
-                "/(?:www\\.|(?!www))[a-zA-Z0-9]+\\.[^\\s]{2,}|www\\.[a-zA-Z0-9]+\\.[^\\s]{2,})"
+                        "[^\\s]{2,}|www\\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\\.[^\\s]{2,}|https?:\\/\\" +
+                        "/(?:www\\.|(?!www))[a-zA-Z0-9]+\\.[^\\s]{2,}|www\\.[a-zA-Z0-9]+\\.[^\\s]{2,})"
                 ).toRegex()
         return regex.matches(s)
     }

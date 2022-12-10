@@ -13,6 +13,9 @@ import com.example.introduce_yourself.R
 import com.example.introduce_yourself.database.UserPost
 import com.example.introduce_yourself.utils.byteArrayToBitmap
 import kotlinx.android.synthetic.main.edit_profile_posts_item_row.view.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.runBlocking
+import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransaction
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
@@ -185,8 +188,13 @@ open class UserEditPostsAdapter(
         newPostTitle: String,
         newPostContext: String,
         newDate: LocalDateTime
-    ) { //TODO: WITOLD update post
-
+    ) = runBlocking{
+        newSuspendedTransaction(Dispatchers.IO) {
+            val p = UserPost.findById(oldPost.id!!)
+            p!!.title = newPostTitle
+            p.content = newPostContext
+            p.date = newDate
+        }
     }
 
     override fun getItemCount(): Int {

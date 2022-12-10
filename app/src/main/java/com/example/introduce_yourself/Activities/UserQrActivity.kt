@@ -29,6 +29,8 @@ import com.budiyev.android.codescanner.ErrorCallback
 import com.budiyev.android.codescanner.ScanMode
 import com.example.introduce_yourself.Models.ReadUserModel
 import com.example.introduce_yourself.R
+import com.example.introduce_yourself.database.User
+import com.example.introduce_yourself.database.Users
 import com.example.introduce_yourself.utils.currentUser
 import com.karumi.dexter.Dexter
 import com.karumi.dexter.MultiplePermissionsReport
@@ -36,6 +38,9 @@ import com.karumi.dexter.PermissionToken
 import com.karumi.dexter.listener.PermissionRequest
 import com.karumi.dexter.listener.multi.MultiplePermissionsListener
 import kotlinx.android.synthetic.main.activity_user_qr.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.runBlocking
+import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransaction
 
 class UserQrActivity : AppCompatActivity(), View.OnClickListener {
 
@@ -90,28 +95,27 @@ class UserQrActivity : AppCompatActivity(), View.OnClickListener {
 
         if (ContextCompat.checkSelfPermission(
                 this,
-                Manifest.permission.CAMERA) == PackageManager.PERMISSION_DENIED
-        ){
+                Manifest.permission.CAMERA
+            ) == PackageManager.PERMISSION_DENIED
+        ) {
             ActivityCompat.requestPermissions(
                 this,
                 arrayOf(Manifest.permission.CAMERA),
                 QR_CODE
             )
-        }
-        else{
+        } else {
             startScanning()
         }
     }
 
     override fun onClick(v: View?) {
-        when(v!!.id){
+        when (v!!.id) {
             R.id.user_qr_switch -> {
                 if (user_qr_scanner.visibility == View.GONE) {
                     user_qr_scanner.visibility = View.VISIBLE
                     user_qr_display_qr.visibility = View.GONE
                     qrSwitch = true
-                }
-                else {
+                } else {
                     user_qr_scanner.visibility = View.GONE
                     user_qr_display_qr.visibility = View.VISIBLE
                     qrSwitch = false
@@ -120,7 +124,7 @@ class UserQrActivity : AppCompatActivity(), View.OnClickListener {
         }
     }
 
-    private fun startScanning(){
+    private fun startScanning() {
         val scannerView: CodeScannerView = findViewById(R.id.user_qr_scanner)
         codescanner = CodeScanner(this, scannerView)
         codescanner.camera = CodeScanner.CAMERA_BACK
@@ -132,11 +136,11 @@ class UserQrActivity : AppCompatActivity(), View.OnClickListener {
         codescanner.isFlashEnabled = false
 
         codescanner.decodeCallback = DecodeCallback {
-            runOnUiThread{
-                if(qrSwitch){
+            runOnUiThread {
+                if (qrSwitch) {
                     Log.e("text", it.text.toString())
                     findUser(it.text)
-                    if(userFound != null) {
+                    if (userFound != null) {
                         val intent = Intent(
                             this@UserQrActivity,
                             UserItemActivity::class.java
@@ -151,7 +155,7 @@ class UserQrActivity : AppCompatActivity(), View.OnClickListener {
             }
         }
         codescanner.errorCallback = ErrorCallback {
-            runOnUiThread{
+            runOnUiThread {
                 Toast.makeText(
                     this,
                     "Camera initialization error",
@@ -165,8 +169,19 @@ class UserQrActivity : AppCompatActivity(), View.OnClickListener {
         }
     }
 
-    private fun findUser(email: String) {
-        //TODO: WITOLD find user and assign to userFound: ReadUserModel
+    private fun findUser(email: String) = runBlocking {
+        newSuspendedTransaction(Dispatchers.IO) {
+            val u = User.find { Users.email eq email }.toList()
+            if (u.isNotEmpty())
+                userFound = ReadUserModel(
+                    id = u[0].id.value,
+                    name = u[0].name,
+                    surname = u[0].surname,
+                    email = u[0].email,
+                    description = u[0].description,
+                    profile_picture = u[0].profile_picture.bytes,
+                )
+        }
     }
 
     override fun onRequestPermissionsResult(
@@ -175,8 +190,8 @@ class UserQrActivity : AppCompatActivity(), View.OnClickListener {
         grantResults: IntArray
     ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        if (requestCode == QR_CODE){
-            if (grantResults[0] == PackageManager.PERMISSION_GRANTED){
+        if (requestCode == QR_CODE) {
+            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 startScanning()
             }
         }
@@ -184,14 +199,14 @@ class UserQrActivity : AppCompatActivity(), View.OnClickListener {
 
     override fun onResume() {
         super.onResume()
-        if(::codescanner.isInitialized){
+        if (::codescanner.isInitialized) {
             codescanner?.startPreview()
         }
     }
 
     override fun onPause() {
         super.onPause()
-        if(::codescanner.isInitialized){
+        if (::codescanner.isInitialized) {
             codescanner?.releaseResources()
         }
     }
