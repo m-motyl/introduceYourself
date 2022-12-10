@@ -636,7 +636,23 @@ class EditProfileActivity : AppCompatActivity(), View.OnClickListener {
             object : UserEditPostsAdapter.OnDeleteClickListener {
                 override fun onClick(position: Int, model: UserPostModel) {
                     Log.e("delete", model.toString())
-                    removePost(model)
+
+                    val alert = AlertDialog.Builder(this@EditProfileActivity)
+                    alert.setTitle("Czy chcesz usunąć ${model.post_title}?")
+                    val items = arrayOf(
+                        "Tak",
+                        "Nie"
+                    )
+                    alert.setItems(items) { _, n ->
+                        when (n) {
+                            0 -> {
+                                removePost(model)
+                            }
+                            1 -> {}
+                        }
+                    }
+                    alert.show()
+
                     //TODO: MOTYL repair list after deleting
                 }
             },

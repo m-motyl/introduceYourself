@@ -10,7 +10,7 @@ import kotlinx.coroutines.runBlocking
 import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransaction
 
 fun readUserPosts(who: Int): ArrayList<UserPostModel> {
-    val userPostsList = ArrayList<UserPostModel>()
+    var userPostsList = ArrayList<UserPostModel>()
     runBlocking {
         newSuspendedTransaction(Dispatchers.IO) {
             val l = UserPost.find { UserPosts.user eq who }.toList()
@@ -30,5 +30,6 @@ fun readUserPosts(who: Int): ArrayList<UserPostModel> {
             }
         }
     }
-    return userPostsList
+
+    return ArrayList(userPostsList.reversed())
 }

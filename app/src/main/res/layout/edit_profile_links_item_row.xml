@@ -60,7 +60,6 @@
                     tools:text="Link" />
             </LinearLayout>
 
-<!--            TODO: Mateusz add delete link onclick-->
             <ImageView
                 android:id="@+id/edit_profile_delete_link_btn"
                 android:layout_width="@dimen/link_icon_size"
