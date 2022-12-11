@@ -8,6 +8,9 @@
     <string name="user_links_title">Linki:</string>
     <string name="edit_profile_no_links_yet">Dodaj swój pierwszy link!</string>
     <string name="user_item_no_links_yet">Użytkownik nie dodał jeszcze żadnego linku</string>
-    <string name="user_posts_title">Posty:</string>
+    <string name="your_posts">Twoje posty:</string>
     <string name="user_item_no_posts_yet">Użytkownik nie dodał jeszcze żadnego postu</string>
+    <string name="show_more">Zobacz więcej</string>
+    <string name="publish">Opublikuj</string>
+    <string name="your_links">Twoje linki:</string>
 </resources>
