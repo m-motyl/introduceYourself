@@ -52,7 +52,6 @@
                    android:background="@drawable/ic_baseline_circle_white_24"
                    android:contentDescription="User background picture edit"
                    android:src="@drawable/ic_outline_build_circle_24" />
-<!--               TODO: Patryk change remove icon??-->
 
                <ImageView
                    android:id="@+id/user_bg_picture_remove_btn"
@@ -60,7 +59,7 @@
                    android:layout_height="@dimen/user_edit_picture_icon_size"
                    android:layout_alignParentBottom="true"
                    android:layout_marginEnd="0dp"
-                   android:visibility="visible"
+                   android:visibility="gone"
                    android:layout_toStartOf="@+id/user_bg_picture_edit_btn"
                    android:background="@drawable/ic_baseline_circle_white_24"
                    android:contentDescription="User background picture remove"
@@ -506,7 +505,7 @@
                             android:visibility="gone"
                             android:layout_toStartOf="@+id/user_post_picture_edit_btn"
                             android:background="@drawable/ic_baseline_circle_white_24"
-                            android:src="@drawable/ic_outline_delete_24" />
+                            android:src="@drawable/ic_outline_remove_circle_outline_24" />
 
                     </RelativeLayout>
                     <EditText
