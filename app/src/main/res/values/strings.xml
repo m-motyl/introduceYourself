@@ -5,12 +5,13 @@
     <string name="user_description_sample">User Description User Description User Description User Description User Description User Description User Description User Description User Description User Description User Description User Description User Description User Description User Description User Description User Description User Description User Description User Description User Description User Description User Description User Description User Description User Description User Description User Description User Description User Description User Description User Description User Description User Description User Description User Description User Description User Description User Description User Description</string>
     <string name="user_item_no_user_description_yet">Użytkownik nie dodał jeszcze opisu</string>
     <string name="user_description_title">Opis:</string>
-    <string name="user_links_title">Linki:</string>
     <string name="edit_profile_no_links_yet">Dodaj swój pierwszy link!</string>
     <string name="user_item_no_links_yet">Użytkownik nie dodał jeszcze żadnego linku</string>
-    <string name="your_posts">Twoje posty:</string>
     <string name="user_item_no_posts_yet">Użytkownik nie dodał jeszcze żadnego postu</string>
     <string name="show_more">Zobacz więcej</string>
     <string name="publish">Opublikuj</string>
-    <string name="your_links">Twoje linki:</string>
+    <string name="your_posts">Twoje posty</string>
+    <string name="your_links">Twoje linki</string>
+    <string name="users_posts">Posty użytkownika</string>
+    <string name="users_links">Linki użytkownika</string>
 </resources>

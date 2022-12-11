@@ -63,5 +63,6 @@
     <color name="post_dislike">@color/fire_opal</color>
     <color name="show_more_btn_text">@color/black</color>
     <color name="show_more_btn">@color/white</color>
+    <color name="list_title_bg">@color/gainsboro</color>
 
 </resources>
