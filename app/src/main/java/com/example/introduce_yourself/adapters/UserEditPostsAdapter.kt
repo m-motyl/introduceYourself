@@ -118,7 +118,9 @@ open class UserEditPostsAdapter(
                                 holder.itemView.edit_profile_post_text_et.text.toString(),
                                 LocalDateTime.now()
                             )
-                            //TODO: MOTYL update posts list after editing
+                            ptr.post_title = holder.itemView.edit_profile_post_title_et.text.toString()
+                            ptr.post_content = holder.itemView.edit_profile_post_text_et.text.toString()
+                            ptr.date = LocalDateTime.now()
 
                             //new title
                             holder.itemView.edit_profile_post_title_tv.setText(

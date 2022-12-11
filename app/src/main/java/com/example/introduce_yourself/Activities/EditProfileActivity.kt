@@ -71,8 +71,11 @@ class EditProfileActivity : AppCompatActivity(), View.OnClickListener {
             finish()
         }
         refreshCurrentUser()
+
         if (currentUser != null) {
-            edit_profile_user_picture.setImageBitmap(byteArrayToBitmap(currentUser!!.profile_picture.bytes))
+            edit_profile_user_picture.setImageBitmap(
+                byteArrayToBitmap(currentUser!!.profile_picture.bytes)
+            )
 
             edit_profile_user_name_tv.text = currentUser!!.name
             edit_profile_user_name_et.setText(currentUser!!.name)
@@ -87,10 +90,13 @@ class EditProfileActivity : AppCompatActivity(), View.OnClickListener {
             edit_profile_user_email_et.setText(currentUser!!.email)
 
             if (currentUser!!.background_picutre != null) {
-                edit_profile_bg_picture.setImageBitmap(byteArrayToBitmap(currentUser!!.background_picutre!!.bytes))
+                edit_profile_bg_picture.setImageBitmap(
+                    byteArrayToBitmap(currentUser!!.background_picutre!!.bytes)
+                )
                 user_bg_picture_remove_btn.visibility = View.VISIBLE
             }
         }
+
         readUserLinks()
         if (userLinksList.size > 0) {
             initUserLinksList.add(userLinksList[0])
@@ -178,7 +184,10 @@ class EditProfileActivity : AppCompatActivity(), View.OnClickListener {
             }
             R.id.user_bg_picture_remove_btn -> {
                 edit_profile_bg_picture.setImageDrawable(
-                    ContextCompat.getDrawable(this, R.drawable.bg_gradient_2)
+                    ContextCompat.getDrawable(
+                        this,
+                        R.drawable.bg_gradient_2
+                    )
                 )
                 user_bg_picture_remove_btn.visibility = View.GONE
                 removeUserBackgroundPicture()
@@ -527,8 +536,20 @@ class EditProfileActivity : AppCompatActivity(), View.OnClickListener {
                         )
                         upm.id = addPostToDB(upm)
                         userPostsList.clear()
+                        initPostsList.clear()
                         userPostsList = readUserPosts(currentUser!!.id.value)
+                        if(userPostsList.size > 0){
+                            initPostsList.add(userPostsList[0])
+                        }
                         postsRecyclerView(userPostsList)
+
+                        if(userPostsList.size > 1){
+                            edit_profile_posts_expand_less.visibility = View.VISIBLE
+                            edit_profile_posts_expand_more.visibility = View.GONE
+                        }else{
+                            edit_profile_posts_expand_less.visibility = View.GONE
+                            edit_profile_posts_expand_more.visibility = View.GONE
+                        }
 
                         edit_profile_post_picture.setImageDrawable(
                             ContextCompat.getDrawable(
@@ -546,6 +567,7 @@ class EditProfileActivity : AppCompatActivity(), View.OnClickListener {
                             "Opublikowano post!",
                             Toast.LENGTH_SHORT
                         ).show()
+
                     }
                 }
             }
@@ -647,13 +669,27 @@ class EditProfileActivity : AppCompatActivity(), View.OnClickListener {
                         when (n) {
                             0 -> {
                                 removePost(model)
+                                userPostsList.clear()
+                                initPostsList.clear()
+
+                                userPostsList = readUserPosts(currentUser!!.id.value)
+                                postsRecyclerView(userPostsList)
+                                if(userPostsList.size > 0){
+                                    initPostsList.add(userPostsList[0])
+                                }
+
+                                if(userPostsList.size > 1){
+                                    edit_profile_posts_expand_more.visibility = View.GONE
+                                    edit_profile_posts_expand_less.visibility = View.VISIBLE
+                                }else{
+                                    edit_profile_posts_expand_more.visibility = View.GONE
+                                    edit_profile_posts_expand_less.visibility = View.GONE
+                                }
                             }
                             1 -> {}
                         }
                     }
                     alert.show()
-
-                    //TODO: MOTYL repair list after deleting
                 }
             },
             object : UserEditPostsAdapter.OnEditClickListener {

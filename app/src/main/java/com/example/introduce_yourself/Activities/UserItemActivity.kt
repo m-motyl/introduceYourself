@@ -91,6 +91,7 @@ class UserItemActivity : AppCompatActivity(), View.OnClickListener {
             } else {
                 user_item_no_posts_tv.visibility = View.VISIBLE
                 user_item_posts_recycler_view.visibility = View.GONE
+                user_item_posts_expand_more.visibility = View.GONE
             }
 
         }
@@ -162,7 +163,6 @@ class UserItemActivity : AppCompatActivity(), View.OnClickListener {
     override fun onClick(v: View?) {
         when(v!!.id){
             R.id.user_item_posts_expand_more -> {
-
                 postsRecyclerView(userPostsList)
 
                 user_item_posts_expand_more.visibility = View.GONE
