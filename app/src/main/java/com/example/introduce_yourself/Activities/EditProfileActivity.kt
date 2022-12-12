@@ -104,6 +104,8 @@ class EditProfileActivity : AppCompatActivity(), View.OnClickListener {
             if (userLinksList.size < 2) {
                 edit_profile_links_expand_more.visibility = View.GONE
             }
+        }else{
+            edit_profile_links_expand_more.visibility = View.GONE
         }
 
         userPostsList = readUserPosts(currentUser!!.id.value)
@@ -113,6 +115,8 @@ class EditProfileActivity : AppCompatActivity(), View.OnClickListener {
             if (userPostsList.size < 2) {
                 edit_profile_posts_expand_more.visibility = View.GONE
             }
+        }else{
+            edit_profile_posts_expand_more.visibility = View.GONE
         }
 
         user_name_edit_btn.setOnClickListener(this)

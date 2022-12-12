@@ -131,7 +131,7 @@ class UserQrActivity : AppCompatActivity(), View.OnClickListener {
         codescanner.formats = CodeScanner.ALL_FORMATS
 
         codescanner.autoFocusMode = AutoFocusMode.SAFE
-        codescanner.scanMode = ScanMode.CONTINUOUS
+        codescanner.scanMode = ScanMode.SINGLE
         codescanner.isAutoFocusEnabled = true
         codescanner.isFlashEnabled = false
 

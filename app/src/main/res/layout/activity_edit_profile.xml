@@ -351,99 +351,111 @@
                 android:background="?attr/user_item_background"
                 android:gravity="center_horizontal"
                 android:orientation="vertical"
-                android:padding="@dimen/standard_page_padding">
+                android:padding="@dimen/standard_page_padding"
+                android:elevation="3dp">
 
-                <RelativeLayout
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:padding="5dp"
-                    android:orientation="horizontal"
-                    android:layout_marginTop="5dp"
+                    android:orientation="vertical"
                     android:layout_marginBottom="10dp"
+                    android:layout_margin="5dp"
+                    android:padding="5dp"
                     android:elevation="3dp"
-                    android:background="?attr/list_title_bg">
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_alignParentStart="true"
-                        android:layout_centerInParent="true"
-                        android:gravity="center"
-                        android:text="@string/your_description"
-                        android:textColor="?attr/text_normal"
-                        android:textSize="@dimen/user_item_title_size" />
+                    android:background="?attr/colorBackground">
 
                     <RelativeLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/user_edit_text_icon_size"
-                        android:layout_alignParentEnd="true"
-                        android:layout_centerInParent="true">
-
-                        <ImageView
-                            android:id="@+id/user_description_edit_btn"
-                            android:layout_width="@dimen/user_edit_text_icon_size"
-                            android:layout_height="@dimen/user_edit_text_icon_size"
-                            android:layout_alignParentStart="true"
-                            android:layout_alignParentTop="true"
-                            android:contentDescription="User description edit button"
-                            android:src="@drawable/ic_outline_edit_24"
-                            android:visibility="visible"
-                            app:tint="?attr/icon_color" />
-
-                        <ImageView
-                            android:id="@+id/user_description_edit_save_btn"
-                            android:layout_width="@dimen/user_edit_text_icon_size"
-                            android:layout_height="@dimen/user_edit_text_icon_size"
-                            android:layout_alignParentStart="true"
-                            android:layout_alignParentTop="true"
-                            android:contentDescription="User description edit save button"
-                            android:src="@drawable/ic_baseline_check_24"
-                            android:visibility="gone"
-                            app:tint="?attr/icon_color" />
-
-                        <ImageView
-                            android:id="@+id/user_description_edit_abort_btn"
-                            android:layout_width="@dimen/user_edit_text_icon_size"
-                            android:layout_height="@dimen/user_edit_text_icon_size"
-                            android:layout_toEndOf="@+id/user_description_edit_save_btn"
-                            android:layout_alignParentTop="true"
-                            android:contentDescription="User description edit abort button"
-                            android:src="@drawable/ic_baseline_settings_backup_restore_24"
-                            android:visibility="gone"
-                            app:tint="?attr/icon_color" />
-                    </RelativeLayout>
-                </RelativeLayout>
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/user_item_line_spacing">
-
-                    <TextView
-                        android:id="@+id/edit_profile_user_description_tv"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_alignParentStart="true"
-                        android:layout_alignParentTop="true"
-                        android:hint="Jeszcze nie dodałeś opisu!"
-                        android:text="@string/user_description_sample"
-                        android:textSize="@dimen/user_item_text_size"
-                        android:textColor="?attr/text_normal"
-                        android:textColorHint="?attr/text_light"
-                        android:visibility="visible" />
+                        android:padding="5dp"
+                        android:orientation="horizontal"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginBottom="10dp"
+                        android:elevation="3dp"
+                        android:background="?attr/list_title_bg">
 
-                    <EditText
-                        android:id="@+id/edit_profile_user_description_et"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentStart="true"
-                        android:layout_alignParentTop="true"
-                        android:textSize="@dimen/user_item_text_size"
-                        android:textColor="?attr/text_normal"
-                        android:text="@string/user_description_sample"
-                        android:visibility="gone" />
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_alignParentStart="true"
+                            android:layout_centerInParent="true"
+                            android:gravity="center"
+                            android:text="@string/your_description"
+                            android:textColor="?attr/text_normal"
+                            android:textSize="@dimen/user_item_title_size" />
+
+                        <RelativeLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/user_edit_text_icon_size"
+                            android:layout_alignParentEnd="true"
+                            android:layout_centerInParent="true">
+
+                            <ImageView
+                                android:id="@+id/user_description_edit_btn"
+                                android:layout_width="@dimen/user_edit_text_icon_size"
+                                android:layout_height="@dimen/user_edit_text_icon_size"
+                                android:layout_alignParentStart="true"
+                                android:layout_alignParentTop="true"
+                                android:contentDescription="User description edit button"
+                                android:src="@drawable/ic_outline_edit_24"
+                                android:visibility="visible"
+                                app:tint="?attr/icon_color" />
+
+                            <ImageView
+                                android:id="@+id/user_description_edit_save_btn"
+                                android:layout_width="@dimen/user_edit_text_icon_size"
+                                android:layout_height="@dimen/user_edit_text_icon_size"
+                                android:layout_alignParentStart="true"
+                                android:layout_alignParentTop="true"
+                                android:contentDescription="User description edit save button"
+                                android:src="@drawable/ic_baseline_check_24"
+                                android:visibility="gone"
+                                app:tint="?attr/icon_color" />
+
+                            <ImageView
+                                android:id="@+id/user_description_edit_abort_btn"
+                                android:layout_width="@dimen/user_edit_text_icon_size"
+                                android:layout_height="@dimen/user_edit_text_icon_size"
+                                android:layout_toEndOf="@+id/user_description_edit_save_btn"
+                                android:layout_alignParentTop="true"
+                                android:contentDescription="User description edit abort button"
+                                android:src="@drawable/ic_baseline_settings_backup_restore_24"
+                                android:visibility="gone"
+                                app:tint="?attr/icon_color" />
+                        </RelativeLayout>
                 </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/user_item_line_spacing">
+
+                        <TextView
+                            android:id="@+id/edit_profile_user_description_tv"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentStart="true"
+                            android:layout_alignParentTop="true"
+                            android:hint="Jeszcze nie dodałeś opisu!"
+                            android:text="@string/user_description_sample"
+                            android:textColor="?attr/text_normal"
+                            android:textColorHint="?attr/text_light"
+                            android:textSize="@dimen/user_item_text_size"
+                            android:visibility="visible" />
+
+                        <EditText
+                            android:id="@+id/edit_profile_user_description_et"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentStart="true"
+                            android:layout_alignParentTop="true"
+                            android:textSize="@dimen/user_item_text_size"
+                            android:textColor="?attr/text_normal"
+                            android:text="@string/user_description_sample"
+                            android:visibility="gone" />
+                    </RelativeLayout>
+                </LinearLayout>
             </LinearLayout>
 
             <View
@@ -546,6 +558,16 @@
                         android:text="@string/publish" />
                 </LinearLayout>
 
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_marginBottom="10dp"
+                    android:layout_margin="5dp"
+                    android:padding="5dp"
+                    android:elevation="3dp"
+                    android:background="?attr/colorBackground">
+
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -570,9 +592,9 @@
                         android:id="@+id/edit_profile_posts_expand_less"
                         android:layout_width="@dimen/user_edit_text_icon_size"
                         android:layout_height="@dimen/user_edit_text_icon_size"
-                        android:layout_marginEnd="10dp"
                         android:layout_alignParentEnd="true"
                         android:layout_centerInParent="true"
+                        android:layout_marginEnd="10dp"
                         android:background="@drawable/ic_baseline_expand_less_24"
                         android:src="@drawable/ic_baseline_expand_less_24"
                         android:visibility="gone"
@@ -594,6 +616,7 @@
                     app:elevation="3dp"
                     android:visibility="visible"
                     android:text="@string/show_more" />
+                </LinearLayout>
             </LinearLayout>
 
             <View
@@ -648,72 +671,83 @@
                         android:text="@string/publish" />
                 </LinearLayout>
 
-                <RelativeLayout
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:padding="5dp"
-                    android:orientation="horizontal"
-                    android:layout_margin="5dp"
+                    android:orientation="vertical"
                     android:layout_marginBottom="10dp"
+                    android:layout_margin="5dp"
+                    android:padding="5dp"
                     android:elevation="3dp"
-                    android:background="?attr/list_title_bg">
+                    android:background="?attr/colorBackground">
 
-                    <ImageView
-                        android:id="@+id/edit_profile_remove_link_btn"
-                        android:layout_width="@dimen/user_edit_text_icon_size"
-                        android:layout_height="@dimen/user_edit_text_icon_size"
-                        android:layout_alignParentStart="true"
-                        android:layout_centerInParent="true"
-                        android:src="@drawable/ic_outline_delete_24"
-                        app:tint="?attr/icon_color" />
-
-                    <ImageView
-                        android:id="@+id/edit_profile_remove_link_abort_btn"
-                        android:layout_width="@dimen/user_edit_text_icon_size"
-                        android:layout_height="@dimen/user_edit_text_icon_size"
-                        android:layout_alignParentStart="true"
-                        android:layout_centerInParent="true"
-                        android:src="@drawable/ic_baseline_check_24"
-                        android:visibility="gone"
-                        app:tint="?attr/icon_color" />
-
-                    <TextView
+                    <RelativeLayout
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_alignParentStart="true"
-                        android:layout_centerInParent="true"
-                        android:gravity="center"
-                        android:text="@string/your_links"
+                        android:layout_height="wrap_content"
+                        android:padding="5dp"
+                        android:orientation="horizontal"
+                        android:layout_margin="5dp"
+                        android:layout_marginBottom="10dp"
+                        android:elevation="3dp"
+                        android:background="?attr/list_title_bg">
+
+                        <ImageView
+                            android:id="@+id/edit_profile_remove_link_btn"
+                            android:layout_width="@dimen/user_edit_text_icon_size"
+                            android:layout_height="@dimen/user_edit_text_icon_size"
+                            android:layout_alignParentStart="true"
+                            android:layout_centerInParent="true"
+                            android:src="@drawable/ic_outline_delete_24"
+                            app:tint="?attr/icon_color" />
+
+                        <ImageView
+                            android:id="@+id/edit_profile_remove_link_abort_btn"
+                            android:layout_width="@dimen/user_edit_text_icon_size"
+                            android:layout_height="@dimen/user_edit_text_icon_size"
+                            android:layout_alignParentStart="true"
+                            android:layout_centerInParent="true"
+                            android:src="@drawable/ic_baseline_check_24"
+                            android:visibility="gone"
+                            app:tint="?attr/icon_color" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_alignParentStart="true"
+                            android:layout_centerInParent="true"
+                            android:gravity="center"
+                            android:text="@string/your_links"
+                            android:textColor="?attr/text_normal"
+                            android:textSize="@dimen/user_item_title_size" />
+
+                        <ImageView
+                            android:id="@+id/edit_profile_links_expand_less"
+                            android:layout_width="@dimen/user_edit_text_icon_size"
+                            android:layout_height="@dimen/user_edit_text_icon_size"
+                            android:layout_marginEnd="10dp"
+                            android:layout_alignParentEnd="true"
+                            android:layout_centerInParent="true"
+                            android:background="@drawable/ic_baseline_expand_less_24"
+                            android:src="@drawable/ic_baseline_expand_less_24"
+                            android:visibility="gone"
+                            app:tint="?attr/icon_color" />
+                    </RelativeLayout>
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/edit_profile_links_recycler_view"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:visibility="visible"/>
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/edit_profile_links_expand_more"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
                         android:textColor="?attr/text_normal"
-                        android:textSize="@dimen/user_item_title_size" />
-
-                    <ImageView
-                        android:id="@+id/edit_profile_links_expand_less"
-                        android:layout_width="@dimen/user_edit_text_icon_size"
-                        android:layout_height="@dimen/user_edit_text_icon_size"
-                        android:layout_marginEnd="10dp"
-                        android:layout_alignParentEnd="true"
-                        android:layout_centerInParent="true"
-                        android:background="@drawable/ic_baseline_expand_less_24"
-                        android:src="@drawable/ic_baseline_expand_less_24"
-                        android:visibility="gone"
-                        app:tint="?attr/icon_color" />
-                </RelativeLayout>
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/edit_profile_links_recycler_view"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:visibility="visible"/>
-
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/edit_profile_links_expand_more"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textColor="?attr/text_normal"
-                    app:backgroundTint="?attr/colorBackground"
-                    app:elevation="3dp"
-                    android:text="Zobacz więcej" />
+                        app:backgroundTint="?attr/colorBackground"
+                        app:elevation="3dp"
+                        android:text="Zobacz więcej" />
+                </LinearLayout>
             </LinearLayout>
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>

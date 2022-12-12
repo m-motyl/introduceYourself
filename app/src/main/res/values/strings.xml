@@ -12,7 +12,7 @@
     <string name="your_description">Twój opis</string>
     <string name="your_posts">Twoje posty</string>
     <string name="your_links">Twoje linki</string>
-    <string name="users_description">Opis użytkownika</string>
+    <string name="users_description">Opis profilu</string>
     <string name="users_posts">Posty użytkownika</string>
     <string name="users_links">Linki użytkownika</string>
 </resources>
