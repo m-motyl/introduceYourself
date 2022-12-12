@@ -19,7 +19,7 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             tools:ignore="UseCompoundDrawables"
-            android:background="@color/white">
+            android:background="?attr/colorBackground">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -34,7 +34,7 @@
 <!--                    android:layout_height="@dimen/post_profile_picture_size"-->
 <!--                    android:contentDescription="Post profile picture"-->
 <!--                    android:src="@drawable/add_screen_image_placeholder"-->
-<!--                    app:civ_border_color="@color/user_picture_border"-->
+<!--                    app:civ_border_color="?attr/user_picture_border"-->
 <!--                    app:civ_border_width="@dimen/small_user_picture_border"-->
 <!--                    android:layout_weight="0"/>-->
 
@@ -55,7 +55,7 @@
                             android:layout_height="wrap_content"
                             android:layout_alignParentStart="true"
                             android:layout_alignParentTop="true"
-                            android:textColor="@color/text_dark"
+                            android:textColor="?attr/text_normal"
                             android:textSize="18sp"
                             android:textStyle="bold"
                             android:visibility="visible"
@@ -67,7 +67,7 @@
                             android:layout_height="wrap_content"
                             android:layout_alignParentStart="true"
                             android:layout_alignParentTop="true"
-                            android:textColor="@color/text_dark"
+                            android:textColor="?attr/text_normal"
                             android:textSize="18sp"
                             android:textStyle="bold"
                             tools:text="Post Title"
@@ -79,7 +79,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginHorizontal="10dp"
-                        android:textColor="@color/text_gray"
+                        android:textColor="?attr/text_light"
                         android:textSize="14sp"
                         tools:text="@tools:sample/date/ddmmyy" />
                 </LinearLayout>
@@ -112,7 +112,8 @@
                         android:layout_alignParentTop="true"
                         android:contentDescription="Post edit button"
                         android:src="@drawable/ic_outline_edit_24"
-                        android:visibility="visible" />
+                        android:visibility="visible"
+                        app:tint="?attr/icon_color" />
 
                     <ImageView
                         android:id="@+id/post_edit_save_btn"
@@ -122,7 +123,8 @@
                         android:layout_alignParentTop="true"
                         android:contentDescription="Post edit save button"
                         android:src="@drawable/ic_baseline_check_24"
-                        android:visibility="gone" />
+                        android:visibility="gone"
+                        app:tint="?attr/icon_color" />
 
                     <ImageView
                         android:id="@+id/post_edit_abort_btn"
@@ -132,7 +134,8 @@
                         android:layout_alignParentTop="true"
                         android:contentDescription="Post edit abort button"
                         android:src="@drawable/ic_baseline_settings_backup_restore_24"
-                        android:visibility="gone" />
+                        android:visibility="gone"
+                        app:tint="?attr/icon_color" />
 
                     <ImageView
                         android:id="@+id/post_delete_btn"
@@ -142,14 +145,15 @@
                         android:layout_toEndOf="@+id/post_edit_btn"
                         android:contentDescription="Post delete button"
                         android:src="@drawable/ic_outline_delete_24"
-                        android:visibility="visible" />
+                        android:visibility="visible"
+                        app:tint="?attr/icon_color" />
                 </RelativeLayout>
             </LinearLayout>
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="@color/underline" />
+                android:background="?attr/underline" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -200,7 +204,7 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentStart="true"
                         android:layout_alignParentTop="true"
-                        android:textColor="@color/text_dark"
+                        android:textColor="?attr/text_normal"
                         android:textSize="18sp"
                         android:visibility="visible"
                         tools:text="@tools:sample/lorem" />
@@ -211,7 +215,7 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentStart="true"
                         android:layout_alignParentTop="true"
-                        android:textColor="@color/text_dark"
+                        android:textColor="?attr/text_normal"
                         android:textSize="18sp"
                         android:visibility="gone"
                         tools:text="@tools:sample/lorem" />
@@ -221,7 +225,7 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="@color/underline" />
+                android:background="?attr/underline" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -236,14 +240,15 @@
                     android:layout_height="@dimen/under_post_icon_size"
                     android:contentDescription="Like button"
                     android:src="@drawable/ic_baseline_thumb_up_off_alt_24"
-                    android:layout_weight="1" />
+                    android:layout_weight="1"
+                    app:tint="?attr/icon_color" />
 
                 <TextView
                     android:id="@+id/edit_profile_post_like_number"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="@dimen/under_post_space_between_btns"
-                    android:textColor="@color/post_like"
+                    android:textColor="?attr/post_like"
                     android:textSize="@dimen/under_post_icon_size"
                     android:textStyle="bold"
                     tools:text="0"
@@ -253,7 +258,7 @@
                     android:id="@+id/edit_profile_post_dislike_number"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/post_dislike"
+                    android:textColor="?attr/post_dislike"
                     android:textSize="@dimen/under_post_icon_size"
                     android:textStyle="bold"
                     tools:text="0"
@@ -265,7 +270,8 @@
                     android:layout_height="@dimen/under_post_icon_size"
                     android:contentDescription="Dislike button"
                     android:src="@drawable/ic_baseline_thumb_down_off_alt_24"
-                    android:layout_weight="1" />
+                    android:layout_weight="1"
+                    app:tint="?attr/icon_color" />
             </LinearLayout>
         </LinearLayout>
     </androidx.cardview.widget.CardView>

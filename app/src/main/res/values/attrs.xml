@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <attr name="colorBackground" format="color" />
+    <attr name="main_background" format="color" />
+    <attr name="main_item_background" format="color" />
+    <attr name="user_item_background" format="color" />
+
+    <attr name="si_su_bg_gradient1" format="color" />
+    <attr name="si_su_bg_gradient2" format="color" />
+    <attr name="si_su_icon" format="color" />
+    <attr name="text_light" format="color" />
+    <attr name="text_normal" format="color" />
+    <attr name="icon_color" format="color" />
+    <attr name="nav_header" format="color" />
+    <attr name="underline" format="color" />
+    <attr name="toolbar" format="color" />
+    <attr name="user_picture_border" format="color" />
+    <attr name="post_like" format="color" />
+    <attr name="post_dislike" format="color" />
+    <attr name="publish_btn" format="color" />
+    <attr name="list_title_bg" format="color" />
+</resources>

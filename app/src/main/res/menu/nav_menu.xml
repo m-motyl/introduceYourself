@@ -45,5 +45,5 @@
                 android:icon="@drawable/ic_baseline_logout_24"
                 android:title="Wyloguj" />
         </menu>
-    </item>=
+    </item>
 </menu>

@@ -4,15 +4,17 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Activities.UserQrActivity">
+    android:background="?attr/colorBackground"
+    tools:context=".Activities.UserQrActivity"
+    tools:ignore="UseSwitchCompatOrMaterialXml">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar_user_qr"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:background="@color/toolbar"
+        android:background="?attr/toolbar"
         android:minHeight="?attr/actionBarSize"
-        android:theme="?attr/actionBarTheme"
+        android:theme="@style/CustomToolbarStyle"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -33,6 +35,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
+        android:thumbTint="?attr/colorSecondary"
+        android:trackTint="?attr/text_normal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/toolbar_user_qr" />
@@ -43,8 +47,8 @@
         android:layout_height="match_parent"
         android:layout_marginTop="100dp"
         android:visibility="gone"
-        app:maskColor="@color/white"
-        app:frameColor="@color/selective_yellow"
+        app:maskColor="?attr/colorBackground"
+        app:frameColor="?attr/colorSecondary"
         app:flashButtonVisible="false"
         />
 
@@ -54,6 +58,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:text="Udostępnij"
+        android:textSize="20sp"
+        android:textColor="?attr/text_normal"
         app:layout_constraintEnd_toStartOf="@+id/user_qr_switch"
         app:layout_constraintHorizontal_bias="0.8"
         app:layout_constraintStart_toStartOf="parent"
@@ -66,6 +72,8 @@
         android:layout_marginTop="10dp"
         app:layout_constraintHorizontal_bias="0.2"
         android:text="Zeskanuj"
+        android:textSize="20sp"
+        android:textColor="?attr/text_normal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/user_qr_switch"
         app:layout_constraintTop_toBottomOf="@+id/toolbar_user_qr" />

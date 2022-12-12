@@ -37,6 +37,9 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        // TODO: Mateusz changing theme in all activities
+        //https://riptutorial.com/android/example/25632/multiple-themes-in-one-app
+//        setTheme(R.style.Theme1_Introduce_yourself);
         setContentView(R.layout.activity_main)
 
         drawerLayout = findViewById<DrawerLayout>(R.id.main_drawer_layout)

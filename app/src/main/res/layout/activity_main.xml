@@ -9,15 +9,16 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="?attr/main_background">
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar_main"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="@color/toolbar"
+            android:background="?attr/toolbar"
             android:minHeight="?attr/actionBarSize"
-            android:theme="?attr/actionBarTheme"
+            android:theme="@style/CustomToolbarStyle"
             app:menu="@menu/top_app_bar"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -41,6 +42,10 @@
         android:layout_height="match_parent"
         android:layout_gravity="start"
         android:fitsSystemWindows="true"
+        android:background="?attr/colorBackground"
+        app:subheaderColor="?attr/text_normal"
+        app:itemTextColor="?attr/text_normal"
+        app:itemIconTint="?attr/text_normal"
         app:headerLayout="@layout/nav_header"
         app:menu="@menu/nav_menu"/>
 

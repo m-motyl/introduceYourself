@@ -1,12 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
 
-    <color name="colorPrimary">@color/blue_green</color>
-    <color name="colorPrimaryDark">@color/prussian_blue</color>
-    <color name="colorAccent">@color/light_cornflower_blue</color>
-    <color name="si_su_bg_gradient1">@color/tiffany_blue</color>
-    <color name="si_su_bg_gradient2">@color/light_cyan</color>
-
     <!--    https://coolors.co/palette/0fa3b1-d9e5d6-eddea4-f7a072-ff9b42-->
     <color name="viridian_green">#0fa3b1</color>
     <color name="honeydew">#d9e5d6</color>
@@ -43,26 +37,6 @@
     <color name="fire_opal">#ee6352</color>
     <color name="emerald">#59cd90</color>
 
-    <color name="purple_200">#FFBB86FC</color>
-    <color name="purple_500">#FF6200EE</color>
-    <color name="purple_700">#FF3700B3</color>
-    <color name="teal_200">#FF03DAC5</color>
-    <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
-
-    <color name="text_gray">@color/davys_grey</color>
-    <color name="text_dark">@color/eerie_black</color>
-    <color name="text_black">#000000</color>
-    <color name="si_su_icon">#2E2E2E</color>
-    <color name="nav_header">@color/light_cornflower_blue</color>
-    <color name="underline">@color/sonic_silver</color>
-    <color name="toolbar">@color/blue_green</color>
-    <color name="user_picture_border">@color/prussian_blue</color>
-    <color name="user_item_background">@color/white</color>
-    <color name="post_like">@color/emerald</color>
-    <color name="post_dislike">@color/fire_opal</color>
-    <color name="show_more_btn_text">@color/black</color>
-    <color name="show_more_btn">@color/white</color>
-    <color name="list_title_bg">@color/gainsboro</color>
 
 </resources>

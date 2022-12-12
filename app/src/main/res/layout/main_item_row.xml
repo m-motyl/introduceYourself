@@ -20,7 +20,8 @@
             android:gravity="center"
             android:orientation="horizontal"
             tools:ignore="UseCompoundDrawables"
-            android:padding="5dp">
+            android:padding="5dp"
+            android:background="?attr/main_item_background">
 
             <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/main_iv_user_picture"
@@ -29,7 +30,7 @@
                 android:padding="5dp"
                 android:contentDescription="@string/app_name"
                 android:src="@mipmap/ic_launcher_round"
-                app:civ_border_color="@color/user_picture_border"
+                app:civ_border_color="?attr/user_picture_border"
                 app:civ_border_width="@dimen/user_picture_border" />
 
             <LinearLayout
@@ -43,7 +44,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="10dp"
-                    android:textColor="@color/text_dark"
+                    android:textColor="?attr/text_normal"
                     android:textSize="18sp"
                     android:textStyle="bold"
                     tools:text="User" />
@@ -52,7 +53,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="10dp"
-                    android:textColor="@color/text_gray"
+                    android:textColor="?attr/text_light"
                     android:textSize="14sp"
                     tools:text="E-mail" />
                 <TextView
@@ -60,7 +61,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="10dp"
-                    android:textColor="@color/text_gray"
+                    android:textColor="?attr/text_light"
                     android:textSize="14sp"
                     android:maxLines="1"
                     android:ellipsize="end"
