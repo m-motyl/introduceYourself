@@ -33,3 +33,7 @@ fun readUserPosts(who: Int): ArrayList<UserPostModel> {
 
     return ArrayList(userPostsList.reversed())
 }
+fun readNextFivePosts(who: Int): ArrayList<UserPostModel>{ //TODO WITOLD read 5 posts, offset fun argument??
+    val userPostsList = ArrayList<UserPostModel>()
+    return ArrayList(userPostsList.reversed())
+}
