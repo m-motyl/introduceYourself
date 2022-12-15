@@ -113,12 +113,12 @@ class SignInActivity : AppCompatActivity(), View.OnClickListener {
                 User.find {
                     Users.email eq signInModel.email and
                             (Users.password eq hashString(signInModel.password))
-                }.toList()
+                }.firstOrNull()
             }
-            if (result.isNotEmpty()) {
-                currentUser = result.elementAt(0)
-            }
-            return@runBlocking result.isNotEmpty()
+            if (result != null) {
+                currentUser = result
+                true
+            } else false
         }
     }
 

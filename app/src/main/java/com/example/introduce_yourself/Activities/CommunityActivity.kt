@@ -12,22 +12,29 @@ import com.example.introduce_yourself.Models.UserPostModel
 import com.example.introduce_yourself.R
 import com.example.introduce_yourself.adapters.UserEditPostsAdapter
 import com.example.introduce_yourself.adapters.UserInvitationsAdapter
+import com.example.introduce_yourself.database.Friend
+import com.example.introduce_yourself.database.Friends
 import com.example.introduce_yourself.database.User
 import com.example.introduce_yourself.utils.currentUser
+import com.example.introduce_yourself.utils.getCommunityList
 import com.recyclerviewapp.UsersList
 import kotlinx.android.synthetic.main.activity_community.*
 import kotlinx.android.synthetic.main.activity_edit_profile.*
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.runBlocking
+import org.jetbrains.exposed.sql.and
+import org.jetbrains.exposed.sql.or
 import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransaction
+import org.jetbrains.exposed.sql.transactions.transaction
 
 class CommunityActivity : AppCompatActivity(), View.OnClickListener {
     companion object {
         const val FRIEND_DETAILS = "user_details"
     }
+
     private var friendsList = ArrayList<ReadUserModel>()
-    private var invitationsList = ArrayList<ReadInvitationsModel>()
+    private var invitationsList = ArrayList<ReadUserModel>()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_community)
@@ -39,7 +46,7 @@ class CommunityActivity : AppCompatActivity(), View.OnClickListener {
             finish()
         }
 
-        getFriendsList()
+        friendsList = getCommunityList(currentUser!!.id.value, 1)
         friendsRecyclerView(friendsList)
 
         community_friends_list_button.setOnClickListener(this)
@@ -47,24 +54,27 @@ class CommunityActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     override fun onClick(v: View?) {
-        when(v!!.id){
+        when (v!!.id) {
             R.id.community_friends_list_button -> {
-                if(community_friends_rv.visibility == View.GONE) {
+                if (community_friends_rv.visibility == View.GONE) {
                     community_friends_rv.visibility = View.VISIBLE
                     community_invitations_rv.visibility = View.GONE
                     Log.e("community", "friends")
                     friendsList.clear()
-                    getFriendsList()
+                    friendsList = getCommunityList(currentUser!!.id.value, 1)
                     friendsRecyclerView(friendsList)
                 }
             }
             R.id.community_invitations_list_button -> {
-                if(community_invitations_rv.visibility == View.GONE){
+                if (community_invitations_rv.visibility == View.GONE) {
                     community_friends_rv.visibility = View.GONE
                     community_invitations_rv.visibility = View.VISIBLE
                     Log.e("community", "inv")
                     invitationsList.clear()
-                    getInvitationsList()
+                    invitationsList = getCommunityList(
+                        currentUser!!.id.value,
+                        0
+                    ) //todo Mateusz ReadInvitationsModel -> ReadUserModel
                     usersInvitationsRecyclerView(invitationsList)
                 }
             }
@@ -94,7 +104,7 @@ class CommunityActivity : AppCompatActivity(), View.OnClickListener {
         })
     }
 
-    private fun usersInvitationsRecyclerView(readUserInvitationsModelList: ArrayList<ReadInvitationsModel>) {
+    private fun usersInvitationsRecyclerView(readUserInvitationsModelList: ArrayList<ReadUserModel>) {
         community_invitations_rv.layoutManager = LinearLayoutManager(this)
         community_invitations_rv.setHasFixedSize(true)
         val userInvitationsList = UserInvitationsAdapter(this, readUserInvitationsModelList)
@@ -102,59 +112,37 @@ class CommunityActivity : AppCompatActivity(), View.OnClickListener {
 
         userInvitationsList.setOnClickListener(
             object : UserInvitationsAdapter.OnClickListener {
-                override fun onClick(position: Int, model: ReadInvitationsModel) {
+                override fun onClick(position: Int, model: ReadUserModel) {
                     Log.e("index", position.toString())
-                } },
+                }
+            },
             object : UserInvitationsAdapter.OnAcceptClickListener {
-                override fun onClick(position: Int, model: ReadInvitationsModel) {
+                override fun onClick(position: Int, model: ReadUserModel) {
                     Log.e("accept index ", position.toString())
-                    acceptInvitation(model)
+                    changeInvitationStatus(model, 1)
                 }
             },
             object : UserInvitationsAdapter.OnRejectClickListener {
-                override fun onClick(position: Int, model: ReadInvitationsModel) {
+                override fun onClick(position: Int, model: ReadUserModel) {
                     Log.e("reject index ", position.toString())
-                    rejectInvitation(model)
+                    changeInvitationStatus(model, -1)
                 }
             }
         )
     }
 
-    private fun getFriendsList() = runBlocking { //TODO WITOLD get friends list
-        newSuspendedTransaction(Dispatchers.IO) {
-            val list = User.all().limit(5).toList()
-            if (list.isNotEmpty())
-                exposedToModel(list)
+    private fun changeInvitationStatus(model: ReadUserModel, new: Int) =
+        runBlocking {
+            newSuspendedTransaction(Dispatchers.IO) {
+                val x =
+                    Friend.find { (Friends.to eq currentUser!!.id) and (Friends.from eq model.id) }
+                        .firstOrNull()
+                if (x != null)
+                    when (new) {
+                        1 -> x.status = 1
+                        -1 -> x.delete()
+                    }
+            }
         }
-    }
 
-    private fun exposedToModel(list: List<User>) {
-        for (i in list)
-            friendsList.add(
-                ReadUserModel(
-                    id = i.id.value,
-                    name = i.name,
-                    surname = i.surname,
-                    email = i.email,
-                    description = i.description,
-                    profile_picture = i.profile_picture.bytes
-                )
-            )
-    }
-    private fun getInvitationsList() { //TODO: WITOLD get invitations list, assign to invitationsList  ArrayList<ReadInvitationsModel>
-        invitationsList.add(
-            ReadInvitationsModel(
-            1,
-            "Mateusz",
-            "Motyl",
-                "motyl@poczta.pl",
-            currentUser!!.profile_picture.bytes
-        ))
-    }
-    private fun acceptInvitation(model: ReadInvitationsModel) { //TODO: WITOLD accept invitation
-
-    }
-    private fun rejectInvitation(model: ReadInvitationsModel) { //TODO: WITOLD reject invitation
-
-    }
 }

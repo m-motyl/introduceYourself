@@ -7,13 +7,14 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.introduce_yourself.Models.ReadInvitationsModel
+import com.example.introduce_yourself.Models.ReadUserModel
 import com.example.introduce_yourself.R
 import com.example.introduce_yourself.utils.byteArrayToBitmap
 import kotlinx.android.synthetic.main.community_invitation_item.view.*
 
 open class UserInvitationsAdapter(
     private val context: Context,
-    private var listOfUsers: ArrayList<ReadInvitationsModel>
+    private var listOfUsers: ArrayList<ReadUserModel>
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     private var onClickListener: OnClickListener? = null
     private var onAcceptClickListener: OnAcceptClickListener? = null
@@ -37,7 +38,7 @@ open class UserInvitationsAdapter(
         if (holder is OwnViewHolder) {
             holder.itemView.community_invitation_item_user_name.text = ptr.name + " " + ptr.surname
             holder.itemView.community_invitation_item_user_email.text = ptr.email
-            holder.itemView.community_invitation_item_user_picture.setImageBitmap(byteArrayToBitmap(ptr.image))
+            holder.itemView.community_invitation_item_user_picture.setImageBitmap(byteArrayToBitmap(ptr.profile_picture))
 
             holder.itemView.setOnClickListener {
                 if (onClickListener != null) {
@@ -72,12 +73,12 @@ open class UserInvitationsAdapter(
     }
 
     interface OnClickListener {
-        fun onClick(position: Int, model: ReadInvitationsModel)
+        fun onClick(position: Int, model: ReadUserModel)
     }
     interface OnAcceptClickListener {
-        fun onClick(position: Int, model: ReadInvitationsModel)
+        fun onClick(position: Int, model: ReadUserModel)
     }
     interface OnRejectClickListener {
-        fun onClick(position: Int, model: ReadInvitationsModel)
+        fun onClick(position: Int, model: ReadUserModel)
     }
 }

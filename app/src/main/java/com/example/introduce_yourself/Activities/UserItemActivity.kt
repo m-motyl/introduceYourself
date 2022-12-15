@@ -13,9 +13,7 @@ import com.example.introduce_yourself.Models.UserLinksModel
 import com.example.introduce_yourself.Models.UserPostModel
 import com.example.introduce_yourself.R
 import com.example.introduce_yourself.adapters.UserPostsAdapter
-import com.example.introduce_yourself.database.User
-import com.example.introduce_yourself.database.UserLink
-import com.example.introduce_yourself.database.UserLinks
+import com.example.introduce_yourself.database.*
 import com.example.introduce_yourself.utils.byteArrayToBitmap
 import com.example.introduce_yourself.utils.currentUser
 import com.example.introduce_yourself.utils.readUserPosts
@@ -24,6 +22,9 @@ import kotlinx.android.synthetic.main.activity_user_item.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.runBlocking
 import org.jetbrains.exposed.sql.SortOrder
+import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
+import org.jetbrains.exposed.sql.and
+import org.jetbrains.exposed.sql.or
 import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransaction
 
 class UserItemActivity : AppCompatActivity(), View.OnClickListener {
@@ -77,7 +78,7 @@ class UserItemActivity : AppCompatActivity(), View.OnClickListener {
             if (userLinksList.size > 0) {
                 initLinksList.add(userLinksList[0])
                 usersLinksRecyclerView(initLinksList)
-                if(userLinksList.size < 2){
+                if (userLinksList.size < 2) {
                     user_item_links_expand_more.visibility = View.GONE
                 }
             } else {
@@ -90,7 +91,7 @@ class UserItemActivity : AppCompatActivity(), View.OnClickListener {
             if (userPostsList.size > 0) {
                 initPostsList.add(userPostsList[0])
                 postsRecyclerView(initPostsList)
-                if(userPostsList.size < 2){
+                if (userPostsList.size < 2) {
                     user_item_posts_expand_more.visibility = View.GONE
                 }
             } else {
@@ -99,11 +100,11 @@ class UserItemActivity : AppCompatActivity(), View.OnClickListener {
                 user_item_posts_expand_more.visibility = View.GONE
             }
 
-            if(currentUser!!.id.value == readUserModel!!.id){
+            if (currentUser!!.id.value == readUserModel!!.id) {
                 user_item_invite_user.visibility = View.GONE
             }
 
-            if(checkIfAlreadyFriends(readUserModel!!.id)){
+            if (checkIfAlreadyFriends(readUserModel!!.id)) {
                 user_item_invite_user.visibility = View.GONE
             }
         }
@@ -174,7 +175,7 @@ class UserItemActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     override fun onClick(v: View?) {
-        when(v!!.id){
+        when (v!!.id) {
             R.id.user_item_posts_expand_more -> {
                 postsRecyclerView(userPostsList)
 
@@ -200,43 +201,65 @@ class UserItemActivity : AppCompatActivity(), View.OnClickListener {
                 user_item_links_expand_less.visibility = View.GONE
             }
             R.id.user_item_invite_user -> {
-                when{
-                    checkNoFriends(readUserModel!!.id) -> {
+                when (inviteFriend(readUserModel!!.id)) {
+                    "friend_limit" -> {
                         Toast.makeText(
                             this,
                             "Osiągnięto limit znajomych! (50)",
                             Toast.LENGTH_SHORT
                         ).show()
                     }
-                    checkIfAlreadyInvited(readUserModel!!.id) -> {
+                    "already_sent" -> {
                         Toast.makeText(
                             this,
                             "Zaproszenie już zostało wysłane",
                             Toast.LENGTH_SHORT
                         ).show()
                     }
-                    else -> {
-                        inviteFriend(readUserModel!!.id)
-                    }
                 }
             }
         }
     }
 
-    private fun inviteFriend(id: Int) { //TODO WITOLD invite user
+    private fun inviteFriend(who: Int): String {
+        return runBlocking {
+            newSuspendedTransaction(Dispatchers.IO) {
+                when {
+                    Friend.find {
+                        (((Friends.from eq currentUser!!.id) and (Friends.to eq who)) or
+                                ((Friends.to eq currentUser!!.id) and
+                                        (Friends.from eq who))) and (Friends.status eq 0)
+                    }.toList().isNotEmpty() -> "already_sent"
+                    Friend.find {
+                        ((Friends.from eq currentUser!!.id) or
+                                (Friends.to eq currentUser!!.id)) and (Friends.status eq 1)
+                    }
+                        .count() > 50 -> "friend_limit"
+                    else -> {
+                        Friend.new {
+                            status = 0
+                            from = currentUser!!
+                            to = User.findById(who)!!
+                        }
+                        "ok"
+                    }
+                }
 
+            }
+        }
     }
 
-    private fun checkIfAlreadyInvited(id: Int): Boolean { //TODO WITOLD check if already invited
-        return false                                      //true - already invited
-    }                                                     //false - no
 
-    private fun checkIfAlreadyFriends(id: Int): Boolean { //TODO WITOLD check if already friends
-        return false                                    //true - already friends
-    }                                                   //false - not
-
-    private fun checkNoFriends(id: Int): Boolean { //TODO WITOLD check if no friends < 50
-        return false                                //true - more than 50
-    }                                               //false - less equal
+    private fun checkIfAlreadyFriends(who: Int): Boolean {
+        return runBlocking {
+            newSuspendedTransaction(Dispatchers.IO) {
+                Friend.find {
+                    (((Friends.from eq currentUser!!.id) and (Friends.to eq who)) or
+                            ((Friends.to eq currentUser!!.id) and (Friends.from eq who))) and
+                            (Friends.status eq 1)
+                }.toList().isNotEmpty()
+            }
+        }
+    }
 
 }

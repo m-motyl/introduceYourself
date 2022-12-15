@@ -110,7 +110,7 @@ class EditProfileActivity : AppCompatActivity(), View.OnClickListener {
 
         userPostsList = readUserPosts(currentUser!!.id.value)
         if (userPostsList.size > 0) {
-            initPostsList.add(userPostsList[0])
+            initPostsList=userPostsList
             postsRecyclerView(initPostsList)
             if (userPostsList.size < 2) {
                 edit_profile_posts_expand_more.visibility = View.GONE
@@ -543,7 +543,7 @@ class EditProfileActivity : AppCompatActivity(), View.OnClickListener {
                         initPostsList.clear()
                         userPostsList = readUserPosts(currentUser!!.id.value)
                         if(userPostsList.size > 0){
-                            initPostsList.add(userPostsList[0])
+                            initPostsList=userPostsList
                         }
                         postsRecyclerView(userPostsList)
 
@@ -679,7 +679,7 @@ class EditProfileActivity : AppCompatActivity(), View.OnClickListener {
                                 userPostsList = readUserPosts(currentUser!!.id.value)
                                 postsRecyclerView(userPostsList)
                                 if(userPostsList.size > 0){
-                                    initPostsList.add(userPostsList[0])
+                                    initPostsList=userPostsList
                                 }
 
                                 if(userPostsList.size > 1){
