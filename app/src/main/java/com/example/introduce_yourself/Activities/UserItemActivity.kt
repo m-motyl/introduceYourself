@@ -5,6 +5,7 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.introduce_yourself.Models.ReadUserModel
@@ -16,6 +17,7 @@ import com.example.introduce_yourself.database.User
 import com.example.introduce_yourself.database.UserLink
 import com.example.introduce_yourself.database.UserLinks
 import com.example.introduce_yourself.utils.byteArrayToBitmap
+import com.example.introduce_yourself.utils.currentUser
 import com.example.introduce_yourself.utils.readUserPosts
 import com.recyclerviewapp.UserLinksAdapter
 import kotlinx.android.synthetic.main.activity_user_item.*
@@ -44,7 +46,10 @@ class UserItemActivity : AppCompatActivity(), View.OnClickListener {
         toolbar_user_item.setNavigationOnClickListener {
             finish()
         }
-
+        if (intent.hasExtra(CommunityActivity.FRIEND_DETAILS)) {
+            readUserModel = intent.getSerializableExtra(CommunityActivity.FRIEND_DETAILS)
+                    as ReadUserModel
+        }
         if (intent.hasExtra(MainActivity.USER_DETAILS)) {
             readUserModel = intent.getSerializableExtra(MainActivity.USER_DETAILS)
                     as ReadUserModel
@@ -94,11 +99,19 @@ class UserItemActivity : AppCompatActivity(), View.OnClickListener {
                 user_item_posts_expand_more.visibility = View.GONE
             }
 
+            if(currentUser!!.id.value == readUserModel!!.id){
+                user_item_invite_user.visibility = View.GONE
+            }
+
+            if(checkIfAlreadyFriends(readUserModel!!.id)){
+                user_item_invite_user.visibility = View.GONE
+            }
         }
         user_item_posts_expand_more.setOnClickListener(this)
         user_item_posts_expand_less.setOnClickListener(this)
         user_item_links_expand_more.setOnClickListener(this)
         user_item_links_expand_less.setOnClickListener(this)
+        user_item_invite_user.setOnClickListener(this)
     }
 
     private fun usersLinksRecyclerView(userLinks: ArrayList<UserLinksModel>) {
@@ -186,7 +199,44 @@ class UserItemActivity : AppCompatActivity(), View.OnClickListener {
                 user_item_links_expand_more.visibility = View.VISIBLE
                 user_item_links_expand_less.visibility = View.GONE
             }
+            R.id.user_item_invite_user -> {
+                when{
+                    checkNoFriends(readUserModel!!.id) -> {
+                        Toast.makeText(
+                            this,
+                            "Osiągnięto limit znajomych! (50)",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                    checkIfAlreadyInvited(readUserModel!!.id) -> {
+                        Toast.makeText(
+                            this,
+                            "Zaproszenie już zostało wysłane",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                    else -> {
+                        inviteFriend(readUserModel!!.id)
+                    }
+                }
+            }
         }
     }
+
+    private fun inviteFriend(id: Int) { //TODO WITOLD invite user
+
+    }
+
+    private fun checkIfAlreadyInvited(id: Int): Boolean { //TODO WITOLD check if already invited
+        return false                                      //true - already invited
+    }                                                     //false - no
+
+    private fun checkIfAlreadyFriends(id: Int): Boolean { //TODO WITOLD check if already friends
+        return false                                    //true - already friends
+    }                                                   //false - not
+
+    private fun checkNoFriends(id: Int): Boolean { //TODO WITOLD check if no friends < 50
+        return false                                //true - more than 50
+    }                                               //false - less equal
 
 }

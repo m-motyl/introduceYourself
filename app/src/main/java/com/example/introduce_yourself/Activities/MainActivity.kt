@@ -72,11 +72,13 @@ class MainActivity : AppCompatActivity() {
                     )
                     startActivity(intent)
                 }
-                R.id.nav_community -> Toast.makeText(
-                    applicationContext,
-                    "Clicked community",
-                    Toast.LENGTH_SHORT
-                ).show()
+                R.id.nav_community -> {
+                    val intent = Intent(
+                        this@MainActivity,
+                        CommunityActivity::class.java
+                    )
+                    startActivity(intent)
+                }
                 R.id.nav_message -> Toast.makeText(
                     applicationContext,
                     "Clicked message",

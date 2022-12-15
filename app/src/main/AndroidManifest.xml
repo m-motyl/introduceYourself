@@ -5,7 +5,7 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.CAMERA"/>
+    <uses-permission android:name="android.permission.CAMERA" />
 
     <application
         android:allowBackup="true"
@@ -14,6 +14,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/baseTheme.Introduce_yourself">
+        <activity
+            android:name=".Activities.CommunityActivity"
+            android:exported="true" />
+        <!-- android:theme="@style/Theme1.Introduce_yourself"> -->
         <activity
             android:name=".Activities.UserQrActivity"
             android:exported="true" />
@@ -39,4 +43,5 @@
             </intent-filter>
         </activity>
     </application>
+
 </manifest>

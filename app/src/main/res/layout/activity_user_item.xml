@@ -7,13 +7,32 @@
     android:orientation="vertical"
     tools:context=".Activities.UserItemActivity">
 
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar_user_item"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:background="?attr/toolbar"
-        android:minHeight="?attr/actionBarSize"
-        android:theme="@style/CustomToolbarStyle" />
+        android:layout_height="wrap_content">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar_user_item"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/toolbar"
+            android:minHeight="?attr/actionBarSize"
+            android:theme="@style/CustomToolbarStyle" />
+
+        <ImageView
+            android:id="@+id/user_item_invite_user"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="15dp"
+            android:layout_marginEnd="10dp"
+            android:adjustViewBounds="true"
+            android:cropToPadding="true"
+            android:visibility="visible"
+            android:src="@drawable/ic_baseline_person_add_24" />
+
+    </RelativeLayout>
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
