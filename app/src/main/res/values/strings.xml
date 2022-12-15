@@ -15,4 +15,6 @@
     <string name="users_description">Opis profilu</string>
     <string name="users_posts">Posty użytkownika</string>
     <string name="users_links">Linki użytkownika</string>
+    <string name="accept">Dodaj</string>
+    <string name="decline">Odrzuć</string>
 </resources>

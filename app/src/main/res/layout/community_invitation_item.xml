@@ -5,7 +5,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-<!--    TODO PATRYK create user invitation item-->
     <androidx.cardview.widget.CardView
         android:id="@+id/main_user_card_view"
         android:layout_width="match_parent"
@@ -51,6 +50,7 @@
                     android:ellipsize="end"
                     android:textStyle="bold"
                     tools:text="User" />
+
                 <TextView
                     android:id="@+id/community_invitation_item_user_email"
                     android:layout_width="match_parent"
@@ -61,24 +61,29 @@
                     android:maxLines="1"
                     android:ellipsize="end"
                     tools:text="E-mail" />
+
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="10dp"
                     android:orientation="horizontal"
                     android:gravity="center">
 
                     <Button
                         android:id="@+id/community_invitation_item_accept"
-                        android:layout_width="100dp"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="dodaj" />
+                        android:layout_marginEnd="10dp"
+                        android:text="@string/accept"
+                        android:layout_weight="1"/>
+
                     <Button
                         android:id="@+id/community_invitation_item_reject"
-                        android:layout_width="100dp"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="odrzuć" />
+                        android:text="@string/decline"
+                        android:layout_weight="1"/>
                 </LinearLayout>
-
             </LinearLayout>
         </LinearLayout>
     </androidx.cardview.widget.CardView>
