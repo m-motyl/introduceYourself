@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     android:background="?attr/colorBackground"
     tools:context=".Activities.UserQrActivity"
     tools:ignore="UseSwitchCompatOrMaterialXml">
@@ -14,68 +15,69 @@
         android:layout_height="?attr/actionBarSize"
         android:background="?attr/toolbar"
         android:minHeight="?attr/actionBarSize"
-        android:theme="@style/CustomToolbarStyle"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:theme="@style/CustomToolbarStyle" />
 
-    <ImageView
-        android:id="@+id/user_qr_display_qr"
-        android:layout_width="300dp"
-        android:layout_height="300dp"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="265dp"
-        android:contentDescription="QR Code"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:visibility="visible"/>
-
-    <Switch
-        android:id="@+id/user_qr_switch"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:thumbTint="?attr/colorSecondary"
-        android:trackTint="?attr/text_normal"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar_user_qr" />
-
-    <com.budiyev.android.codescanner.CodeScannerView
-        android:id="@+id/user_qr_scanner"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="100dp"
-        android:visibility="gone"
-        app:maskColor="?attr/colorBackground"
-        app:frameColor="?attr/colorSecondary"
-        app:flashButtonVisible="false"
-        />
-
-    <TextView
-        android:id="@+id/user_qr_share"
-        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:text="Udostępnij"
-        android:textSize="20sp"
-        android:textColor="?attr/text_normal"
-        app:layout_constraintEnd_toStartOf="@+id/user_qr_switch"
-        app:layout_constraintHorizontal_bias="0.8"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar_user_qr" />
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:background="?attr/colorPrimaryVariant">
 
-    <TextView
-        android:id="@+id/user_qr_scann"
-        android:layout_width="wrap_content"
+        <TextView
+            android:id="@+id/user_qr_share"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingVertical="@dimen/huge_btn_v_padding"
+            android:textAlignment="center"
+            android:textColor="?attr/colorOnPrimary"
+            android:textSize="@dimen/huge_btn_text_size"
+            android:text="Udostępnij"
+            android:layout_weight="1"/>
+
+        <Switch
+            android:id="@+id/user_qr_switch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:scaleX="1.5"
+            android:scaleY="1.5"
+            android:thumbTint="?attr/colorSecondary"
+            android:trackTint="?attr/text_normal"/>
+
+        <TextView
+            android:id="@+id/user_qr_scann"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingVertical="@dimen/huge_btn_v_padding"
+            android:textAlignment="center"
+            android:textColor="?attr/colorOnPrimary"
+            android:textSize="@dimen/huge_btn_text_size"
+            android:text="Zeskanuj"
+            android:layout_weight="1"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        app:layout_constraintHorizontal_bias="0.2"
-        android:text="Zeskanuj"
-        android:textSize="20sp"
-        android:textColor="?attr/text_normal"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/user_qr_switch"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar_user_qr" />
+        android:orientation="vertical"
+        android:layout_weight="1"
+        android:gravity="center">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <ImageView
+            android:id="@+id/user_qr_display_qr"
+            android:layout_width="300dp"
+            android:layout_height="300dp"
+            android:contentDescription="QR Code"
+            android:visibility="visible"/>
+
+        <com.budiyev.android.codescanner.CodeScannerView
+            android:id="@+id/user_qr_scanner"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone"
+            app:maskColor="?attr/colorBackground"
+            app:frameColor="?attr/colorSecondary"
+            app:flashButtonVisible="false"/>
+    </LinearLayout>
+
+</LinearLayout>

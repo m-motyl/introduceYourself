@@ -20,4 +20,6 @@
     <dimen name="under_post_icon_size">30dp</dimen>
     <dimen name="post_image_max_height">400dp</dimen>
     <dimen name="under_post_space_between_btns">10dp</dimen>
+    <dimen name="huge_btn_text_size">20sp</dimen>
+    <dimen name="huge_btn_v_padding">15dp</dimen>
 </resources>

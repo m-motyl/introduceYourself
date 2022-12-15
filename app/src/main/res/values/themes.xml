@@ -27,6 +27,7 @@
         <item name="icon_color">?attr/text_normal</item>
         <item name="nav_header">?attr/colorPrimary</item>
         <item name="underline">?attr/text_normal</item>
+        <item name="android:listDivider">?attr/underline</item>
         <item name="toolbar">?attr/colorPrimary</item>
         <item name="user_picture_border">?attr/colorPrimaryVariant</item>
         <item name="post_like">@color/emerald</item>

@@ -88,22 +88,6 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="0">
 
-                    <!--TODO: Mateusz add post edit/save/abort/delete onclicks
-                    Beginning:
-                        edit: VISIBLE
-                        save: GONE
-                        abort: GONE
-                        delete: VISIBLE
-
-                    Editing:
-                        edit: GONE
-                        save: VISIBLE
-                        abort: VISIBLE
-                        delete: GONE
-
-                    Saved: same as Beginning
-                    Aborted: same as Beginning
-                    -->
                     <ImageView
                         android:id="@+id/post_edit_btn"
                         android:layout_width="@dimen/link_icon_size"
