@@ -42,7 +42,8 @@
             android:scaleX="1.5"
             android:scaleY="1.5"
             android:thumbTint="?attr/colorSecondary"
-            android:trackTint="?attr/text_normal"/>
+            android:trackTint="?attr/colorOnSecondary"
+            android:trackTintMode="screen"/>
 
         <TextView
             android:id="@+id/user_qr_scann"

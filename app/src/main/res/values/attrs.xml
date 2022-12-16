@@ -8,6 +8,9 @@
     <attr name="si_su_bg_gradient1" format="color" />
     <attr name="si_su_bg_gradient2" format="color" />
     <attr name="si_su_icon" format="color" />
+    <attr name="colorControlHighlight" format="color" />
+    <attr name="colorControlNormal" format="color" />
+    <attr name="colorControlActivated" format="color" />
     <attr name="text_light" format="color" />
     <attr name="text_normal" format="color" />
     <attr name="icon_color" format="color" />

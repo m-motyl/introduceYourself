@@ -27,8 +27,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        style="@style/si_su_et_row"
-        android:layout_marginTop="30dp" >
+        android:layout_marginTop="30dp"
+        style="@style/si_su_et_row" >
 
         <ImageView
             android:layout_width="wrap_content"
@@ -40,7 +40,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="E-mail"
-            android:inputType="textPersonName" />
+            android:inputType="textPersonName"
+            style="@style/si_su_et"/>
     </LinearLayout>
 
     <LinearLayout
@@ -60,7 +61,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="textPassword"
-            android:hint="Hasło" />
+            android:hint="Hasło"
+            style="@style/si_su_et" />
     </LinearLayout>
 
     <Button

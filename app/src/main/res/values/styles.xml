@@ -2,11 +2,20 @@
 <resources>
     <style name="si_su_et_row" parent="@android:style/Widget.EditText">
         <item name="android:minHeight">@dimen/et_min_height</item>
-        <item name="android:textColor">?attr/text_normal</item>
         <item name="android:textSize">20sp</item>
         <item name="android:background">@drawable/rounded_white_rect</item>
         <item name="android:elevation">3dp</item>
         <item name="android:paddingHorizontal">8dp</item>
+    </style>
+
+    <style name="si_su_et" parent="@android:style/Widget.EditText">
+        <item name="android:textColor">@color/eerie_black</item>
+        <item name="android:textColorHint">@color/sonic_silver</item>
+        <item name="android:textColorHighlight">@color/mellow_apricot</item>
+        <item name="android:backgroundTint">@color/mellow_apricot</item>
+        <item name="colorControlNormal">@color/mellow_apricot</item>
+        <item name="colorControlActivated">@color/mellow_apricot</item>
+        <item name="colorControlHighlight">@color/mellow_apricot</item>
     </style>
 
     <style name="si_su_bt" parent="@android:style/Widget.Button">
@@ -17,5 +26,10 @@
         <item name="android:background">@drawable/rounded_white_rect</item>
         <item name="backgroundTint">@color/orange_peel</item>
         <item name="android:elevation">3dp</item>
+    </style>
+
+    <style name="CustomToolbarStyle" parent="ThemeOverlay.AppCompat.ActionBar">
+        <item name="android:textColorPrimary">?attr/text_normal</item>
+        <item name="android:colorControlNormal">?attr/icon_color</item>
     </style>
 </resources>

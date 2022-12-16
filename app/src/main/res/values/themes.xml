@@ -1,6 +1,6 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="baseTheme.Introduce_yourself" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+    <style name="Theme0.Introduce_yourself" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/blue_green</item>
         <item name="colorPrimaryVariant">@color/prussian_blue</item>
@@ -36,7 +36,7 @@
         <item name="list_title_bg">?attr/colorSecondary</item>
     </style>
 
-    <style name="Theme1.Introduce_yourself" parent="baseTheme.Introduce_yourself">
+    <style name="Theme1.Introduce_yourself" parent="Theme0.Introduce_yourself">
         <item name="colorPrimary">@color/onyx</item>
         <item name="colorPrimaryVariant">@color/eerie_black</item>
         <item name="colorOnPrimary">@color/white</item>
@@ -49,10 +49,5 @@
         <item name="text_light">@color/light_gray</item>
         <item name="text_normal">@color/gainsboro</item>
         <item name="user_picture_border">?attr/text_normal</item>
-    </style>
-
-    <style name="CustomToolbarStyle" parent="ThemeOverlay.AppCompat.ActionBar">
-        <item name="android:textColorPrimary">?attr/text_normal</item>
-        <item name="android:colorControlNormal">?attr/icon_color</item>
     </style>
 </resources>
