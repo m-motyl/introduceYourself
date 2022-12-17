@@ -40,14 +40,23 @@
         <item name="colorPrimary">@color/onyx</item>
         <item name="colorPrimaryVariant">@color/eerie_black</item>
         <item name="colorOnPrimary">@color/white</item>
-        <item name="colorSecondary">?attr/colorPrimary</item>
-        <item name="colorSecondaryVariant">?attr/colorPrimaryVariant</item>
-        <item name="colorOnSecondary">?attr/colorOnPrimary</item>
+        <item name="colorSecondary">#606060</item>
+        <item name="colorSecondaryVariant">#3c3c3c</item>
+        <item name="colorOnSecondary">@color/white</item>
 
         <item name="colorBackground">@color/davys_grey</item>
 
         <item name="text_light">@color/light_gray</item>
         <item name="text_normal">@color/gainsboro</item>
         <item name="user_picture_border">?attr/text_normal</item>
+    </style>
+
+    <style name="Theme2.Introduce_yourself" parent="Theme0.Introduce_yourself">
+        <item name="colorPrimary">#76d275</item>
+        <item name="colorPrimaryVariant">#43a047</item>
+        <item name="colorOnPrimary">@color/black</item>
+        <item name="colorSecondary">#e39bdd</item>
+        <item name="colorSecondaryVariant">#b06cab</item>
+        <item name="colorOnSecondary">@color/black</item>
     </style>
 </resources>

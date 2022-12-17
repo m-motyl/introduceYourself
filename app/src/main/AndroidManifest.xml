@@ -13,7 +13,7 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme0.Introduce_yourself">
+        android:theme="@style/Theme2.Introduce_yourself">
         <activity
             android:name=".Activities.CommunityActivity"
             android:exported="true" />
