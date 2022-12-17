@@ -48,7 +48,6 @@ class EditProfileActivity : AppCompatActivity(), View.OnClickListener {
     private var initUserLinksList = ArrayList<UserLinksModel>()
 
     private var userPostsList = ArrayList<UserPostModel>()
-    private var initPostsList = ArrayList<UserPostModel>()
 
     private var backgroundByteArray: ByteArray = ByteArray(1)
     private var profilePictureByteArray: ByteArray = ByteArray(1)
@@ -114,13 +113,7 @@ class EditProfileActivity : AppCompatActivity(), View.OnClickListener {
 
         userPostsList = readUserPosts(currentUser!!.id.value, 0)
         if (userPostsList.size > 0) {
-            initPostsList = userPostsList
-            postsRecyclerView(initPostsList)
-            if (userPostsList.size < 2) {
-                edit_profile_posts_expand_more.visibility = View.GONE
-            }
-        } else {
-            edit_profile_posts_expand_more.visibility = View.GONE
+            postsRecyclerView(userPostsList)
         }
 
         user_name_edit_btn.setOnClickListener(this)
@@ -144,14 +137,31 @@ class EditProfileActivity : AppCompatActivity(), View.OnClickListener {
         user_bg_picture_remove_btn.setOnClickListener(this)
         user_post_picture_edit_btn.setOnClickListener(this)
         user_post_picture_remove_btn.setOnClickListener(this)
-        edit_profile_posts_expand_more.setOnClickListener(this)
-        edit_profile_posts_expand_less.setOnClickListener(this)
         edit_profile_links_expand_more.setOnClickListener(this)
         edit_profile_links_expand_less.setOnClickListener(this)
+        edit_profile_prev_posts.setOnClickListener(this)
+        edit_profile_next_posts.setOnClickListener(this)
     }
 
     override fun onClick(v: View?) {
         when (v!!.id) {
+            R.id.edit_profile_next_posts -> {
+                userPostsList = readUserPosts(currentUser!!.id.value, offset)
+                postsRecyclerView(userPostsList)
+                if (end) {
+                    edit_profile_next_posts.visibility = View.GONE
+                }
+
+                edit_profile_nested_scroll_view.scrollTo(0,
+                    edit_profile_description_ll.getHeight() +
+                            edit_profile_image_rl.getHeight() +
+                            edit_profile_user_info_ll.getHeight() +
+                            edit_profile_add_post_card_ll.getHeight()
+                )
+            }
+            R.id.edit_profile_prev_posts -> {
+                //TODO WITOLD read user 5 prev posts
+            }
             R.id.edit_profile_links_expand_more -> {
                 linksRecyclerView(userLinksList)
 
@@ -165,18 +175,6 @@ class EditProfileActivity : AppCompatActivity(), View.OnClickListener {
                 edit_profile_links_expand_less.visibility = View.GONE
             }
 
-            R.id.edit_profile_posts_expand_less -> {
-//                postsRecyclerView(initPostsList)
-                edit_profile_posts_expand_more.visibility = View.VISIBLE
-                edit_profile_posts_expand_less.visibility = View.GONE
-
-            }
-            R.id.edit_profile_posts_expand_more -> {
-                postsRecyclerView(userPostsList)
-                edit_profile_posts_expand_more.visibility = View.GONE
-                edit_profile_posts_expand_less.visibility = View.VISIBLE
-
-            }
             R.id.user_post_picture_remove_btn -> {
                 edit_profile_post_picture.setImageDrawable(
                     ContextCompat.getDrawable(
@@ -543,21 +541,10 @@ class EditProfileActivity : AppCompatActivity(), View.OnClickListener {
                             postByteArray
                         )
                         upm.id = addPostToDB(upm)
-                        userPostsList.clear()
-                        initPostsList.clear()
-                        userPostsList = readUserPosts(currentUser!!.id.value, 0)
-                        if (userPostsList.size > 0) {
-                            initPostsList = userPostsList
-                        }
-                        postsRecyclerView(userPostsList)
 
-                        if (userPostsList.size > 1) {
-                            edit_profile_posts_expand_less.visibility = View.VISIBLE
-                            edit_profile_posts_expand_more.visibility = View.GONE
-                        } else {
-                            edit_profile_posts_expand_less.visibility = View.GONE
-                            edit_profile_posts_expand_more.visibility = View.GONE
-                        }
+                        userPostsList.clear()
+                        userPostsList = readUserPosts(currentUser!!.id.value, 0)
+                        postsRecyclerView(userPostsList)
 
                         edit_profile_post_picture.setImageDrawable(
                             ContextCompat.getDrawable(
@@ -678,21 +665,10 @@ class EditProfileActivity : AppCompatActivity(), View.OnClickListener {
                             0 -> {
                                 removePost(model)
                                 userPostsList.clear()
-                                initPostsList.clear()
 
                                 userPostsList = readUserPosts(currentUser!!.id.value, 0)
                                 postsRecyclerView(userPostsList)
-                                if (userPostsList.size > 0) {
-                                    initPostsList = userPostsList
-                                }
 
-                                if (userPostsList.size > 1) {
-                                    edit_profile_posts_expand_more.visibility = View.GONE
-                                    edit_profile_posts_expand_less.visibility = View.VISIBLE
-                                } else {
-                                    edit_profile_posts_expand_more.visibility = View.GONE
-                                    edit_profile_posts_expand_less.visibility = View.GONE
-                                }
                             }
                             1 -> {}
                         }
@@ -1041,7 +1017,7 @@ class EditProfileActivity : AppCompatActivity(), View.OnClickListener {
                 }
             }
         }
-        if (userPostsList.isEmpty())
+        if (userPostsList.size < 5)
             end = true
         this.offset = offset + 5
         return userPostsList

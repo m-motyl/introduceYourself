@@ -17,6 +17,7 @@
         app:title="Edytuj profil" />
 
     <androidx.core.widget.NestedScrollView
+        android:id="@+id/edit_profile_nested_scroll_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -27,6 +28,7 @@
             android:gravity="center_horizontal">
 
             <RelativeLayout
+                android:id="@+id/edit_profile_image_rl"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
@@ -102,6 +104,7 @@
                 android:background="?attr/underline" />
 
             <LinearLayout
+                android:id="@+id/edit_profile_user_info_ll"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="@dimen/standard_page_padding"
@@ -346,6 +349,7 @@
                 android:background="?attr/underline" />
 
             <LinearLayout
+                android:id="@+id/edit_profile_description_ll"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="?attr/user_item_background"
@@ -450,9 +454,9 @@
                             android:layout_height="wrap_content"
                             android:layout_alignParentStart="true"
                             android:layout_alignParentTop="true"
-                            android:textSize="@dimen/user_item_text_size"
-                            android:textColor="?attr/text_normal"
                             android:text="@string/user_description_sample"
+                            android:textColor="?attr/text_normal"
+                            android:textSize="@dimen/user_item_text_size"
                             android:visibility="gone" />
                     </RelativeLayout>
                 </LinearLayout>
@@ -472,6 +476,7 @@
                 android:background="?attr/user_item_background">
 
                 <LinearLayout
+                    android:id="@+id/edit_profile_add_post_card_ll"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
@@ -559,6 +564,7 @@
                 </LinearLayout>
 
                 <LinearLayout
+                    android:id="@+id/edit_profile_posts_ll"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
@@ -588,17 +594,6 @@
                         android:textColor="?attr/text_normal"
                         android:textSize="@dimen/user_item_title_size" />
 
-                    <ImageView
-                        android:id="@+id/edit_profile_posts_expand_less"
-                        android:layout_width="@dimen/user_edit_text_icon_size"
-                        android:layout_height="@dimen/user_edit_text_icon_size"
-                        android:layout_alignParentEnd="true"
-                        android:layout_centerInParent="true"
-                        android:layout_marginEnd="10dp"
-                        android:background="@drawable/ic_baseline_expand_less_24"
-                        android:src="@drawable/ic_baseline_expand_less_24"
-                        android:visibility="gone"
-                        app:tint="?attr/icon_color" />
                 </RelativeLayout>
 
                 <androidx.recyclerview.widget.RecyclerView
@@ -607,15 +602,39 @@
                     android:layout_height="wrap_content"
                     android:visibility="visible"/>
 
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/edit_profile_posts_expand_more"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textColor="?attr/text_normal"
-                    app:backgroundTint="?attr/colorBackground"
-                    app:elevation="3dp"
-                    android:visibility="visible"
-                    android:text="@string/show_more" />
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/edit_profile_prev_posts"
+                            android:layout_width="169dp"
+                            android:layout_height="30dp"
+                            app:iconGravity="textStart"
+                            app:icon="@drawable/ic_baseline_navigate_before_24"
+                            android:layout_marginRight="2dp"
+                            android:backgroundTint="?attr/list_title_bg"/>
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/edit_profile_next_posts"
+                            android:layout_width="169dp"
+                            android:layout_height="30dp"
+                            app:iconGravity="textStart"
+                            app:icon="@drawable/ic_baseline_navigate_next_24"
+                            android:layout_marginRight="2dp"
+                            android:backgroundTint="?attr/list_title_bg"/>
+
+                    </LinearLayout>
+
+<!--                <com.google.android.material.button.MaterialButton-->
+<!--                    android:id="@+id/edit_profile_posts_expand_more"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:textColor="?attr/text_normal"-->
+<!--                    app:backgroundTint="?attr/colorBackground"-->
+<!--                    app:elevation="3dp"-->
+<!--                    android:visibility="visible"-->
+<!--                    android:text="@string/show_more" />-->
                 </LinearLayout>
             </LinearLayout>
 
