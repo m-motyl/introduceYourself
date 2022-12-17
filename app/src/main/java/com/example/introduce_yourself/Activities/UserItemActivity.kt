@@ -16,7 +16,6 @@ import com.example.introduce_yourself.adapters.UserPostsAdapter
 import com.example.introduce_yourself.database.*
 import com.example.introduce_yourself.utils.byteArrayToBitmap
 import com.example.introduce_yourself.utils.currentUser
-import com.example.introduce_yourself.utils.readUserPosts
 import com.recyclerviewapp.UserLinksAdapter
 import kotlinx.android.synthetic.main.activity_user_item.*
 import kotlinx.coroutines.Dispatchers
@@ -26,8 +25,13 @@ import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
 import org.jetbrains.exposed.sql.and
 import org.jetbrains.exposed.sql.or
 import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransaction
+import java.util.*
+import java.util.Collections.reverse
+import kotlin.collections.ArrayList
 
 class UserItemActivity : AppCompatActivity(), View.OnClickListener {
+    private var offset: Long = 0L
+    private var end: Boolean = false
     private var readUserModel: ReadUserModel? = null
     private var userLinksList = ArrayList<UserLinksModel>()
     private var initLinksList = ArrayList<UserLinksModel>()
@@ -87,9 +91,9 @@ class UserItemActivity : AppCompatActivity(), View.OnClickListener {
                 user_item_links_expand_more.visibility = View.GONE
             }
 
-            userPostsList = readUserPosts(stalked_user!!.id.value)
+            userPostsList = readUserPosts(stalked_user!!.id.value, 0)
             if (userPostsList.size > 0) {
-                initPostsList.add(userPostsList[0])
+                initPostsList += userPostsList
                 postsRecyclerView(initPostsList)
                 if (userPostsList.size < 2) {
                     user_item_posts_expand_more.visibility = View.GONE
@@ -260,6 +264,34 @@ class UserItemActivity : AppCompatActivity(), View.OnClickListener {
                 }.toList().isNotEmpty()
             }
         }
+    }
+
+    private fun readUserPosts(who: Int, offset: Long): ArrayList<UserPostModel> {
+        val userPostsList = ArrayList<UserPostModel>()
+        runBlocking {
+            newSuspendedTransaction(Dispatchers.IO) {
+                val l = UserPost.find { UserPosts.user eq who }
+                    .orderBy(UserPosts.date to SortOrder.DESC).limit(5, offset).toList()
+                for (i in l) {
+                    val tmp = PostLike.find { PostLikes.post eq i.id }.groupBy { it.like }
+                    userPostsList.add(
+                        UserPostModel(
+                            post_title = i.title,
+                            post_content = i.content,
+                            date = i.date,
+                            image = i.image!!.bytes,
+                            likes = if (tmp[true] != null) tmp[true]!!.size else 0,
+                            dislikes = if (tmp[false] != null) tmp[false]!!.size else 0,
+                            id = i.id.value
+                        )
+                    )
+                }
+            }
+        }
+        if (userPostsList.isEmpty())
+            end = true
+        this.offset = offset + 5
+        return userPostsList
     }
 
 }

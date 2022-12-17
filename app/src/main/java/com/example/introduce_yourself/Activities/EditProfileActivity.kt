@@ -22,7 +22,6 @@ import com.example.introduce_yourself.adapters.UserEditPostsAdapter
 import com.example.introduce_yourself.database.*
 import com.example.introduce_yourself.utils.byteArrayToBitmap
 import com.example.introduce_yourself.utils.currentUser
-import com.example.introduce_yourself.utils.readUserPosts
 import com.example.introduce_yourself.utils.saveImageByteArray
 import com.karumi.dexter.Dexter
 import com.karumi.dexter.MultiplePermissionsReport
@@ -40,6 +39,9 @@ import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransacti
 import org.jetbrains.exposed.sql.upperCase
 import java.io.IOException
 import java.time.LocalDateTime
+import java.util.*
+import java.util.Collections.reverse
+import kotlin.collections.ArrayList
 
 class EditProfileActivity : AppCompatActivity(), View.OnClickListener {
     private var userLinksList = ArrayList<UserLinksModel>()
@@ -53,6 +55,8 @@ class EditProfileActivity : AppCompatActivity(), View.OnClickListener {
     private var postByteArray = ByteArray(1)
 
     private var remove: Boolean = false
+    private var offset: Long = 0L
+    private var end: Boolean = false
 
     companion object {
         const val GALLERY_P_CODE = 1
@@ -104,18 +108,18 @@ class EditProfileActivity : AppCompatActivity(), View.OnClickListener {
             if (userLinksList.size < 2) {
                 edit_profile_links_expand_more.visibility = View.GONE
             }
-        }else{
+        } else {
             edit_profile_links_expand_more.visibility = View.GONE
         }
 
-        userPostsList = readUserPosts(currentUser!!.id.value)
+        userPostsList = readUserPosts(currentUser!!.id.value, 0)
         if (userPostsList.size > 0) {
-            initPostsList=userPostsList
+            initPostsList = userPostsList
             postsRecyclerView(initPostsList)
             if (userPostsList.size < 2) {
                 edit_profile_posts_expand_more.visibility = View.GONE
             }
-        }else{
+        } else {
             edit_profile_posts_expand_more.visibility = View.GONE
         }
 
@@ -162,7 +166,7 @@ class EditProfileActivity : AppCompatActivity(), View.OnClickListener {
             }
 
             R.id.edit_profile_posts_expand_less -> {
-                postsRecyclerView(initPostsList)
+//                postsRecyclerView(initPostsList)
                 edit_profile_posts_expand_more.visibility = View.VISIBLE
                 edit_profile_posts_expand_less.visibility = View.GONE
 
@@ -541,16 +545,16 @@ class EditProfileActivity : AppCompatActivity(), View.OnClickListener {
                         upm.id = addPostToDB(upm)
                         userPostsList.clear()
                         initPostsList.clear()
-                        userPostsList = readUserPosts(currentUser!!.id.value)
-                        if(userPostsList.size > 0){
-                            initPostsList=userPostsList
+                        userPostsList = readUserPosts(currentUser!!.id.value, 0)
+                        if (userPostsList.size > 0) {
+                            initPostsList = userPostsList
                         }
                         postsRecyclerView(userPostsList)
 
-                        if(userPostsList.size > 1){
+                        if (userPostsList.size > 1) {
                             edit_profile_posts_expand_less.visibility = View.VISIBLE
                             edit_profile_posts_expand_more.visibility = View.GONE
-                        }else{
+                        } else {
                             edit_profile_posts_expand_less.visibility = View.GONE
                             edit_profile_posts_expand_more.visibility = View.GONE
                         }
@@ -676,16 +680,16 @@ class EditProfileActivity : AppCompatActivity(), View.OnClickListener {
                                 userPostsList.clear()
                                 initPostsList.clear()
 
-                                userPostsList = readUserPosts(currentUser!!.id.value)
+                                userPostsList = readUserPosts(currentUser!!.id.value, 0)
                                 postsRecyclerView(userPostsList)
-                                if(userPostsList.size > 0){
-                                    initPostsList=userPostsList
+                                if (userPostsList.size > 0) {
+                                    initPostsList = userPostsList
                                 }
 
-                                if(userPostsList.size > 1){
+                                if (userPostsList.size > 1) {
                                     edit_profile_posts_expand_more.visibility = View.GONE
                                     edit_profile_posts_expand_less.visibility = View.VISIBLE
-                                }else{
+                                } else {
                                     edit_profile_posts_expand_more.visibility = View.GONE
                                     edit_profile_posts_expand_less.visibility = View.GONE
                                 }
@@ -987,7 +991,7 @@ class EditProfileActivity : AppCompatActivity(), View.OnClickListener {
         }
     }
 
-    private fun addPostToDB(upm: UserPostModel):Int {
+    private fun addPostToDB(upm: UserPostModel): Int {
         return runBlocking {
             return@runBlocking newSuspendedTransaction(Dispatchers.IO) {
                 val u = UserPost.new {
@@ -1013,5 +1017,33 @@ class EditProfileActivity : AppCompatActivity(), View.OnClickListener {
                         "/(?:www\\.|(?!www))[a-zA-Z0-9]+\\.[^\\s]{2,}|www\\.[a-zA-Z0-9]+\\.[^\\s]{2,})"
                 ).toRegex()
         return regex.matches(s)
+    }
+
+    private fun readUserPosts(who: Int, offset: Long): ArrayList<UserPostModel> {
+        val userPostsList = ArrayList<UserPostModel>()
+        runBlocking {
+            newSuspendedTransaction(Dispatchers.IO) {
+                val l = UserPost.find { UserPosts.user eq who }
+                    .orderBy(UserPosts.date to SortOrder.DESC).limit(5, offset).toList()
+                for (i in l) {
+                    val tmp = PostLike.find { PostLikes.post eq i.id }.groupBy { it.like }
+                    userPostsList.add(
+                        UserPostModel(
+                            post_title = i.title,
+                            post_content = i.content,
+                            date = i.date,
+                            image = i.image!!.bytes,
+                            likes = if (tmp[true] != null) tmp[true]!!.size else 0,
+                            dislikes = if (tmp[false] != null) tmp[false]!!.size else 0,
+                            id = i.id.value
+                        )
+                    )
+                }
+            }
+        }
+        if (userPostsList.isEmpty())
+            end = true
+        this.offset = offset + 5
+        return userPostsList
     }
 }
