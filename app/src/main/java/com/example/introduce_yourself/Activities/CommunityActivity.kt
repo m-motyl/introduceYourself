@@ -61,7 +61,10 @@ class CommunityActivity : AppCompatActivity(), View.OnClickListener {
                     community_invitations_rv.visibility = View.GONE
                     Log.e("community", "friends")
                     friendsList.clear()
-                    friendsList = getCommunityList(currentUser!!.id.value, 1)
+                    friendsList = getCommunityList(
+                        currentUser!!.id.value,
+                        1
+                    )
                     friendsRecyclerView(friendsList)
                 }
             }
@@ -74,11 +77,24 @@ class CommunityActivity : AppCompatActivity(), View.OnClickListener {
                     invitationsList = getCommunityList(
                         currentUser!!.id.value,
                         0
-                    ) //todo Mateusz ReadInvitationsModel -> ReadUserModel
+                    )
                     usersInvitationsRecyclerView(invitationsList)
                 }
             }
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        if (community_friends_rv.visibility == View.VISIBLE) {
+            friendsList.clear()
+            friendsList = getCommunityList(
+                currentUser!!.id.value,
+                1
+            )
+            friendsRecyclerView(friendsList)
+        }
+        Log.e("on", "resume")
     }
 
     private fun friendsRecyclerView(readUserModelList: ArrayList<ReadUserModel>) {
@@ -120,12 +136,26 @@ class CommunityActivity : AppCompatActivity(), View.OnClickListener {
                 override fun onClick(position: Int, model: ReadUserModel) {
                     Log.e("accept index ", position.toString())
                     changeInvitationStatus(model, 1)
+
+                    invitationsList.clear()
+                    invitationsList = getCommunityList(
+                        currentUser!!.id.value,
+                        0
+                    )
+                    usersInvitationsRecyclerView(invitationsList)
                 }
             },
             object : UserInvitationsAdapter.OnRejectClickListener {
                 override fun onClick(position: Int, model: ReadUserModel) {
                     Log.e("reject index ", position.toString())
                     changeInvitationStatus(model, -1)
+
+                    invitationsList.clear()
+                    invitationsList = getCommunityList(
+                        currentUser!!.id.value,
+                        0
+                    )
+                    usersInvitationsRecyclerView(invitationsList)
                 }
             }
         )

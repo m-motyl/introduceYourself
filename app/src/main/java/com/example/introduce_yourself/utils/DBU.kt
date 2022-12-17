@@ -21,6 +21,10 @@ fun getCommunityList(who: Int, desired_status: Int): ArrayList<ReadUserModel> {
             for (i in l) {
                 val tmp: User =
                     if (i.from.id.value == who && desired_status == 1) i.to else i.from
+                //TODO WITOLD
+                //1. user invites himself sometimes
+                //2. invitation list shows only 1 element
+                //3. if user send invitation and other user also send invitation => friends without accepting
                 usersList.add(
                     ReadUserModel(
                         id = tmp.id.value,

@@ -4,6 +4,7 @@ import android.app.AlertDialog
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -110,6 +111,7 @@ class UserItemActivity : AppCompatActivity(), View.OnClickListener {
 
             if (checkIfAlreadyFriends(readUserModel!!.id)) {
                 user_item_invite_user.visibility = View.GONE
+                user_item_remove_user.visibility = View.VISIBLE
             }
         }
         user_item_posts_expand_more.setOnClickListener(this)
@@ -117,6 +119,7 @@ class UserItemActivity : AppCompatActivity(), View.OnClickListener {
         user_item_links_expand_more.setOnClickListener(this)
         user_item_links_expand_less.setOnClickListener(this)
         user_item_invite_user.setOnClickListener(this)
+        user_item_remove_user.setOnClickListener(this)
     }
 
     private fun usersLinksRecyclerView(userLinks: ArrayList<UserLinksModel>) {
@@ -180,6 +183,24 @@ class UserItemActivity : AppCompatActivity(), View.OnClickListener {
 
     override fun onClick(v: View?) {
         when (v!!.id) {
+            R.id.user_item_remove_user -> {
+                val alert = AlertDialog.Builder(this@UserItemActivity)
+                alert.setTitle("Czy chcesz usunąć znajomego?")
+                val items = arrayOf(
+                    "Tak",
+                    "Nie"
+                )
+                alert.setItems(items) { _, n ->
+                    when (n) {
+                        0 -> {
+                            removeFriend(readUserModel)
+//                            finish()
+                        }
+                        1 -> {}
+                    }
+                }
+                alert.show()
+            }
             R.id.user_item_posts_expand_more -> {
                 postsRecyclerView(userPostsList)
 
@@ -205,13 +226,15 @@ class UserItemActivity : AppCompatActivity(), View.OnClickListener {
                 user_item_links_expand_less.visibility = View.GONE
             }
             R.id.user_item_invite_user -> {
-                when (inviteFriend(readUserModel!!.id)) {
+                val res = inviteFriend(readUserModel!!.id)
+                when (res) {
                     "friend_limit" -> {
                         Toast.makeText(
                             this,
                             "Osiągnięto limit znajomych! (50)",
                             Toast.LENGTH_SHORT
                         ).show()
+                        Log.e("limit", "limit")
                     }
                     "already_sent" -> {
                         Toast.makeText(
@@ -219,10 +242,23 @@ class UserItemActivity : AppCompatActivity(), View.OnClickListener {
                             "Zaproszenie już zostało wysłane",
                             Toast.LENGTH_SHORT
                         ).show()
+                        Log.e("sent", "sent")
+                    }
+                    "ok" -> {
+                        Toast.makeText(
+                            this,
+                            "Zaproszenie zostało wysłane",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                        Log.e("ok", "ok")
                     }
                 }
             }
         }
+    }
+
+    private fun removeFriend(readUserModel: ReadUserModel?) { //TODO WITOLD remove friend
+
     }
 
     private fun inviteFriend(who: Int): String {

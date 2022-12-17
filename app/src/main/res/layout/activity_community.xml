@@ -32,7 +32,7 @@
             android:textAlignment="center"
             android:textColor="?attr/colorOnPrimary"
             android:textSize="@dimen/huge_btn_text_size"
-            android:text="friends"
+            android:text="Znajomi"
             android:layout_weight="1"/>
 
         <TextView
@@ -40,7 +40,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingVertical="@dimen/huge_btn_v_padding"
-            android:text="Invitations"
+            android:text="Zaproszenia"
             android:textAlignment="center"
             android:textColor="?attr/colorOnPrimary"
             android:textSize="@dimen/huge_btn_text_size"
