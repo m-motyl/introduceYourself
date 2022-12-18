@@ -44,6 +44,18 @@ class UserItemActivity : AppCompatActivity(), View.OnClickListener {
     private var stalked_user: User? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        when (currentUser!!.color_nr) {
+            0 -> {
+                setTheme(R.style.Theme0_Introduce_yourself)
+            }
+            1 -> {
+                setTheme(R.style.Theme1_Introduce_yourself)
+            }
+            2 -> {
+                setTheme(R.style.Theme2_Introduce_yourself)
+            }
+        }
+
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_user_item)
 

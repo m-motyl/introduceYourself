@@ -1,7 +1,9 @@
 package com.example.introduce_yourself.Activities
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
@@ -33,15 +35,24 @@ class MainActivity : AppCompatActivity() {
     companion object {
         const val USER_DETAILS = "user_details"
         const val EXIT = "EXIT"
+        const val THEME_CODE = 1
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        // TODO: Mateusz changing theme in all activities
-        //https://riptutorial.com/android/example/25632/multiple-themes-in-one-app
-//        setTheme(R.style.Theme1_Introduce_yourself);
-        setContentView(R.layout.activity_main)
+        when (currentUser!!.color_nr) {
+            0 -> {
+                setTheme(R.style.Theme0_Introduce_yourself)
+            }
+            1 -> {
+                setTheme(R.style.Theme1_Introduce_yourself)
+            }
+            2 -> {
+                setTheme(R.style.Theme2_Introduce_yourself)
+            }
+        }
 
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
         drawerLayout = findViewById<DrawerLayout>(R.id.main_drawer_layout)
         navigationView = findViewById<NavigationView>(R.id.main_nav_view)
         headerLayout = navigationView.getHeaderView(0)
@@ -84,11 +95,13 @@ class MainActivity : AppCompatActivity() {
                     "Clicked message",
                     Toast.LENGTH_SHORT
                 ).show()
-                R.id.nav_settings -> Toast.makeText(
-                    applicationContext,
-                    "Clicked settings",
-                    Toast.LENGTH_SHORT
-                ).show()
+                R.id.nav_settings -> {
+                    val intent = Intent(
+                        this@MainActivity,
+                        SettingsActivity::class.java
+                    )
+                    startActivityForResult(intent, THEME_CODE)
+                }
                 R.id.nav_edit_profile -> {
                     val intent = Intent(
                         this@MainActivity,
@@ -105,17 +118,6 @@ class MainActivity : AppCompatActivity() {
             }
             true
         }
-
-//        getUsersList()
-//        if (readUserModelList.size > 0){
-//            usersRecyclerView(readUserModelList)
-//        }
-//
-//        if(currentUser != null){
-//            headerLayout.nav_header_user_picture.setImageBitmap(byteArrayToBitmap(currentUser!!.profile_picture.bytes))
-//            headerLayout.nav_header_user_name.text = currentUser!!.name + " " + currentUser!!.surname
-//            headerLayout.nav_header_user_email.text = currentUser!!.email
-//        }
     }
 
     override fun onResume() {
@@ -191,5 +193,18 @@ class MainActivity : AppCompatActivity() {
         newSuspendedTransaction(Dispatchers.IO) {
             currentUser = User.findById(currentUser!!.id)
         }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == THEME_CODE) {
+            reloadActivity()
+        }
+    }
+
+    private fun reloadActivity() {
+        refreshCurrentUser()
+        finish()
+        startActivity(getIntent())
     }
 }

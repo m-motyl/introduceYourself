@@ -21,6 +21,7 @@ import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransacti
 class SignInActivity : AppCompatActivity(), View.OnClickListener {
     private var signInModel: SignInModel? = null
     override fun onCreate(savedInstanceState: Bundle?) {
+
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_sign_in)
         si_btn_signin.setOnClickListener(this)

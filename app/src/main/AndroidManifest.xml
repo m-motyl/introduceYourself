@@ -15,9 +15,11 @@
         android:supportsRtl="true"
         android:theme="@style/Theme2.Introduce_yourself">
         <activity
-            android:name=".Activities.CommunityActivity"
+            android:name=".Activities.SettingsActivity"
             android:exported="true" />
-        <!-- android:theme="@style/Theme1.Introduce_yourself"> -->
+        <activity
+            android:name=".Activities.CommunityActivity"
+            android:exported="true" /> <!-- android:theme="@style/Theme1.Introduce_yourself"> -->
         <activity
             android:name=".Activities.UserQrActivity"
             android:exported="true" />

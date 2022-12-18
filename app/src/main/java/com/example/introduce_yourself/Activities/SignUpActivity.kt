@@ -16,6 +16,7 @@ import com.example.introduce_yourself.Models.SignUpModel
 import com.example.introduce_yourself.R
 import com.example.introduce_yourself.database.User
 import com.example.introduce_yourself.database.Users
+import com.example.introduce_yourself.utils.currentUser
 import com.example.introduce_yourself.utils.saveImageByteArray
 import com.karumi.dexter.Dexter
 import com.karumi.dexter.MultiplePermissionsReport
@@ -41,6 +42,7 @@ class SignUpActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
+
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_sign_up)
         su_tv_signin.setOnClickListener(this)
@@ -217,7 +219,7 @@ class SignUpActivity : AppCompatActivity(), View.OnClickListener {
                 qr_code = null
                 description = ""
                 background_picutre = null
-                color_nr = 1
+                color_nr = 0
                 city = null
             }
         }
