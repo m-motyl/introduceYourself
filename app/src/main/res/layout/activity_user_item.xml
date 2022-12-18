@@ -48,6 +48,7 @@
     </RelativeLayout>
 
     <androidx.core.widget.NestedScrollView
+        android:id="@+id/user_item_nested_scroll_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -58,6 +59,7 @@
             android:gravity="center_horizontal">
 
             <RelativeLayout
+                android:id="@+id/user_item_image_rl"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
@@ -95,6 +97,7 @@
                 android:background="?attr/underline" />
 
             <LinearLayout
+                android:id="@+id/user_item_user_info_ll"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="@dimen/standard_page_padding"
@@ -135,6 +138,7 @@
                 android:background="?attr/underline" />
 
             <LinearLayout
+                android:id="@+id/user_item_description_ll"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="?attr/user_item_background"
@@ -239,17 +243,17 @@
     <!--                        app:layout_constraintEnd_toEndOf="parent"-->
     <!--                        android:visibility="visible"/>-->
 
-                        <ImageView
-                            android:id="@+id/user_item_posts_expand_less"
-                            android:layout_width="@dimen/user_edit_text_icon_size"
-                            android:layout_height="@dimen/user_edit_text_icon_size"
-                            android:layout_marginEnd="10dp"
-                            android:layout_alignParentEnd="true"
-                            android:layout_centerInParent="true"
-                            android:background="@drawable/ic_baseline_expand_less_24"
-                            android:src="@drawable/ic_baseline_expand_less_24"
-                            android:visibility="gone"
-                            app:tint="?attr/icon_color" />
+<!--                        <ImageView-->
+<!--                            android:id="@+id/user_item_posts_expand_less"-->
+<!--                            android:layout_width="@dimen/user_edit_text_icon_size"-->
+<!--                            android:layout_height="@dimen/user_edit_text_icon_size"-->
+<!--                            android:layout_marginEnd="10dp"-->
+<!--                            android:layout_alignParentEnd="true"-->
+<!--                            android:layout_centerInParent="true"-->
+<!--                            android:background="@drawable/ic_baseline_expand_less_24"-->
+<!--                            android:src="@drawable/ic_baseline_expand_less_24"-->
+<!--                            android:visibility="gone"-->
+<!--                            app:tint="?attr/icon_color" />-->
                     </RelativeLayout>
 
                     <RelativeLayout
@@ -276,14 +280,36 @@
 
                     </RelativeLayout>
 
-                    <com.google.android.material.button.MaterialButton
-                        android:id="@+id/user_item_posts_expand_more"
+                    <RelativeLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:textColor="?attr/text_normal"
-                        app:backgroundTint="?attr/colorBackground"
-                        app:elevation="3dp"
-                        android:text="Zobacz więcej" />
+                        android:layout_height="wrap_content">
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/user_item_prev_posts"
+                            android:layout_width="169dp"
+                            android:layout_height="30dp"
+                            android:layout_alignParentStart="true"
+                            android:layout_alignParentTop="true"
+                            android:layout_marginStart="0dp"
+                            android:layout_marginTop="0dp"
+                            android:layout_marginRight="2dp"
+                            android:backgroundTint="?attr/list_title_bg"
+                            app:icon="@drawable/ic_baseline_navigate_before_24"
+                            app:iconGravity="textStart" />
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/user_item_next_posts"
+                            android:layout_width="169dp"
+                            android:layout_height="30dp"
+                            android:layout_alignParentTop="true"
+                            android:layout_alignParentEnd="true"
+                            android:layout_marginTop="0dp"
+                            android:layout_marginEnd="0dp"
+                            android:backgroundTint="?attr/list_title_bg"
+                            app:icon="@drawable/ic_baseline_navigate_next_24"
+                            app:iconGravity="textStart" />
+
+                    </RelativeLayout>
                 </LinearLayout>
             </LinearLayout>
 

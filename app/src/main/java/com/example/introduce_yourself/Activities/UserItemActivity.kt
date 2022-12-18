@@ -40,7 +40,6 @@ class UserItemActivity : AppCompatActivity(), View.OnClickListener {
     private var initLinksList = ArrayList<UserLinksModel>()
 
     private var userPostsList = ArrayList<UserPostModel>()
-    private var initPostsList = ArrayList<UserPostModel>()
 
     private var stalked_user: User? = null
 
@@ -96,15 +95,12 @@ class UserItemActivity : AppCompatActivity(), View.OnClickListener {
 
             userPostsList = readUserPosts(stalked_user!!.id.value, 0)
             if (userPostsList.size > 0) {
-                initPostsList += userPostsList
-                postsRecyclerView(initPostsList)
-                if (userPostsList.size < 2) {
-                    user_item_posts_expand_more.visibility = View.GONE
-                }
+                postsRecyclerView(userPostsList)
             } else {
+                user_item_prev_posts.visibility = View.GONE
+                user_item_next_posts.visibility = View.GONE
                 user_item_no_posts_tv.visibility = View.VISIBLE
                 user_item_posts_recycler_view.visibility = View.GONE
-                user_item_posts_expand_more.visibility = View.GONE
             }
 
             if (currentUser!!.id.value == readUserModel!!.id) {
@@ -116,12 +112,12 @@ class UserItemActivity : AppCompatActivity(), View.OnClickListener {
                 user_item_remove_user.visibility = View.VISIBLE
             }
         }
-        user_item_posts_expand_more.setOnClickListener(this)
-        user_item_posts_expand_less.setOnClickListener(this)
         user_item_links_expand_more.setOnClickListener(this)
         user_item_links_expand_less.setOnClickListener(this)
         user_item_invite_user.setOnClickListener(this)
         user_item_remove_user.setOnClickListener(this)
+        user_item_prev_posts.setOnClickListener(this)
+        user_item_next_posts.setOnClickListener(this)
     }
 
     private fun usersLinksRecyclerView(userLinks: ArrayList<UserLinksModel>) {
@@ -185,6 +181,14 @@ class UserItemActivity : AppCompatActivity(), View.OnClickListener {
 
     override fun onClick(v: View?) {
         when (v!!.id) {
+            R.id.user_item_prev_posts -> {
+                userPostsList = readUserPosts(stalked_user!!.id.value, offset - 5)
+                postsRecyclerView(userPostsList)
+            }
+            R.id.user_item_next_posts -> {
+                userPostsList = readUserPosts(stalked_user!!.id.value, offset + 5)
+                postsRecyclerView(userPostsList)
+            }
             R.id.user_item_remove_user -> {
                 val alert = AlertDialog.Builder(this@UserItemActivity)
                 alert.setTitle("Czy chcesz usunąć znajomego?")
@@ -202,18 +206,6 @@ class UserItemActivity : AppCompatActivity(), View.OnClickListener {
                     }
                 }
                 alert.show()
-            }
-            R.id.user_item_posts_expand_more -> {
-                postsRecyclerView(userPostsList)
-
-                user_item_posts_expand_more.visibility = View.GONE
-                user_item_posts_expand_less.visibility = View.VISIBLE
-            }
-            R.id.user_item_posts_expand_less -> {
-                postsRecyclerView(initPostsList)
-
-                user_item_posts_expand_more.visibility = View.VISIBLE
-                user_item_posts_expand_less.visibility = View.GONE
             }
             R.id.user_item_links_expand_more -> {
                 usersLinksRecyclerView(userLinksList)
@@ -315,12 +307,12 @@ class UserItemActivity : AppCompatActivity(), View.OnClickListener {
         val userPostsList = ArrayList<UserPostModel>()
         runBlocking {
             newSuspendedTransaction(Dispatchers.IO) {
-                val l = UserPost.find { UserPosts.user eq who }
+                var l = UserPost.find { UserPosts.user eq who }
                     .orderBy(UserPosts.date to SortOrder.DESC).limit(6, offset).toList()
                 end_backward = offset == 0L
                 end_forward = l.size < 6
-                if (l.size > 1)
-                    l.dropLast(1)
+                if (l.size == 6)
+                    l = l.dropLast(1)
                 for (i in l) {
                     val tmp = PostLike.find { PostLikes.post eq i.id }.groupBy { it.like }
                     userPostsList.add(
@@ -337,24 +329,25 @@ class UserItemActivity : AppCompatActivity(), View.OnClickListener {
                 }
             }
         }
-        //todo mateusz same as in edit profile / need buttons
-//        if (end_forward)
-//            edit_profile_next_posts.visibility = View.GONE
-//        else
-//            edit_profile_next_posts.visibility = View.VISIBLE
-//
-//        if (end_backward)
-//            edit_profile_prev_posts.visibility = View.GONE
-//        else
-//            edit_profile_prev_posts.visibility = View.VISIBLE
-//
-//        edit_profile_nested_scroll_view.scrollTo(
-//            0,
-//            edit_profile_description_ll.height +
-//                    edit_profile_image_rl.height +
-//                    edit_profile_user_info_ll.height +
-//                    edit_profile_add_post_card_ll.height
-//        )
+        if (end_forward) {
+            user_item_next_posts.visibility = View.GONE
+        } else {
+            user_item_next_posts.visibility = View.VISIBLE
+        }
+
+        if (end_backward) {
+            user_item_prev_posts.visibility = View.GONE
+        } else {
+            user_item_prev_posts.visibility = View.VISIBLE
+        }
+
+        user_item_nested_scroll_view.scrollTo(
+            0,
+            user_item_image_rl.height +
+                    user_item_user_info_ll.height +
+                    user_item_description_ll.height
+        )
+
         this.offset = offset
         return userPostsList
     }

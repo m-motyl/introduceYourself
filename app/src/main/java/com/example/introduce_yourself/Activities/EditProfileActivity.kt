@@ -534,7 +534,6 @@ class EditProfileActivity : AppCompatActivity(), View.OnClickListener {
                         )
                         upm.id = addPostToDB(upm)
 
-                        userPostsList.clear()
                         userPostsList = readUserPosts(currentUser!!.id.value, 0)
                         postsRecyclerView(userPostsList)
 
@@ -656,9 +655,7 @@ class EditProfileActivity : AppCompatActivity(), View.OnClickListener {
                         when (n) {
                             0 -> {
                                 removePost(model)
-                                userPostsList.clear()
-
-                                userPostsList = readUserPosts(currentUser!!.id.value, 0)
+                                userPostsList = readUserPosts(currentUser!!.id.value, offset)
                                 postsRecyclerView(userPostsList)
 
                             }
@@ -992,12 +989,12 @@ class EditProfileActivity : AppCompatActivity(), View.OnClickListener {
         val userPostsList = ArrayList<UserPostModel>()
         runBlocking {
             newSuspendedTransaction(Dispatchers.IO) {
-                val l = UserPost.find { UserPosts.user eq who }
+                var l = UserPost.find { UserPosts.user eq who }
                     .orderBy(UserPosts.date to SortOrder.DESC).limit(6, offset).toList()
                 end_backward = offset == 0L
                 end_forward = l.size < 6
-                if (l.size > 1)
-                    l.dropLast(1)
+                if (l.size == 6)
+                    l = l.dropLast(1)
                 for (i in l) {
                     val tmp = PostLike.find { PostLikes.post eq i.id }.groupBy { it.like }
                     userPostsList.add(
