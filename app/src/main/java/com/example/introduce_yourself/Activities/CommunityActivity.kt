@@ -6,11 +6,8 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.introduce_yourself.Models.ReadInvitationsModel
 import com.example.introduce_yourself.Models.ReadUserModel
-import com.example.introduce_yourself.Models.UserPostModel
 import com.example.introduce_yourself.R
-import com.example.introduce_yourself.adapters.UserEditPostsAdapter
 import com.example.introduce_yourself.adapters.UserInvitationsAdapter
 import com.example.introduce_yourself.database.Friend
 import com.example.introduce_yourself.database.Friends
@@ -27,7 +24,6 @@ import kotlinx.coroutines.runBlocking
 import org.jetbrains.exposed.sql.and
 import org.jetbrains.exposed.sql.or
 import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransaction
-import org.jetbrains.exposed.sql.transactions.transaction
 import java.util.*
 import java.util.Collections.reverse
 import kotlin.collections.ArrayList
@@ -82,6 +78,7 @@ class CommunityActivity : AppCompatActivity(), View.OnClickListener {
                         currentUser!!.id.value,
                         0
                     )
+//                    friendsInvitationsRecyclerView(invitationsList)
                     usersInvitationsRecyclerView(invitationsList)
                 }
             }
@@ -141,7 +138,6 @@ class CommunityActivity : AppCompatActivity(), View.OnClickListener {
                     Log.e("accept index ", position.toString())
                     changeInvitationStatus(model, 1)
 
-                    invitationsList.clear()
                     invitationsList = getCommunityList(
                         currentUser!!.id.value,
                         0
@@ -154,7 +150,6 @@ class CommunityActivity : AppCompatActivity(), View.OnClickListener {
                     Log.e("reject index ", position.toString())
                     changeInvitationStatus(model, -1)
 
-                    invitationsList.clear()
                     invitationsList = getCommunityList(
                         currentUser!!.id.value,
                         0

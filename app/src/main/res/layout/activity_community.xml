@@ -50,13 +50,13 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/community_friends_rv"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:visibility="visible" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/community_invitations_rv"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:visibility="gone" />
 
 </LinearLayout>
