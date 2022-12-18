@@ -18,6 +18,7 @@ import com.example.introduce_yourself.database.*
 import com.example.introduce_yourself.utils.byteArrayToBitmap
 import com.example.introduce_yourself.utils.currentUser
 import com.recyclerviewapp.UserLinksAdapter
+import kotlinx.android.synthetic.main.activity_edit_profile.*
 import kotlinx.android.synthetic.main.activity_user_item.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.runBlocking
@@ -32,7 +33,8 @@ import kotlin.collections.ArrayList
 
 class UserItemActivity : AppCompatActivity(), View.OnClickListener {
     private var offset: Long = 0L
-    private var end: Boolean = false
+    private var end_backward: Boolean = true
+    private var end_forward: Boolean = true
     private var readUserModel: ReadUserModel? = null
     private var userLinksList = ArrayList<UserLinksModel>()
     private var initLinksList = ArrayList<UserLinksModel>()
@@ -257,8 +259,15 @@ class UserItemActivity : AppCompatActivity(), View.OnClickListener {
         }
     }
 
-    private fun removeFriend(readUserModel: ReadUserModel?) { //TODO WITOLD remove friend
-
+    private fun removeFriend(who: ReadUserModel?) = runBlocking {
+        if (who != null)
+            newSuspendedTransaction(Dispatchers.IO) {
+                Friend.find {
+                    (((Friends.from eq who.id) and (Friends.to eq currentUser!!.id)) or
+                            ((Friends.to eq who.id) and (Friends.from eq currentUser!!.id))) and
+                            (Friends.status eq 1)
+                }.firstOrNull()!!.delete()
+            }
     }
 
     private fun inviteFriend(who: Int): String {
@@ -307,7 +316,9 @@ class UserItemActivity : AppCompatActivity(), View.OnClickListener {
         runBlocking {
             newSuspendedTransaction(Dispatchers.IO) {
                 val l = UserPost.find { UserPosts.user eq who }
-                    .orderBy(UserPosts.date to SortOrder.DESC).limit(5, offset).toList()
+                    .orderBy(UserPosts.date to SortOrder.DESC).limit(6, offset).toList()
+                if (l.size > 1)
+                    l.dropLast(1)
                 for (i in l) {
                     val tmp = PostLike.find { PostLikes.post eq i.id }.groupBy { it.like }
                     userPostsList.add(
@@ -322,12 +333,29 @@ class UserItemActivity : AppCompatActivity(), View.OnClickListener {
                         )
                     )
                 }
+                end_backward = offset == 0L
+                end_forward = l.size < 6
             }
         }
-        if (userPostsList.isEmpty())
-            end = true
-        this.offset = offset + 5
+        //todo mateusz same as in edit profile / need buttons
+//        if (end_forward)
+//            edit_profile_next_posts.visibility = View.GONE
+//        else
+//            edit_profile_next_posts.visibility = View.VISIBLE
+//
+//        if (end_backward)
+//            edit_profile_prev_posts.visibility = View.GONE
+//        else
+//            edit_profile_prev_posts.visibility = View.VISIBLE
+//
+//        edit_profile_nested_scroll_view.scrollTo(
+//            0,
+//            edit_profile_description_ll.height +
+//                    edit_profile_image_rl.height +
+//                    edit_profile_user_info_ll.height +
+//                    edit_profile_add_post_card_ll.height
+//        )
+        this.offset = offset
         return userPostsList
     }
-
 }

@@ -55,7 +55,8 @@ class EditProfileActivity : AppCompatActivity(), View.OnClickListener {
 
     private var remove: Boolean = false
     private var offset: Long = 0L
-    private var end: Boolean = false
+    private var end_backward: Boolean = true
+    private var end_forward: Boolean = true
 
     companion object {
         const val GALLERY_P_CODE = 1
@@ -146,21 +147,12 @@ class EditProfileActivity : AppCompatActivity(), View.OnClickListener {
     override fun onClick(v: View?) {
         when (v!!.id) {
             R.id.edit_profile_next_posts -> {
-                userPostsList = readUserPosts(currentUser!!.id.value, offset)
+                userPostsList = readUserPosts(currentUser!!.id.value, offset + 5)
                 postsRecyclerView(userPostsList)
-                if (end) {
-                    edit_profile_next_posts.visibility = View.GONE
-                }
-
-                edit_profile_nested_scroll_view.scrollTo(0,
-                    edit_profile_description_ll.getHeight() +
-                            edit_profile_image_rl.getHeight() +
-                            edit_profile_user_info_ll.getHeight() +
-                            edit_profile_add_post_card_ll.getHeight()
-                )
             }
             R.id.edit_profile_prev_posts -> {
-                //TODO WITOLD read user 5 prev posts
+                userPostsList = readUserPosts(currentUser!!.id.value, offset - 5)
+                postsRecyclerView(userPostsList)
             }
             R.id.edit_profile_links_expand_more -> {
                 linksRecyclerView(userLinksList)
@@ -995,12 +987,15 @@ class EditProfileActivity : AppCompatActivity(), View.OnClickListener {
         return regex.matches(s)
     }
 
+    //clean code time
     private fun readUserPosts(who: Int, offset: Long): ArrayList<UserPostModel> {
         val userPostsList = ArrayList<UserPostModel>()
         runBlocking {
             newSuspendedTransaction(Dispatchers.IO) {
                 val l = UserPost.find { UserPosts.user eq who }
-                    .orderBy(UserPosts.date to SortOrder.DESC).limit(5, offset).toList()
+                    .orderBy(UserPosts.date to SortOrder.DESC).limit(6, offset).toList()
+                if (l.size > 1)
+                    l.dropLast(1)
                 for (i in l) {
                     val tmp = PostLike.find { PostLikes.post eq i.id }.groupBy { it.like }
                     userPostsList.add(
@@ -1015,11 +1010,28 @@ class EditProfileActivity : AppCompatActivity(), View.OnClickListener {
                         )
                     )
                 }
+                end_backward = offset == 0L
+                end_forward = l.size < 6
             }
         }
-        if (userPostsList.size < 5)
-            end = true
-        this.offset = offset + 5
+        if (end_forward)
+            edit_profile_next_posts.visibility = View.GONE
+        else
+            edit_profile_next_posts.visibility = View.VISIBLE
+
+        if (end_backward)
+            edit_profile_prev_posts.visibility = View.GONE
+        else
+            edit_profile_prev_posts.visibility = View.VISIBLE
+
+        edit_profile_nested_scroll_view.scrollTo(
+            0,
+            edit_profile_description_ll.height +
+                    edit_profile_image_rl.height +
+                    edit_profile_user_info_ll.height +
+                    edit_profile_add_post_card_ll.height
+        )
+        this.offset = offset
         return userPostsList
     }
 }
