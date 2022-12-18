@@ -83,48 +83,68 @@
             android:id="@+id/settings_old_password_tv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:textColor="?attr/text_normal"
+            android:textSize="15sp"
             android:text="Wprowadź stare hasło" />
 
         <EditText
             android:id="@+id/settings_old_password_et"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:paddingTop="0dp"
             android:ems="10"
             android:inputType="textPassword"
-            android:hint="Stare hasło" />
+            android:hint="Stare hasło"
+            android:textColor="?attr/text_normal"
+            android:textColorHint="?attr/text_light" />
 
         <TextView
             android:id="@+id/settings_new_password_tv1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:textColor="?attr/text_normal"
+            android:textSize="15sp"
             android:text="Wprowadź nowe hasło" />
 
         <EditText
             android:id="@+id/settings_new_password_et1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:paddingTop="0dp"
             android:ems="10"
             android:inputType="textPassword"
-            android:hint="Nowe hasło" />
+            android:hint="Nowe hasło"
+            android:textColor="?attr/text_normal"
+            android:textColorHint="?attr/text_light" />
 
         <TextView
             android:id="@+id/settings_new_password_tv2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:textColor="?attr/text_normal"
+            android:textSize="15sp"
             android:text="Powtórz nowe hasło" />
 
         <EditText
             android:id="@+id/settings_new_password_et2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:paddingTop="0dp"
             android:ems="10"
+            android:hint="Nowe hasło"
             android:inputType="textPassword"
-            android:hint="Nowe hasło" />
+            android:textColor="?attr/text_normal"
+            android:textColorHint="?attr/text_light" />
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/settings_update_password_btn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:textColor="?attr/text_normal"
+            app:backgroundTint="?attr/publish_btn"
             android:text="Zaktualizuj" />
+
     </LinearLayout>
 </LinearLayout>
