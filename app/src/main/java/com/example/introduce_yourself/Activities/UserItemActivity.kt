@@ -317,6 +317,8 @@ class UserItemActivity : AppCompatActivity(), View.OnClickListener {
             newSuspendedTransaction(Dispatchers.IO) {
                 val l = UserPost.find { UserPosts.user eq who }
                     .orderBy(UserPosts.date to SortOrder.DESC).limit(6, offset).toList()
+                end_backward = offset == 0L
+                end_forward = l.size < 6
                 if (l.size > 1)
                     l.dropLast(1)
                 for (i in l) {
@@ -333,8 +335,6 @@ class UserItemActivity : AppCompatActivity(), View.OnClickListener {
                         )
                     )
                 }
-                end_backward = offset == 0L
-                end_forward = l.size < 6
             }
         }
         //todo mateusz same as in edit profile / need buttons
