@@ -462,6 +462,13 @@ class EditProfileActivity : AppCompatActivity(), View.OnClickListener {
                             Toast.LENGTH_SHORT
                         ).show()
                     }
+                    !numberOfLinks() -> {
+                        Toast.makeText(
+                            this,
+                            "Można posiadać maksymalnie 20 linków!",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
                     else -> {
                         val ulm = UserLinksModel(
                             edit_profile_add_link_title.text.toString(),
@@ -496,11 +503,21 @@ class EditProfileActivity : AppCompatActivity(), View.OnClickListener {
                 }
             }
             R.id.edit_profile_remove_link_btn -> {
+                Toast.makeText(
+                    this,
+                    "Tryb usuwania: kliknij link do usunięcia",
+                    Toast.LENGTH_SHORT
+                ).show()
                 remove = true
                 edit_profile_remove_link_btn.visibility = View.GONE
                 edit_profile_remove_link_abort_btn.visibility = View.VISIBLE
             }
             R.id.edit_profile_remove_link_abort_btn -> {
+                Toast.makeText(
+                    this,
+                    "Wyłączono tryb usuwania linków",
+                    Toast.LENGTH_SHORT
+                ).show()
                 remove = false
                 edit_profile_remove_link_btn.visibility = View.VISIBLE
                 edit_profile_remove_link_abort_btn.visibility = View.GONE
@@ -570,6 +587,10 @@ class EditProfileActivity : AppCompatActivity(), View.OnClickListener {
                 }
             }
         }
+    }
+
+    private fun numberOfLinks(): Boolean { // TODO WITOLD check no links, if < 20 => true else false
+        return true
     }
 
     private fun linksRecyclerView(userLinks: ArrayList<UserLinksModel>) {

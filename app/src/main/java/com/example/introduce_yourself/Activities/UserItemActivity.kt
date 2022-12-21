@@ -246,7 +246,7 @@ class UserItemActivity : AppCompatActivity(), View.OnClickListener {
                     "already_sent" -> {
                         Toast.makeText(
                             this,
-                            "Zaproszenie już zostało wysłane",
+                            "Zaproszenie zostało wysłane już wcześniej",
                             Toast.LENGTH_SHORT
                         ).show()
                         Log.e("sent", "sent")

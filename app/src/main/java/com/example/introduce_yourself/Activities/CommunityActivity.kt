@@ -78,6 +78,7 @@ class CommunityActivity : AppCompatActivity(), View.OnClickListener {
                         1
                     )
                     friendsRecyclerView(friendsList)
+                    community_invitations_loading_buttons.visibility = View.GONE
                 }
             }
             R.id.community_invitations_list_button -> {
@@ -90,9 +91,15 @@ class CommunityActivity : AppCompatActivity(), View.OnClickListener {
                         currentUser!!.id.value,
                         0
                     )
-//                    friendsInvitationsRecyclerView(invitationsList)
                     usersInvitationsRecyclerView(invitationsList)
+                    community_invitations_loading_buttons.visibility = View.VISIBLE
                 }
+            }
+            R.id.community_prev_invitations -> { //TODO WITOLD invitations pagination
+                Log.e("prev", "invitations")
+            }
+            R.id.community_next_invitations -> {
+                Log.e("next", "invitations")
             }
         }
     }

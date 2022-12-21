@@ -71,11 +71,13 @@ class MainActivity : AppCompatActivity() {
 
         navigationView.setNavigationItemSelectedListener {
             when (it.itemId) {
-                R.id.nav_search -> Toast.makeText(
-                    applicationContext,
-                    "Clicked search",
-                    Toast.LENGTH_SHORT
-                ).show()
+                R.id.nav_search -> {
+                    val intent = Intent(
+                        this@MainActivity,
+                        SearchActivity::class.java
+                    )
+                    startActivity(intent)
+                }
                 R.id.nav_qr_scanner -> {
                     val intent = Intent(
                         this@MainActivity,
