@@ -21,6 +21,7 @@ import kotlinx.android.synthetic.main.activity_edit_profile.*
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.runBlocking
+import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
 import org.jetbrains.exposed.sql.and
 import org.jetbrains.exposed.sql.or
 import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransaction
@@ -33,6 +34,9 @@ class CommunityActivity : AppCompatActivity(), View.OnClickListener {
         const val FRIEND_DETAILS = "user_details"
     }
 
+    private var offset: Long = 0L
+    private var end_backward: Boolean = true
+    private var end_forward: Boolean = true
     private var friendsList = ArrayList<ReadUserModel>()
     private var invitationsList = ArrayList<ReadUserModel>()
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -89,17 +93,17 @@ class CommunityActivity : AppCompatActivity(), View.OnClickListener {
                     invitationsList.clear()
                     invitationsList = getCommunityList(
                         currentUser!!.id.value,
-                        0
+                        0, offset
                     )
                     usersInvitationsRecyclerView(invitationsList)
                     community_invitations_loading_buttons.visibility = View.VISIBLE
                 }
             }
-            R.id.community_prev_invitations -> { //TODO WITOLD invitations pagination
-                Log.e("prev", "invitations")
+            R.id.community_prev_invitations -> {
+                invitationsList = getCommunityList(currentUser!!.id.value, 0, offset - 5)
             }
             R.id.community_next_invitations -> {
-                Log.e("next", "invitations")
+                invitationsList = getCommunityList(currentUser!!.id.value, 0, offset + 5)
             }
         }
     }
@@ -108,10 +112,7 @@ class CommunityActivity : AppCompatActivity(), View.OnClickListener {
         super.onResume()
         if (community_friends_rv.visibility == View.VISIBLE) {
             friendsList.clear()
-            friendsList = getCommunityList(
-                currentUser!!.id.value,
-                1
-            )
+            friendsList = getCommunityList(currentUser!!.id.value, 1)
             friendsRecyclerView(friendsList)
         }
         Log.e("on", "resume")
@@ -159,7 +160,7 @@ class CommunityActivity : AppCompatActivity(), View.OnClickListener {
 
                     invitationsList = getCommunityList(
                         currentUser!!.id.value,
-                        0
+                        0, offset
                     )
                     usersInvitationsRecyclerView(invitationsList)
                 }
@@ -171,7 +172,7 @@ class CommunityActivity : AppCompatActivity(), View.OnClickListener {
 
                     invitationsList = getCommunityList(
                         currentUser!!.id.value,
-                        0
+                        0, offset
                     )
                     usersInvitationsRecyclerView(invitationsList)
                 }
@@ -193,15 +194,28 @@ class CommunityActivity : AppCompatActivity(), View.OnClickListener {
             }
         }
 
-    private fun getCommunityList(who: Int, desired_status: Int): ArrayList<ReadUserModel> {
+    private fun getCommunityList(
+        who: Int,
+        desired_status: Int,
+        offset: Long = 0L
+    ): ArrayList<ReadUserModel> {
         val usersList = ArrayList<ReadUserModel>()
         runBlocking {
             newSuspendedTransaction(Dispatchers.IO) {
-                val l =
+
+                var l = if (desired_status == 1) {
                     Friend.find {
                         ((Friends.from eq who) or (Friends.to eq who)) and
                                 (Friends.status eq desired_status)
                     }.toList()
+                } else {
+                    Friend.find { (Friends.to eq who) and (Friends.status eq desired_status) }
+                        .limit(6, offset).toList()
+                }
+                end_backward = offset == 0L
+                end_forward = l.size < 6
+                if (l.size == 6 && desired_status == 0)
+                    l = l.dropLast(1)
                 for (i in l) {
                     val tmp: User =
                         if (i.from.id.value == who && desired_status == 1) i.to else i.from
@@ -219,6 +233,17 @@ class CommunityActivity : AppCompatActivity(), View.OnClickListener {
                 }
             }
         }
+        //todo mateusz buttons
+//        if (end_forward)
+//            edit_profile_next_posts.visibility = View.GONE
+//        else
+//            edit_profile_next_posts.visibility = View.VISIBLE
+//
+//        if (end_backward)
+//            edit_profile_prev_posts.visibility = View.GONE
+//        else
+//            edit_profile_prev_posts.visibility = View.VISIBLE
+        this.offset = offset
         reverse(usersList)
         return usersList
     }

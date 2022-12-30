@@ -589,8 +589,12 @@ class EditProfileActivity : AppCompatActivity(), View.OnClickListener {
         }
     }
 
-    private fun numberOfLinks(): Boolean { // TODO WITOLD check no links, if < 20 => true else false
-        return true
+    private fun numberOfLinks(): Boolean {
+        return runBlocking {
+            newSuspendedTransaction(Dispatchers.IO) {
+                UserLink.find { UserLinks.user eq currentUser!!.id }.count()<20
+            }
+        }
     }
 
     private fun linksRecyclerView(userLinks: ArrayList<UserLinksModel>) {

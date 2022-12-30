@@ -7,23 +7,34 @@ import android.util.Log
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.introduce_yourself.Models.ReadUserModel
+import com.example.introduce_yourself.Models.UserPostModel
 import com.example.introduce_yourself.R
-import com.example.introduce_yourself.database.User
+import com.example.introduce_yourself.database.*
 import com.example.introduce_yourself.utils.currentUser
 import com.recyclerviewapp.UsersList
+import kotlinx.android.synthetic.main.activity_edit_profile.*
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.activity_search.*
 import kotlinx.android.synthetic.main.activity_user_item.*
 import kotlinx.android.synthetic.main.activity_user_item.toolbar_user_item
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.runBlocking
+import org.jetbrains.exposed.sql.SortOrder
+import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
+import org.jetbrains.exposed.sql.lowerCase
+import org.jetbrains.exposed.sql.or
 import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransaction
 
 class SearchActivity : AppCompatActivity(), View.OnClickListener {
+    private var offset: Long = 0L
+    private var end_backward: Boolean = true
+    private var end_forward: Boolean = true
     private var readUserModelList = ArrayList<ReadUserModel>()
+
     companion object {
         const val USER_DETAILS = "user_details"
     }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         when (currentUser!!.color_nr) {
             0 -> {
@@ -57,42 +68,67 @@ class SearchActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     override fun onClick(v: View?) {
-        when(v!!.id){
+        when (v!!.id) {
             R.id.search_find_btn -> {
-                if(search_find_et.text.toString().isNotEmpty()){
-                    if(isEmailValid(search_find_et.text.toString())) {
-                        Log.e("email", "ok")
-                        findUserByEmail(search_find_et.text.toString())
-                    }
-                    else{
-                        Log.e("to nie ", "email")
-                        findUserByName(search_find_et.text.toString())
-                    }
-                }else{
+                if (search_find_et.text.toString().isNotEmpty()) {
+                    readUserModelList = findUserByName(search_find_et.text.toString(), 0)
+                } else {
                     Log.e("pusta", "lista")
                     readUserModelList.clear()
                     usersRecyclerView(readUserModelList)
                 }
             }
-            R.id.search_prev_users -> { //TODO WITOLD search pagination
-                Log.e("prev", "posts")
+            R.id.search_prev_users -> {
+                readUserModelList = findUserByName(search_find_et.text.toString(), offset - 5)
             }
             R.id.search_next_users -> {
-                Log.e("next", "posts")
+                readUserModelList = findUserByName(search_find_et.text.toString(), offset + 5)
             }
         }
     }
 
-    private fun findUserByName(toString: String) { //TODO WITOLD find user by name
+    private fun findUserByName(who: String, offset: Long): ArrayList<ReadUserModel> {
+        val readUserModelList = ArrayList<ReadUserModel>()
+        runBlocking {
+            newSuspendedTransaction(Dispatchers.IO) {
+                var l =
+                    User.find {
+                        (Users.name.lowerCase() like "$who%") or
+                                (Users.surname.lowerCase() like "$who%") or
+                                (Users.email.lowerCase() like "$who%")
+                    }
+                        .limit(6, offset).toList()
+                end_backward = offset == 0L
+                end_forward = l.size < 6
+                if (l.size == 6)
+                    l = l.dropLast(1)
+                for (i in l) {
+                    val tmp = PostLike.find { PostLikes.post eq i.id }.groupBy { it.like }
+                    readUserModelList.add(
+                        ReadUserModel(
+                            id = i.id.value,
+                            name = i.name,
+                            surname = i.surname,
+                            email = i.email,
+                            description = i.description,
+                            profile_picture = i.profile_picture.bytes
+                        )
+                    )
+                }
+            }
+        }
+        if (end_forward)
+            search_next_users.visibility = View.GONE
+        else
+            search_next_users.visibility = View.VISIBLE
 
-    }
+        if (end_backward)
+            search_prev_users.visibility = View.GONE
+        else
+            search_prev_users.visibility = View.VISIBLE
 
-    private fun findUserByEmail(toString: String) { //TODO WITOLD find user by email
-
-    }
-
-    private fun isEmailValid(email: String): Boolean {
-        return android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()
+        this.offset = offset
+        return readUserModelList
     }
 
     private fun usersRecyclerView(readUserModelList: ArrayList<ReadUserModel>) {
