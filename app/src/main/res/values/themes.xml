@@ -34,6 +34,7 @@
         <item name="post_dislike">@color/fire_opal</item>
         <item name="publish_btn">?attr/colorSecondaryVariant</item>
         <item name="list_title_bg">?attr/colorSecondary</item>
+        <item name="pagination_btn_bg">?attr/colorSecondary</item>
     </style>
 
     <style name="Theme1.Introduce_yourself" parent="Theme0.Introduce_yourself">

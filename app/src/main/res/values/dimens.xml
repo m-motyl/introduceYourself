@@ -22,4 +22,5 @@
     <dimen name="under_post_space_between_btns">10dp</dimen>
     <dimen name="huge_btn_text_size">20sp</dimen>
     <dimen name="huge_btn_v_padding">15dp</dimen>
+    <dimen name="pagination_btn_height">35dp</dimen>
 </resources>

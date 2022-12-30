@@ -602,36 +602,36 @@
                     android:layout_height="wrap_content"
                     android:visibility="visible"/>
 
-                    <RelativeLayout
+                    <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:orientation="horizontal">
 
                         <com.google.android.material.button.MaterialButton
                             android:id="@+id/edit_profile_prev_posts"
-                            android:layout_width="169dp"
-                            android:layout_height="30dp"
-                            android:layout_alignParentStart="true"
-                            android:layout_alignParentTop="true"
-                            android:layout_marginStart="0dp"
-                            android:layout_marginTop="0dp"
-                            android:layout_marginRight="2dp"
-                            android:backgroundTint="?attr/list_title_bg"
+                            android:layout_width="wrap_content"
+                            android:layout_height="@dimen/pagination_btn_height"
+                            android:layout_marginStart="5dp"
+                            android:layout_marginEnd="2dp"
+                            android:backgroundTint="?attr/pagination_btn_bg"
                             app:icon="@drawable/ic_baseline_navigate_before_24"
-                            app:iconGravity="textStart" />
+                            app:iconGravity="textStart"
+                            app:iconPadding="0dp"
+                            android:layout_weight="1" />
 
                         <com.google.android.material.button.MaterialButton
                             android:id="@+id/edit_profile_next_posts"
-                            android:layout_width="169dp"
-                            android:layout_height="30dp"
-                            android:layout_alignParentTop="true"
-                            android:layout_alignParentEnd="true"
-                            android:layout_marginTop="0dp"
-                            android:layout_marginEnd="0dp"
-                            android:backgroundTint="?attr/list_title_bg"
+                            android:layout_width="wrap_content"
+                            android:layout_height="@dimen/pagination_btn_height"
+                            android:layout_marginStart="2dp"
+                            android:layout_marginEnd="5dp"
+                            android:backgroundTint="?attr/pagination_btn_bg"
                             app:icon="@drawable/ic_baseline_navigate_next_24"
-                            app:iconGravity="textStart" />
-
-                    </RelativeLayout>
+                            app:iconGravity="textStart"
+                            app:iconPadding="0dp"
+                            android:layout_weight="1" />
+                    </LinearLayout>
 
 <!--                <com.google.android.material.button.MaterialButton-->
 <!--                    android:id="@+id/edit_profile_posts_expand_more"-->

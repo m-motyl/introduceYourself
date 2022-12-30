@@ -22,4 +22,5 @@
     <attr name="post_dislike" format="color" />
     <attr name="publish_btn" format="color" />
     <attr name="list_title_bg" format="color" />
+    <attr name="pagination_btn_bg" format="color" />
 </resources>

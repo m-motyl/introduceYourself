@@ -176,7 +176,6 @@
                             android:textColor="?attr/text_normal"
                             android:textSize="@dimen/user_item_title_size" />
                     </RelativeLayout>
-<!--                    TODO PATRYK check hint colors -->
                     <TextView
                         android:id="@+id/user_item_user_description"
                         android:layout_width="match_parent"
@@ -184,7 +183,8 @@
                         android:layout_marginTop="@dimen/user_item_line_spacing"
                         android:textSize="@dimen/user_item_text_size"
                         android:hint="@string/user_item_no_user_description_yet"
-                        android:textColor="?attr/text_normal" />
+                        android:textColor="?attr/text_normal"
+                        android:textColorHint="?attr/text_light" />
                 </LinearLayout>
 
             </LinearLayout>
@@ -268,6 +268,8 @@
                             android:layout_alignParentStart="true"
                             android:textSize="@dimen/user_item_text_size"
                             android:hint="@string/user_item_no_posts_yet"
+                            android:textColor="?attr/text_normal"
+                            android:textColorHint="?attr/text_light"
                             android:visibility="gone"/>
 
                         <androidx.recyclerview.widget.RecyclerView
@@ -277,39 +279,38 @@
                             android:layout_alignParentStart="true"
                             android:layout_alignParentTop="true"
                             android:visibility="visible" />
-
                     </RelativeLayout>
 
-                    <RelativeLayout
+                    <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:orientation="horizontal">
 
                         <com.google.android.material.button.MaterialButton
                             android:id="@+id/user_item_prev_posts"
-                            android:layout_width="169dp"
-                            android:layout_height="30dp"
-                            android:layout_alignParentStart="true"
-                            android:layout_alignParentTop="true"
-                            android:layout_marginStart="0dp"
-                            android:layout_marginTop="0dp"
-                            android:layout_marginRight="2dp"
-                            android:backgroundTint="?attr/list_title_bg"
+                            android:layout_width="wrap_content"
+                            android:layout_height="@dimen/pagination_btn_height"
+                            android:layout_marginStart="5dp"
+                            android:layout_marginEnd="2dp"
+                            android:backgroundTint="?attr/pagination_btn_bg"
                             app:icon="@drawable/ic_baseline_navigate_before_24"
-                            app:iconGravity="textStart" />
+                            app:iconGravity="textStart"
+                            app:iconPadding="0dp"
+                            android:layout_weight="1" />
 
                         <com.google.android.material.button.MaterialButton
                             android:id="@+id/user_item_next_posts"
-                            android:layout_width="169dp"
-                            android:layout_height="30dp"
-                            android:layout_alignParentTop="true"
-                            android:layout_alignParentEnd="true"
-                            android:layout_marginTop="0dp"
-                            android:layout_marginEnd="0dp"
-                            android:backgroundTint="?attr/list_title_bg"
+                            android:layout_width="wrap_content"
+                            android:layout_height="@dimen/pagination_btn_height"
+                            android:layout_marginStart="2dp"
+                            android:layout_marginEnd="5dp"
+                            android:backgroundTint="?attr/pagination_btn_bg"
                             app:icon="@drawable/ic_baseline_navigate_next_24"
-                            app:iconGravity="textStart" />
-
-                    </RelativeLayout>
+                            app:iconGravity="textStart"
+                            app:iconPadding="0dp"
+                            android:layout_weight="1" />
+                    </LinearLayout>
                 </LinearLayout>
             </LinearLayout>
 
@@ -336,80 +337,83 @@
                     android:elevation="3dp"
                     android:background="?attr/colorBackground">
 
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="5dp"
-                    android:layout_margin="5dp"
-                    android:layout_marginBottom="10dp"
-                    android:background="?attr/list_title_bg"
-                    android:elevation="3dp"
-                    android:orientation="horizontal">
-
-                    <TextView
+                    <RelativeLayout
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_alignParentStart="true"
-                        android:layout_centerInParent="true"
-                        android:gravity="center"
-                        android:text="@string/users_links"
+                        android:layout_height="wrap_content"
+                        android:padding="5dp"
+                        android:layout_margin="5dp"
+                        android:layout_marginBottom="10dp"
+                        android:background="?attr/list_title_bg"
+                        android:elevation="3dp"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_alignParentStart="true"
+                            android:layout_centerInParent="true"
+                            android:gravity="center"
+                            android:text="@string/users_links"
+                            android:textColor="?attr/text_normal"
+                            android:textSize="@dimen/user_item_title_size" />
+
+    <!--                    <ImageView-->
+    <!--                        android:id="@+id/user_item_links_expand_more"-->
+    <!--                        android:layout_width="wrap_content"-->
+    <!--                        android:layout_height="match_parent"-->
+    <!--                        android:layout_alignParentEnd="true"-->
+    <!--                        android:background="@drawable/ic_baseline_expand_more_24"-->
+    <!--                        android:src="@drawable/ic_baseline_expand_more_24"-->
+    <!--                        app:layout_constraintBottom_toBottomOf="parent"-->
+    <!--                        app:layout_constraintEnd_toEndOf="parent"-->
+    <!--                        android:visibility="visible"/>-->
+
+                        <ImageView
+                            android:id="@+id/user_item_links_expand_less"
+                            android:layout_width="@dimen/user_edit_text_icon_size"
+                            android:layout_height="@dimen/user_edit_text_icon_size"
+                            android:layout_marginEnd="10dp"
+                            android:layout_alignParentEnd="true"
+                            android:layout_centerInParent="true"
+                            android:background="@drawable/ic_baseline_expand_less_24"
+                            android:src="@drawable/ic_baseline_expand_less_24"
+                            android:visibility="gone"
+                            app:tint="?attr/icon_color" />
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:id="@+id/user_item_no_links_tv"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentTop="true"
+                            android:layout_alignParentStart="true"
+                            android:textSize="@dimen/user_item_text_size"
+                            android:hint="@string/user_item_no_links_yet"
+                            android:textColor="?attr/text_normal"
+                            android:textColorHint="?attr/text_light"
+                            android:visibility="gone"/>
+
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/user_item_links_recycler_view"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentStart="true"
+                            android:layout_alignParentTop="true"
+                            android:visibility="visible" />
+                    </RelativeLayout>
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/user_item_links_expand_more"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
                         android:textColor="?attr/text_normal"
-                        android:textSize="@dimen/user_item_title_size" />
-
-<!--                    <ImageView-->
-<!--                        android:id="@+id/user_item_links_expand_more"-->
-<!--                        android:layout_width="wrap_content"-->
-<!--                        android:layout_height="match_parent"-->
-<!--                        android:layout_alignParentEnd="true"-->
-<!--                        android:background="@drawable/ic_baseline_expand_more_24"-->
-<!--                        android:src="@drawable/ic_baseline_expand_more_24"-->
-<!--                        app:layout_constraintBottom_toBottomOf="parent"-->
-<!--                        app:layout_constraintEnd_toEndOf="parent"-->
-<!--                        android:visibility="visible"/>-->
-
-                    <ImageView
-                        android:id="@+id/user_item_links_expand_less"
-                        android:layout_width="@dimen/user_edit_text_icon_size"
-                        android:layout_height="@dimen/user_edit_text_icon_size"
-                        android:layout_marginEnd="10dp"
-                        android:layout_alignParentEnd="true"
-                        android:layout_centerInParent="true"
-                        android:background="@drawable/ic_baseline_expand_less_24"
-                        android:src="@drawable/ic_baseline_expand_less_24"
-                        android:visibility="gone"
-                        app:tint="?attr/icon_color" />
-                </RelativeLayout>
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                    <TextView
-                        android:id="@+id/user_item_no_links_tv"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentTop="true"
-                        android:layout_alignParentStart="true"
-                        android:textSize="@dimen/user_item_text_size"
-                        android:hint="@string/user_item_no_links_yet"
-                        android:visibility="gone"/>
-
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/user_item_links_recycler_view"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentStart="true"
-                        android:layout_alignParentTop="true"
-                        android:visibility="visible" />
-                </RelativeLayout>
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/user_item_links_expand_more"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textColor="?attr/text_normal"
-                    app:backgroundTint="?attr/colorBackground"
-                    app:elevation="3dp"
-                    android:text="Zobacz więcej" />
+                        app:backgroundTint="?attr/colorBackground"
+                        app:elevation="3dp"
+                        android:text="Zobacz więcej" />
                 </LinearLayout>
             </LinearLayout>
         </LinearLayout>

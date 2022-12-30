@@ -47,38 +47,38 @@
             android:layout_weight="1"/>
     </LinearLayout>
 
-    <RelativeLayout
+    <LinearLayout
         android:id="@+id/community_invitations_loading_buttons"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal"
         android:visibility="gone">
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/community_prev_invitations"
-            android:layout_width="169dp"
-            android:layout_height="30dp"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/pagination_btn_height"
             android:layout_marginStart="5dp"
-            android:layout_marginTop="1dp"
-            android:layout_marginRight="2dp"
-            android:backgroundTint="?attr/list_title_bg"
+            android:layout_marginEnd="2dp"
+            android:backgroundTint="?attr/pagination_btn_bg"
             app:icon="@drawable/ic_baseline_navigate_before_24"
-            app:iconGravity="textStart" />
+            app:iconGravity="textStart"
+            app:iconPadding="0dp"
+            android:layout_weight="1" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/community_next_invitations"
-            android:layout_width="169dp"
-            android:layout_height="30dp"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentEnd="true"
-            android:layout_marginTop="0dp"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/pagination_btn_height"
+            android:layout_marginStart="2dp"
             android:layout_marginEnd="5dp"
-            android:backgroundTint="?attr/list_title_bg"
+            android:backgroundTint="?attr/pagination_btn_bg"
             app:icon="@drawable/ic_baseline_navigate_next_24"
-            app:iconGravity="textStart" />
-
-    </RelativeLayout>
+            app:iconGravity="textStart"
+            app:iconPadding="0dp"
+            android:layout_weight="1" />
+    </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/community_friends_rv"
