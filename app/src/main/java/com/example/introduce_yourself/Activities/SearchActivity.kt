@@ -59,9 +59,6 @@ class SearchActivity : AppCompatActivity(), View.OnClickListener {
             finish()
         }
 
-        getUsersList()
-        usersRecyclerView(readUserModelList)
-
         search_find_btn.setOnClickListener(this)
         search_prev_users.setOnClickListener(this)
         search_next_users.setOnClickListener(this)
@@ -72,17 +69,21 @@ class SearchActivity : AppCompatActivity(), View.OnClickListener {
             R.id.search_find_btn -> {
                 if (search_find_et.text.toString().isNotEmpty()) {
                     readUserModelList = findUserByName(search_find_et.text.toString(), 0)
+                    usersRecyclerView(readUserModelList)
                 } else {
-                    Log.e("pusta", "lista")
                     readUserModelList.clear()
                     usersRecyclerView(readUserModelList)
+                    search_prev_users.visibility = View.GONE
+                    search_next_users.visibility = View.GONE
                 }
             }
             R.id.search_prev_users -> {
                 readUserModelList = findUserByName(search_find_et.text.toString(), offset - 5)
+                usersRecyclerView(readUserModelList)
             }
             R.id.search_next_users -> {
                 readUserModelList = findUserByName(search_find_et.text.toString(), offset + 5)
+                usersRecyclerView(readUserModelList)
             }
         }
     }

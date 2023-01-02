@@ -67,6 +67,8 @@ class CommunityActivity : AppCompatActivity(), View.OnClickListener {
 
         community_friends_list_button.setOnClickListener(this)
         community_invitations_list_button.setOnClickListener(this)
+        community_prev_invitations.setOnClickListener(this)
+        community_next_invitations.setOnClickListener(this)
     }
 
     override fun onClick(v: View?) {
@@ -100,10 +102,14 @@ class CommunityActivity : AppCompatActivity(), View.OnClickListener {
                 }
             }
             R.id.community_prev_invitations -> {
+                Log.e("prev", "inv")
                 invitationsList = getCommunityList(currentUser!!.id.value, 0, offset - 5)
+                usersInvitationsRecyclerView(invitationsList)
             }
             R.id.community_next_invitations -> {
+                Log.e("next", "inv")
                 invitationsList = getCommunityList(currentUser!!.id.value, 0, offset + 5)
+                usersInvitationsRecyclerView(invitationsList)
             }
         }
     }
@@ -233,16 +239,17 @@ class CommunityActivity : AppCompatActivity(), View.OnClickListener {
                 }
             }
         }
-        //todo mateusz buttons
-//        if (end_forward)
-//            edit_profile_next_posts.visibility = View.GONE
-//        else
-//            edit_profile_next_posts.visibility = View.VISIBLE
-//
-//        if (end_backward)
-//            edit_profile_prev_posts.visibility = View.GONE
-//        else
-//            edit_profile_prev_posts.visibility = View.VISIBLE
+
+        if (end_forward)
+            community_next_invitations.visibility = View.GONE
+        else
+            community_next_invitations.visibility = View.VISIBLE
+
+        if (end_backward)
+            community_prev_invitations.visibility = View.GONE
+        else
+            community_prev_invitations.visibility = View.VISIBLE
+
         this.offset = offset
         reverse(usersList)
         return usersList
