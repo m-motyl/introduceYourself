@@ -68,7 +68,7 @@ class SearchActivity : AppCompatActivity(), View.OnClickListener {
         when (v!!.id) {
             R.id.search_find_btn -> {
                 if (search_find_et.text.toString().isNotEmpty()) {
-                    readUserModelList = findUserByName(search_find_et.text.toString(), 0)
+                    readUserModelList = findUserByName(search_find_et.text.toString().lowercase(), 0)
                     usersRecyclerView(readUserModelList)
                 } else {
                     readUserModelList.clear()
@@ -78,11 +78,11 @@ class SearchActivity : AppCompatActivity(), View.OnClickListener {
                 }
             }
             R.id.search_prev_users -> {
-                readUserModelList = findUserByName(search_find_et.text.toString(), offset - 5)
+                readUserModelList = findUserByName(search_find_et.text.toString().lowercase(), offset - 5)
                 usersRecyclerView(readUserModelList)
             }
             R.id.search_next_users -> {
-                readUserModelList = findUserByName(search_find_et.text.toString(), offset + 5)
+                readUserModelList = findUserByName(search_find_et.text.toString().lowercase(), offset + 5)
                 usersRecyclerView(readUserModelList)
             }
         }
@@ -94,9 +94,9 @@ class SearchActivity : AppCompatActivity(), View.OnClickListener {
             newSuspendedTransaction(Dispatchers.IO) {
                 var l =
                     User.find {
-                        (Users.name.lowerCase() like "$who%") or
-                                (Users.surname.lowerCase() like "$who%") or
-                                (Users.email.lowerCase() like "$who%")
+                        (Users.name.lowerCase() like "%$who%") or
+                                (Users.surname.lowerCase() like "%$who%") or
+                                (Users.email.lowerCase() like "%$who%")
                     }
                         .limit(6, offset).toList()
                 end_backward = offset == 0L
