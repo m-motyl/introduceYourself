@@ -28,6 +28,7 @@ import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
 import org.jetbrains.exposed.sql.and
 import org.jetbrains.exposed.sql.or
 import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransaction
+import java.time.LocalDateTime
 import java.util.*
 import java.util.Collections.reverse
 import kotlin.collections.ArrayList
@@ -180,10 +181,10 @@ class UserItemActivity : AppCompatActivity(), View.OnClickListener {
                 override fun onClick(position: Int, model: UserPostModel) {
 
                 }
-        },
+            },
             object : UserPostsAdapter.OnLikeClickListener {
                 override fun onClick(position: Int, model: UserPostModel) {
-                    likePost(model)
+                    ratePost(model, true)
 
                     userPostsList = readUserPosts(stalked_user!!.id.value, offset, false)
                     postsRecyclerView(userPostsList)
@@ -191,7 +192,7 @@ class UserItemActivity : AppCompatActivity(), View.OnClickListener {
             },
             object : UserPostsAdapter.OnDislikeClickListener {
                 override fun onClick(position: Int, model: UserPostModel) {
-                    dislikePost(model)
+                    ratePost(model, false)
 
                     userPostsList = readUserPosts(stalked_user!!.id.value, offset, false)
                     postsRecyclerView(userPostsList)
@@ -199,14 +200,32 @@ class UserItemActivity : AppCompatActivity(), View.OnClickListener {
             })
     }
 
-    private fun likePost(model: UserPostModel) { //TODO WITOLD: like post
-        //blokować ponowne głosowanie na to samo
-        //jak dał like to moze dać dislike ale nie odwrotnie itd
+    //true - success/false - failure
+    private fun ratePost(model: UserPostModel, input: Boolean): Boolean {
+        return runBlocking {
+            newSuspendedTransaction(Dispatchers.IO) {
+                val check = PostLike.find {
+                    (PostLikes.user eq currentUser!!.id) and (PostLikes.post eq UserPost.findById(
+                        model.id!!
+                    )!!.id)
+                }.firstOrNull()
+                if (check == null) {
+                    PostLike.new {
+                        like = input
+                        time = LocalDateTime.now()
+                        post = UserPost.findById(model.id!!)!!
+                        user = currentUser!!
+                    }
+                    return@newSuspendedTransaction true
+                } else if (check.like != input) {
+                    check.like = input
+                    return@newSuspendedTransaction true
+                }
+                return@newSuspendedTransaction false
+            }
+        }
     }
 
-    private fun dislikePost(model: UserPostModel) { //TODO WITOLD: dislike post
-
-    }
 
     private fun readFullUser() = runBlocking {
         newSuspendedTransaction(Dispatchers.IO) {
@@ -344,7 +363,11 @@ class UserItemActivity : AppCompatActivity(), View.OnClickListener {
         }
     }
 
-    private fun readUserPosts(who: Int, offset: Long, move: Boolean = true): ArrayList<UserPostModel> {
+    private fun readUserPosts(
+        who: Int,
+        offset: Long,
+        move: Boolean = true
+    ): ArrayList<UserPostModel> {
         val userPostsList = ArrayList<UserPostModel>()
         runBlocking {
             newSuspendedTransaction(Dispatchers.IO) {
@@ -382,7 +405,7 @@ class UserItemActivity : AppCompatActivity(), View.OnClickListener {
             user_item_prev_posts.visibility = View.VISIBLE
         }
 
-        if(move) {
+        if (move) {
             user_item_nested_scroll_view.scrollTo(
                 0,
                 user_item_image_rl.height +

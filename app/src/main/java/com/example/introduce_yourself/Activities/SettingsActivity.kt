@@ -9,6 +9,7 @@ import android.widget.Toast
 import com.example.introduce_yourself.R
 import com.example.introduce_yourself.database.User
 import com.example.introduce_yourself.utils.currentUser
+import hashString
 import kotlinx.android.synthetic.main.activity_community.*
 import kotlinx.android.synthetic.main.activity_community.toolbar_community
 import kotlinx.android.synthetic.main.activity_settings.*
@@ -52,7 +53,7 @@ class SettingsActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     override fun onClick(v: View?) {
-        when(v!!.id){
+        when (v!!.id) {
             R.id.set_theme0_btn -> {
                 updateUserColor(0)
                 reloadActivity()
@@ -129,12 +130,21 @@ class SettingsActivity : AppCompatActivity(), View.OnClickListener {
         }
     }
 
-    private fun updatePassword(newPassword: String) { //TODO: WITOLD update password
+    private fun updatePassword(newPassword: String) = runBlocking {
+        newSuspendedTransaction(Dispatchers.IO) {
+            User.findById(currentUser!!.id)!!.password = newPassword
+        }
 
     }
 
-    private fun checkIfCorrectPassword(oldPassword: String): Boolean { //TODO: WITOLD check if old password correct
-        return true
+    private fun checkIfCorrectPassword(oldPassword: String): Boolean {
+        return runBlocking {
+            newSuspendedTransaction(Dispatchers.IO) {
+                User.findById(currentUser!!.id)!!.password == hashString(
+                    oldPassword
+                )
+            }
+        }
     }
 
     private fun updateUserColor(n: Int) = runBlocking {
@@ -148,11 +158,13 @@ class SettingsActivity : AppCompatActivity(), View.OnClickListener {
             currentUser = User.findById(currentUser!!.id)
         }
     }
+
     private fun reloadActivity() {
         refreshCurrentUser()
         finish()
         startActivityForResult(getIntent(), THEME_CODE)
     }
+
     private fun isPasswordValid(password: String): Boolean {
         val regex = ("^" +
                 "(?=.*[!@#$%^&+=])" +    // at least 1 special character

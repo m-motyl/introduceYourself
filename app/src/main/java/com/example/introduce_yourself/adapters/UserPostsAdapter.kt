@@ -41,12 +41,12 @@ open class UserPostsAdapter(
             holder.itemView.user_item_post_text.text = ptr.post_content
             holder.itemView.user_item_post_date.text =
                 ptr.date.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"))
-            holder.itemView.user_item_post_like_number.text = getPostLikes(ptr)
-            holder.itemView.user_item_post_dislike_number.text = getPostDislikes(ptr)
+            holder.itemView.user_item_post_like_number.text = ptr.likes.toString()
+            holder.itemView.user_item_post_dislike_number.text = ptr.dislikes.toString()
 
-            if(ptr.image.contentEquals(ByteArray(1))){
+            if (ptr.image.contentEquals(ByteArray(1))) {
                 holder.itemView.user_item_post_image.visibility = View.GONE
-            }else{
+            } else {
                 holder.itemView.user_item_post_image.setImageBitmap(byteArrayToBitmap(ptr.image))
             }
 
@@ -55,29 +55,19 @@ open class UserPostsAdapter(
                     onClickListener!!.onClick(position, ptr)
                 }
             }
-            holder.itemView.user_item_post_like_btn.setOnClickListener{
+            holder.itemView.user_item_post_like_btn.setOnClickListener {
                 if (onLikeClickListener != null) {
                     onLikeClickListener!!.onClick(position, ptr)
 //                    Log.e("like", ptr.toString())
                 }
             }
-            holder.itemView.user_item_post_dislike_btn.setOnClickListener{
+            holder.itemView.user_item_post_dislike_btn.setOnClickListener {
                 if (onDislikeClickListener != null) {
                     onDislikeClickListener!!.onClick(position, ptr)
 //                    Log.e("dislike", ptr.toString())
                 }
             }
         }
-    }
-
-    private fun getPostDislikes(upm: UserPostModel): String { //TODO WITOLD get post dislikes
-        val dislikes = (0..10).random()
-        return dislikes.toString()
-    }
-
-    private fun getPostLikes(upm: UserPostModel): String { //TODO WITOLD get post likes
-        val likes = (0..10).random()
-        return likes.toString()
     }
 
     override fun getItemCount(): Int {

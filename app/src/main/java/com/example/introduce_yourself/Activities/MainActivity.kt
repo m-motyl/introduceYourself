@@ -13,7 +13,10 @@ import androidx.drawerlayout.widget.DrawerLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.introduce_yourself.Models.ReadUserModel
 import com.example.introduce_yourself.R
+import com.example.introduce_yourself.database.PostLike
+import com.example.introduce_yourself.database.PostLikes
 import com.example.introduce_yourself.database.User
+import com.example.introduce_yourself.database.Users
 import com.example.introduce_yourself.utils.byteArrayToBitmap
 import com.example.introduce_yourself.utils.currentUser
 import com.google.android.material.navigation.NavigationView
@@ -22,7 +25,9 @@ import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.nav_header.view.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.runBlocking
+import org.jetbrains.exposed.sql.and
 import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransaction
+import java.time.LocalDateTime
 
 class MainActivity : AppCompatActivity() {
     private var readUserModelList = ArrayList<ReadUserModel>()
@@ -169,27 +174,29 @@ class MainActivity : AppCompatActivity() {
         })
     }
 
-    private fun getUsersList() = runBlocking { //TODO WITOLD: get best users (sum of posts likes? from spec. day)
-        newSuspendedTransaction(Dispatchers.IO) {
-            val list = User.all().limit(5).toList()
-            if (list.isNotEmpty())
-                exposedToModel(list)
+    private fun getUsersList() =
+        runBlocking {
+            newSuspendedTransaction(Dispatchers.IO) {
+                val xd = PostLike.find {
+                    (PostLikes.time.greater(
+                        LocalDateTime.now().minusDays(1)
+                    )) and (PostLikes.like eq true)
+                }.groupingBy { it.post.user }.eachCount().toList().sortedBy { it.second }.take(30)
+                for (i in xd)
+                    readUserModelList.add(
+                        ReadUserModel(
+                            id = i.first.id.value,
+                            name = i.first.name,
+                            surname = i.first.surname,
+                            email = i.first.email,
+                            description = i.first.description,
+                            profile_picture = i.first.profile_picture.bytes,
+                            ranking = i.second //todo mateusz display number of likes
+                        )
+                    )
+            }
         }
-    }
 
-    private fun exposedToModel(list: List<User>) {
-        for (i in list)
-            readUserModelList.add(
-                ReadUserModel(
-                    id = i.id.value,
-                    name = i.name,
-                    surname = i.surname,
-                    email = i.email,
-                    description = i.description,
-                    profile_picture = i.profile_picture.bytes
-                )
-            )
-    }
 
     private fun refreshCurrentUser() = runBlocking {
         newSuspendedTransaction(Dispatchers.IO) {
