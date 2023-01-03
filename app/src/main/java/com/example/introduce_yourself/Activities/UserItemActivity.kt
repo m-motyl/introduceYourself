@@ -13,6 +13,7 @@ import com.example.introduce_yourself.Models.ReadUserModel
 import com.example.introduce_yourself.Models.UserLinksModel
 import com.example.introduce_yourself.Models.UserPostModel
 import com.example.introduce_yourself.R
+import com.example.introduce_yourself.adapters.UserEditPostsAdapter
 import com.example.introduce_yourself.adapters.UserPostsAdapter
 import com.example.introduce_yourself.database.*
 import com.example.introduce_yourself.utils.byteArrayToBitmap
@@ -174,10 +175,37 @@ class UserItemActivity : AppCompatActivity(), View.OnClickListener {
         val userPosts = UserPostsAdapter(this, userPosts)
         user_item_posts_recycler_view.adapter = userPosts
 
-        userPosts.setOnClickListener(object : UserPostsAdapter.OnClickListener {
-            override fun onClick(position: Int, model: UserPostModel) {
-            }
-        })
+        userPosts.setOnClickListener(
+            object : UserPostsAdapter.OnClickListener {
+                override fun onClick(position: Int, model: UserPostModel) {
+
+                }
+        },
+            object : UserPostsAdapter.OnLikeClickListener {
+                override fun onClick(position: Int, model: UserPostModel) {
+                    likePost(model)
+
+                    userPostsList = readUserPosts(stalked_user!!.id.value, offset, false)
+                    postsRecyclerView(userPostsList)
+                }
+            },
+            object : UserPostsAdapter.OnDislikeClickListener {
+                override fun onClick(position: Int, model: UserPostModel) {
+                    dislikePost(model)
+
+                    userPostsList = readUserPosts(stalked_user!!.id.value, offset, false)
+                    postsRecyclerView(userPostsList)
+                }
+            })
+    }
+
+    private fun likePost(model: UserPostModel) { //TODO WITOLD: like post
+        //blokować ponowne głosowanie na to samo
+        //jak dał like to moze dać dislike ale nie odwrotnie itd
+    }
+
+    private fun dislikePost(model: UserPostModel) { //TODO WITOLD: dislike post
+
     }
 
     private fun readFullUser() = runBlocking {
@@ -316,7 +344,7 @@ class UserItemActivity : AppCompatActivity(), View.OnClickListener {
         }
     }
 
-    private fun readUserPosts(who: Int, offset: Long): ArrayList<UserPostModel> {
+    private fun readUserPosts(who: Int, offset: Long, move: Boolean = true): ArrayList<UserPostModel> {
         val userPostsList = ArrayList<UserPostModel>()
         runBlocking {
             newSuspendedTransaction(Dispatchers.IO) {
@@ -354,13 +382,14 @@ class UserItemActivity : AppCompatActivity(), View.OnClickListener {
             user_item_prev_posts.visibility = View.VISIBLE
         }
 
-        user_item_nested_scroll_view.scrollTo(
-            0,
-            user_item_image_rl.height +
-                    user_item_user_info_ll.height +
-                    user_item_description_ll.height
-        )
-
+        if(move) {
+            user_item_nested_scroll_view.scrollTo(
+                0,
+                user_item_image_rl.height +
+                        user_item_user_info_ll.height +
+                        user_item_description_ll.height
+            )
+        }
         this.offset = offset
         return userPostsList
     }

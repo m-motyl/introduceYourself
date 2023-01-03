@@ -169,7 +169,7 @@ class MainActivity : AppCompatActivity() {
         })
     }
 
-    private fun getUsersList() = runBlocking {
+    private fun getUsersList() = runBlocking { //TODO WITOLD: get best users (sum of posts likes? from spec. day)
         newSuspendedTransaction(Dispatchers.IO) {
             val list = User.all().limit(5).toList()
             if (list.isNotEmpty())

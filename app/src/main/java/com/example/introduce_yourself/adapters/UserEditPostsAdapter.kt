@@ -50,6 +50,8 @@ open class UserEditPostsAdapter(
             holder.itemView.edit_profile_post_text_tv.text = ptr.post_content
             holder.itemView.edit_profile_post_date.text =
                 ptr.date.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"))
+            holder.itemView.edit_profile_post_like_number.text = getUserLikes(ptr)
+            holder.itemView.edit_profile_post_dislike_number.text = getUserDislikes(ptr)
 
             if(ptr.image.contentEquals(ByteArray(1))){
                 holder.itemView.edit_profile_post_image.visibility = View.GONE
@@ -183,6 +185,16 @@ open class UserEditPostsAdapter(
 //                }
 //            }
         }
+    }
+
+    private fun getUserDislikes(upm: UserPostModel): String { //TODO WITOLD: get user dislikes
+        val dislikes = (0..10).random()
+        return dislikes.toString()
+    }
+
+    private fun getUserLikes(upm: UserPostModel): String { //TODO WITOLD: get user likes
+        val likes = (0..10).random()
+        return likes.toString()
     }
 
     private fun editPost(

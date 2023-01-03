@@ -11,6 +11,7 @@ import com.example.introduce_yourself.Models.ReadUserModel
 import com.example.introduce_yourself.R
 import com.example.introduce_yourself.utils.byteArrayToBitmap
 import kotlinx.android.synthetic.main.community_invitation_item.view.*
+import kotlinx.android.synthetic.main.user_item_posts_item_row.view.*
 
 open class UserInvitationsAdapter(
     private val context: Context,
