@@ -35,6 +35,8 @@
             android:text="Znajomi"
             android:layout_weight="1"/>
 
+<!--        TODO PATRYK change button bckgrnd when clicked-->
+
         <TextView
             android:id="@+id/community_invitations_list_button"
             android:layout_width="wrap_content"

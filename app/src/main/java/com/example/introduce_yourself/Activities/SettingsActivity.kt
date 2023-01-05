@@ -112,6 +112,13 @@ class SettingsActivity : AppCompatActivity(), View.OnClickListener {
                             Toast.LENGTH_SHORT
                         ).show()
                     }
+                    (settings_old_password_et.text.toString() == settings_new_password_et1.text.toString()) -> {
+                        Toast.makeText(
+                            this,
+                            "Nowe hasło musi różnić się od poprzedniego!",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
                     else -> {
                         updatePassword(settings_new_password_et1.text.toString())
 
@@ -129,7 +136,7 @@ class SettingsActivity : AppCompatActivity(), View.OnClickListener {
             }
         }
     }
-
+//TODO WITOLD hash new password
     private fun updatePassword(newPassword: String) = runBlocking {
         newSuspendedTransaction(Dispatchers.IO) {
             User.findById(currentUser!!.id)!!.password = newPassword

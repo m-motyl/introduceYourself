@@ -93,6 +93,7 @@ class UserItemActivity : AppCompatActivity(), View.OnClickListener {
                 user_item_user_surname.text = stalked_user!!.surname
                 user_item_user_email.text = stalked_user!!.email
                 user_item_user_description.text = stalked_user!!.description
+                user_item_user_likes.text = "Dzisiejsze polubienia: " + getUserLikes(stalked_user!!.id.value)
             }
 
             if (userLinksList.size > 0) {
@@ -132,6 +133,10 @@ class UserItemActivity : AppCompatActivity(), View.OnClickListener {
         user_item_remove_user.setOnClickListener(this)
         user_item_prev_posts.setOnClickListener(this)
         user_item_next_posts.setOnClickListener(this)
+    }
+
+    private fun getUserLikes(id: Int): Int { //TODO: WITOLD get user likes
+        return 5
     }
 
     private fun usersLinksRecyclerView(userLinks: ArrayList<UserLinksModel>) {
@@ -184,18 +189,24 @@ class UserItemActivity : AppCompatActivity(), View.OnClickListener {
             },
             object : UserPostsAdapter.OnLikeClickListener {
                 override fun onClick(position: Int, model: UserPostModel) {
-                    ratePost(model, true)
+                    if (stalked_user!!.id.value != currentUser!!.id.value) {
+                        //TODO WITOLD if clicked twice remove vote
+                        ratePost(model, true)
 
-                    userPostsList = readUserPosts(stalked_user!!.id.value, offset, false)
-                    postsRecyclerView(userPostsList)
+                        userPostsList = readUserPosts(stalked_user!!.id.value, offset, false)
+                        postsRecyclerView(userPostsList)
+                    }
                 }
             },
             object : UserPostsAdapter.OnDislikeClickListener {
                 override fun onClick(position: Int, model: UserPostModel) {
-                    ratePost(model, false)
+                    if (stalked_user!!.id.value != currentUser!!.id.value) {
+                        //TODO WITOLD if clicked twice remove vote
+                        ratePost(model, false)
 
-                    userPostsList = readUserPosts(stalked_user!!.id.value, offset, false)
-                    postsRecyclerView(userPostsList)
+                        userPostsList = readUserPosts(stalked_user!!.id.value, offset, false)
+                        postsRecyclerView(userPostsList)
+                    }
                 }
             })
     }

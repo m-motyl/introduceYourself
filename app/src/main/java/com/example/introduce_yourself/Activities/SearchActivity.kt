@@ -172,7 +172,8 @@ class SearchActivity : AppCompatActivity(), View.OnClickListener {
                     surname = i.surname,
                     email = i.email,
                     description = i.description,
-                    profile_picture = i.profile_picture.bytes
+                    profile_picture = i.profile_picture.bytes,
+                    ranking = 0 //TODO WITOLD ranking also needed here
                 )
             )
     }

@@ -233,7 +233,8 @@ class CommunityActivity : AppCompatActivity(), View.OnClickListener {
                                 surname = tmp.surname,
                                 email = tmp.email,
                                 description = tmp.description,
-                                profile_picture = tmp.profile_picture.bytes
+                                profile_picture = tmp.profile_picture.bytes,
+                                ranking = 5 //TODO WITOLD ranking also needed here
                             )
                         )
                 }

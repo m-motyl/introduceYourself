@@ -35,8 +35,21 @@ open class UsersList(
         if (holder is OwnViewHolder) {
             holder.itemView.main_tv_user_name.text = ptr.name + " " + ptr.surname
             holder.itemView.main_tv_user_email.text = ptr.email
-            holder.itemView.main_tv_user_description.text = ptr.description
+            if(ptr.description != "") {
+                holder.itemView.main_tv_user_description.visibility = View.VISIBLE
+                holder.itemView.main_tv_user_description.text = ptr.description
+            }
+            else{
+                holder.itemView.main_tv_user_description.visibility = View.GONE
+            }
             holder.itemView.main_iv_user_picture.setImageBitmap(byteArrayToBitmap(ptr.profile_picture))
+            if(ptr.ranking != 0) {
+                holder.itemView.main_tv_user_likes.visibility = View.VISIBLE
+                holder.itemView.main_tv_user_likes.text = "Polubienia: " + ptr.ranking.toString()
+            }
+            else {
+                holder.itemView.main_tv_user_likes.visibility = View.GONE
+            }
             //passing which position was clicked on rv
             //passing ptr
             holder.itemView.setOnClickListener {

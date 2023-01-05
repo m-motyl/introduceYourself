@@ -70,6 +70,19 @@
                     android:maxLines="1"
                     android:ellipsize="end"
                     tools:text="Description" />
+
+<!--                TODO PATRYK make user likes look better :v-->
+                <TextView
+                    android:id="@+id/main_tv_user_likes"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="10dp"
+                    android:textColor="?attr/text_light"
+                    android:textSize="14sp"
+                    android:maxLines="1"
+                    android:ellipsize="end"
+                    tools:text="Like" />
+
             </LinearLayout>
         </LinearLayout>
     </androidx.cardview.widget.CardView>

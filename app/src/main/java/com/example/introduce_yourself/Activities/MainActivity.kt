@@ -139,9 +139,7 @@ class MainActivity : AppCompatActivity() {
 
         readUserModelList.clear()
         getUsersList()
-        if (readUserModelList.size > 0) {
-            usersRecyclerView(readUserModelList)
-        }
+        usersRecyclerView(ArrayList(readUserModelList.reversed()))
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -177,12 +175,12 @@ class MainActivity : AppCompatActivity() {
     private fun getUsersList() =
         runBlocking {
             newSuspendedTransaction(Dispatchers.IO) {
-                val xd = PostLike.find {
+                val users = PostLike.find {
                     (PostLikes.time.greater(
                         LocalDateTime.now().minusDays(1)
                     )) and (PostLikes.like eq true)
                 }.groupingBy { it.post.user }.eachCount().toList().sortedBy { it.second }.take(30)
-                for (i in xd)
+                for (i in users)
                     readUserModelList.add(
                         ReadUserModel(
                             id = i.first.id.value,
@@ -191,7 +189,7 @@ class MainActivity : AppCompatActivity() {
                             email = i.first.email,
                             description = i.first.description,
                             profile_picture = i.first.profile_picture.bytes,
-                            ranking = i.second //todo mateusz display number of likes
+                            ranking = i.second
                         )
                     )
             }

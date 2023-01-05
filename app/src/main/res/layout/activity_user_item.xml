@@ -130,6 +130,16 @@
                     android:text="user@email.com"
                     android:textColor="?attr/text_normal"
                     android:textSize="@dimen/user_item_title_size" />
+
+<!--                TODO PATRYK make user likes look better-->
+                <TextView
+                    android:id="@+id/user_item_user_likes"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/user_item_line_spacing"
+                    android:text="Dzisiejsze polubienia: 0"
+                    android:textColor="?attr/text_normal"
+                    android:textSize="@dimen/user_item_title_size" />
             </LinearLayout>
 
             <View

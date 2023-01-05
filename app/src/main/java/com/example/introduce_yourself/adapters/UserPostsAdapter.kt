@@ -50,6 +50,18 @@ open class UserPostsAdapter(
                 holder.itemView.user_item_post_image.setImageBitmap(byteArrayToBitmap(ptr.image))
             }
 
+            if(userLikes(ptr)){
+                holder.itemView.user_item_post_like_btn.setImageResource(R.drawable.ic_baseline_thumb_up_alt_24)
+            }else{
+                holder.itemView.user_item_post_like_btn.setImageResource(R.drawable.ic_baseline_thumb_up_off_alt_24)
+            }
+
+            if(userDislikes(ptr)){
+                holder.itemView.user_item_post_dislike_btn.setImageResource(R.drawable.ic_baseline_thumb_down_alt_24)
+            }else{
+                holder.itemView.user_item_post_dislike_btn.setImageResource(R.drawable.ic_baseline_thumb_down_off_alt_24)
+            }
+
             holder.itemView.setOnClickListener {
                 if (onClickListener != null) {
                     onClickListener!!.onClick(position, ptr)
@@ -68,6 +80,14 @@ open class UserPostsAdapter(
                 }
             }
         }
+    }
+
+    private fun userLikes(ptr: UserPostModel): Boolean { //TODO WITOLD check if current user likes the post
+        return true
+    }
+
+    private fun userDislikes(ptr: UserPostModel): Boolean { //TODO WITOLD check if current user dislikes the post
+        return false
     }
 
     override fun getItemCount(): Int {
