@@ -71,18 +71,28 @@
                     android:ellipsize="end"
                     tools:text="Description" />
 
-<!--                TODO PATRYK make user likes look better :v-->
-                <TextView
-                    android:id="@+id/main_tv_user_likes"
+                <LinearLayout
+                    android:id="@+id/main_tv_user_likes_container"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:orientation="horizontal"
                     android:layout_marginHorizontal="10dp"
-                    android:textColor="?attr/text_light"
-                    android:textSize="14sp"
-                    android:maxLines="1"
-                    android:ellipsize="end"
-                    tools:text="Like" />
+                    android:gravity="center_vertical">
 
+                    <TextView
+                        android:id="@+id/main_tv_user_likes"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="5dp"
+                        android:textColor="?attr/text_light"
+                        tools:text="Today: 125" />
+
+                    <ImageView
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:src="@drawable/ic_baseline_thumb_up_alt_24"
+                        app:tint="?attr/text_normal" />
+                </LinearLayout>
             </LinearLayout>
         </LinearLayout>
     </androidx.cardview.widget.CardView>

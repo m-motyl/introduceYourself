@@ -44,11 +44,11 @@ open class UsersList(
             }
             holder.itemView.main_iv_user_picture.setImageBitmap(byteArrayToBitmap(ptr.profile_picture))
             if(ptr.ranking != 0) {
-                holder.itemView.main_tv_user_likes.visibility = View.VISIBLE
-                holder.itemView.main_tv_user_likes.text = "Polubienia: " + ptr.ranking.toString()
+                holder.itemView.main_tv_user_likes_container.visibility = View.VISIBLE
+                holder.itemView.main_tv_user_likes.text = "Dzisiaj: " + ptr.ranking.toString()
             }
             else {
-                holder.itemView.main_tv_user_likes.visibility = View.GONE
+                holder.itemView.main_tv_user_likes_container.visibility = View.GONE
             }
             //passing which position was clicked on rv
             //passing ptr
