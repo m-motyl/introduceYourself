@@ -21,27 +21,26 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:gravity="center"
-        android:background="?attr/colorPrimaryVariant">
+        android:gravity="center">
 
         <TextView
             android:id="@+id/community_friends_list_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingVertical="@dimen/huge_btn_v_padding"
+            android:background="?attr/colorPrimaryVariant"
             android:textAlignment="center"
             android:textColor="?attr/colorOnPrimary"
             android:textSize="@dimen/huge_btn_text_size"
             android:text="Znajomi"
             android:layout_weight="1"/>
 
-<!--        TODO PATRYK change button bckgrnd when clicked-->
-
         <TextView
             android:id="@+id/community_invitations_list_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingVertical="@dimen/huge_btn_v_padding"
+            android:background="?attr/colorPrimary"
             android:text="Zaproszenia"
             android:textAlignment="center"
             android:textColor="?attr/colorOnPrimary"

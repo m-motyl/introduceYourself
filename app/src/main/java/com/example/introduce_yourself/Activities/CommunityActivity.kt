@@ -1,10 +1,15 @@
 package com.example.introduce_yourself.Activities
 
+import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.util.TypedValue
 import android.view.View
+import androidx.annotation.AttrRes
+import androidx.annotation.ColorInt
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.introduce_yourself.Models.ReadUserModel
 import com.example.introduce_yourself.R
@@ -85,6 +90,10 @@ class CommunityActivity : AppCompatActivity(), View.OnClickListener {
                     )
                     friendsRecyclerView(friendsList)
                     community_invitations_loading_buttons.visibility = View.GONE
+
+                    //changing buttons bg color
+                    community_friends_list_button.setBackgroundColor(getThemeColor(R.attr.colorPrimaryVariant))
+                    community_invitations_list_button.setBackgroundColor(getThemeColor(R.attr.colorPrimary))
                 }
             }
             R.id.community_invitations_list_button -> {
@@ -99,6 +108,10 @@ class CommunityActivity : AppCompatActivity(), View.OnClickListener {
                     )
                     usersInvitationsRecyclerView(invitationsList)
                     community_invitations_loading_buttons.visibility = View.VISIBLE
+
+                    //changing buttons bg color
+                    community_invitations_list_button.setBackgroundColor(getThemeColor(R.attr.colorPrimaryVariant))
+                    community_friends_list_button.setBackgroundColor(getThemeColor(R.attr.colorPrimary))
                 }
             }
             R.id.community_prev_invitations -> {
@@ -256,4 +269,11 @@ class CommunityActivity : AppCompatActivity(), View.OnClickListener {
         return usersList
     }
 
+    @ColorInt
+    fun Context.getThemeColor(
+        @AttrRes attribute: Int
+    ) = TypedValue().let {
+        theme.resolveAttribute(attribute, it, true);
+        it.data
+    }
 }
