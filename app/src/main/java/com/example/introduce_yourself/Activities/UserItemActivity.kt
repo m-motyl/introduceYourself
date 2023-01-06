@@ -1,11 +1,14 @@
 package com.example.introduce_yourself.Activities
 
+import android.R.attr.left
+import android.R.attr.right
 import android.app.AlertDialog
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.RelativeLayout
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -13,7 +16,6 @@ import com.example.introduce_yourself.Models.ReadUserModel
 import com.example.introduce_yourself.Models.UserLinksModel
 import com.example.introduce_yourself.Models.UserPostModel
 import com.example.introduce_yourself.R
-import com.example.introduce_yourself.adapters.UserEditPostsAdapter
 import com.example.introduce_yourself.adapters.UserPostsAdapter
 import com.example.introduce_yourself.database.*
 import com.example.introduce_yourself.utils.byteArrayToBitmap
@@ -24,14 +26,13 @@ import kotlinx.android.synthetic.main.activity_user_item.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.runBlocking
 import org.jetbrains.exposed.sql.SortOrder
-import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
 import org.jetbrains.exposed.sql.and
 import org.jetbrains.exposed.sql.or
 import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransaction
 import java.time.LocalDateTime
 import java.util.*
-import java.util.Collections.reverse
-import kotlin.collections.ArrayList
+import kotlin.math.pow
+
 
 class UserItemActivity : AppCompatActivity(), View.OnClickListener {
     private var offset: Long = 0L
@@ -93,7 +94,12 @@ class UserItemActivity : AppCompatActivity(), View.OnClickListener {
                 user_item_user_surname.text = stalked_user!!.surname
                 user_item_user_email.text = stalked_user!!.email
                 user_item_user_description.text = stalked_user!!.description
-                user_item_user_likes.text = "Dzisiejsze polubienia: " + getUserLikes(stalked_user!!.id.value)
+                val likes = getUserLikes(stalked_user!!.id.value)
+                val maxProgress = 10.toDouble().pow(likes.toString().length).toInt()
+                user_item_user_likes_progressBar.progress = likes
+                user_item_user_likes_progressBar.max = maxProgress
+                user_item_user_likes_number.text = likes.toString()
+
             }
 
             if (userLinksList.size > 0) {

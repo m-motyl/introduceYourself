@@ -30,7 +30,8 @@
             android:adjustViewBounds="true"
             android:cropToPadding="true"
             android:src="@drawable/ic_baseline_person_add_24"
-            android:visibility="visible" />
+            android:visibility="visible"
+            app:tint="?attr/icon_color" />
 
         <ImageView
             android:id="@+id/user_item_remove_user"
@@ -131,15 +132,49 @@
                     android:textColor="?attr/text_normal"
                     android:textSize="@dimen/user_item_title_size" />
 
-<!--                TODO PATRYK make user likes look better-->
-                <TextView
-                    android:id="@+id/user_item_user_likes"
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/user_item_line_spacing"
-                    android:text="Dzisiejsze polubienia: 0"
-                    android:textColor="?attr/text_normal"
-                    android:textSize="@dimen/user_item_title_size" />
+                    android:orientation="horizontal"
+                    android:gravity="center">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Dzisiejsze polubienia:"
+                        android:textColor="?attr/text_normal"
+                        android:textSize="@dimen/user_item_title_size"
+                        android:layout_weight="0"/>
+
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:layout_weight="1">
+
+                        <ProgressBar
+                            android:id="@+id/user_item_user_likes_progressBar"
+                            style="@android:style/Widget.ProgressBar.Horizontal"
+                            android:layout_width="match_parent"
+                            android:layout_height="30dp"
+                            android:layout_centerInParent="true"
+                            android:max="500"
+                            android:progress="125"
+                            android:progressBackgroundTint="?attr/colorPrimary"
+                            android:progressTint="?attr/colorSecondary" />
+
+                        <TextView
+                            android:id="@+id/user_item_user_likes_number"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="?attr/colorOnSecondary"
+                            android:textSize="@dimen/user_item_title_size"
+                            android:textStyle="bold"
+                            android:layout_centerInParent="true"
+                            android:text="125"/>
+                    </RelativeLayout>
+                </LinearLayout>
             </LinearLayout>
 
             <View
