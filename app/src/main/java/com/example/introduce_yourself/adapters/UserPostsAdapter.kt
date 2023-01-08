@@ -82,11 +82,11 @@ open class UserPostsAdapter(
         }
     }
 
-    private fun userLikes(ptr: UserPostModel): Boolean { //TODO WITOLD check if current user likes the post
+    private fun userLikes(ptr: UserPostModel): Boolean {
         return true
     }
 
-    private fun userDislikes(ptr: UserPostModel): Boolean { //TODO WITOLD check if current user dislikes the post
+    private fun userDislikes(ptr: UserPostModel): Boolean {
         return false
     }
 

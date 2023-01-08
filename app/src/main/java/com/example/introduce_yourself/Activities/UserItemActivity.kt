@@ -32,6 +32,7 @@ import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransacti
 import java.time.LocalDateTime
 import java.util.*
 import kotlin.math.pow
+import com.example.introduce_yourself.utils.getUserLikes
 
 
 class UserItemActivity : AppCompatActivity(), View.OnClickListener {
@@ -141,9 +142,7 @@ class UserItemActivity : AppCompatActivity(), View.OnClickListener {
         user_item_next_posts.setOnClickListener(this)
     }
 
-    private fun getUserLikes(id: Int): Int { //TODO: WITOLD get user likes
-        return 5
-    }
+
 
     private fun usersLinksRecyclerView(userLinks: ArrayList<UserLinksModel>) {
         user_item_links_recycler_view.layoutManager = LinearLayoutManager(this)
@@ -196,7 +195,6 @@ class UserItemActivity : AppCompatActivity(), View.OnClickListener {
             object : UserPostsAdapter.OnLikeClickListener {
                 override fun onClick(position: Int, model: UserPostModel) {
                     if (stalked_user!!.id.value != currentUser!!.id.value) {
-                        //TODO WITOLD if clicked twice remove vote
                         ratePost(model, true)
 
                         userPostsList = readUserPosts(stalked_user!!.id.value, offset, false)
@@ -207,7 +205,6 @@ class UserItemActivity : AppCompatActivity(), View.OnClickListener {
             object : UserPostsAdapter.OnDislikeClickListener {
                 override fun onClick(position: Int, model: UserPostModel) {
                     if (stalked_user!!.id.value != currentUser!!.id.value) {
-                        //TODO WITOLD if clicked twice remove vote
                         ratePost(model, false)
 
                         userPostsList = readUserPosts(stalked_user!!.id.value, offset, false)
@@ -217,28 +214,30 @@ class UserItemActivity : AppCompatActivity(), View.OnClickListener {
             })
     }
 
-    //true - success/false - failure
-    private fun ratePost(model: UserPostModel, input: Boolean): Boolean {
-        return runBlocking {
+    private fun ratePost(model: UserPostModel, input: Boolean) {
+        runBlocking {
             newSuspendedTransaction(Dispatchers.IO) {
                 val check = PostLike.find {
                     (PostLikes.user eq currentUser!!.id) and (PostLikes.post eq UserPost.findById(
                         model.id!!
                     )!!.id)
                 }.firstOrNull()
-                if (check == null) {
-                    PostLike.new {
-                        like = input
-                        time = LocalDateTime.now()
-                        post = UserPost.findById(model.id!!)!!
-                        user = currentUser!!
+                when {
+                    check == null -> {
+                        PostLike.new {
+                            like = input
+                            time = LocalDateTime.now()
+                            post = UserPost.findById(model.id!!)!!
+                            user = currentUser!!
+                        }
                     }
-                    return@newSuspendedTransaction true
-                } else if (check.like != input) {
-                    check.like = input
-                    return@newSuspendedTransaction true
+                    check.like != input -> {
+                        check.like = input
+                    }
+                    else -> {
+                        check.delete()
+                    }
                 }
-                return@newSuspendedTransaction false
             }
         }
     }
@@ -396,6 +395,7 @@ class UserItemActivity : AppCompatActivity(), View.OnClickListener {
                     l = l.dropLast(1)
                 for (i in l) {
                     val tmp = PostLike.find { PostLikes.post eq i.id }.groupBy { it.like }
+                    val x = PostLike.find{(PostLikes.post eq i.id)and(PostLikes.user eq currentUser!!.id)}.firstOrNull()
                     userPostsList.add(
                         UserPostModel(
                             post_title = i.title,
@@ -404,7 +404,8 @@ class UserItemActivity : AppCompatActivity(), View.OnClickListener {
                             image = i.image!!.bytes,
                             likes = if (tmp[true] != null) tmp[true]!!.size else 0,
                             dislikes = if (tmp[false] != null) tmp[false]!!.size else 0,
-                            id = i.id.value
+                            id = i.id.value,
+                            current_user_L = if(x==null) 0 else if(x.like) 1 else -1
                         )
                     )
                 }

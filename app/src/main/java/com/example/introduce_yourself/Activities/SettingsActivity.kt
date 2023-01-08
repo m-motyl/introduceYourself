@@ -136,10 +136,9 @@ class SettingsActivity : AppCompatActivity(), View.OnClickListener {
             }
         }
     }
-//TODO WITOLD hash new password
     private fun updatePassword(newPassword: String) = runBlocking {
         newSuspendedTransaction(Dispatchers.IO) {
-            User.findById(currentUser!!.id)!!.password = newPassword
+            User.findById(currentUser!!.id)!!.password = hashString(newPassword)
         }
 
     }

@@ -11,6 +11,7 @@ import com.example.introduce_yourself.Models.UserPostModel
 import com.example.introduce_yourself.R
 import com.example.introduce_yourself.database.*
 import com.example.introduce_yourself.utils.currentUser
+import com.example.introduce_yourself.utils.getUserLikes
 import com.recyclerviewapp.UsersList
 import kotlinx.android.synthetic.main.activity_edit_profile.*
 import kotlinx.android.synthetic.main.activity_main.*
@@ -104,7 +105,6 @@ class SearchActivity : AppCompatActivity(), View.OnClickListener {
                 if (l.size == 6)
                     l = l.dropLast(1)
                 for (i in l) {
-                    val tmp = PostLike.find { PostLikes.post eq i.id }.groupBy { it.like }
                     readUserModelList.add(
                         ReadUserModel(
                             id = i.id.value,
@@ -112,7 +112,8 @@ class SearchActivity : AppCompatActivity(), View.OnClickListener {
                             surname = i.surname,
                             email = i.email,
                             description = i.description,
-                            profile_picture = i.profile_picture.bytes
+                            profile_picture = i.profile_picture.bytes,
+                            ranking = getUserLikes(i.id.value)
                         )
                     )
                 }
@@ -173,7 +174,7 @@ class SearchActivity : AppCompatActivity(), View.OnClickListener {
                     email = i.email,
                     description = i.description,
                     profile_picture = i.profile_picture.bytes,
-                    ranking = 0 //TODO WITOLD ranking also needed here
+                    ranking = 0
                 )
             )
     }

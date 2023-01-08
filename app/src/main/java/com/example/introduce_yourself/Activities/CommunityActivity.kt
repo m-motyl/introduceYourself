@@ -18,6 +18,7 @@ import com.example.introduce_yourself.database.Friend
 import com.example.introduce_yourself.database.Friends
 import com.example.introduce_yourself.database.User
 import com.example.introduce_yourself.utils.currentUser
+import com.example.introduce_yourself.utils.getUserLikes
 //import com.example.introduce_yourself.utils.getCommunityList
 //import com.example.introduce_yourself.utils.getCommunityList
 import com.recyclerviewapp.UsersList
@@ -247,7 +248,7 @@ class CommunityActivity : AppCompatActivity(), View.OnClickListener {
                                 email = tmp.email,
                                 description = tmp.description,
                                 profile_picture = tmp.profile_picture.bytes,
-                                ranking = 5 //TODO WITOLD ranking also needed here
+                                ranking = getUserLikes(i.id.value)
                             )
                         )
                 }

@@ -9,4 +9,5 @@ data class UserPostModel(
     val likes: Int? = 0,
     val dislikes: Int? = 0,
     var id: Int? = 0,
+    var current_user_L: Int? =0 //1 likes 0 nothing -1 dislikes
 )
