@@ -63,6 +63,11 @@ class DirectMessageActivity : AppCompatActivity(), View.OnClickListener {
             readUserModel = intent.getSerializableExtra(MessagesActivity.FRIEND_DETAILS)
                     as ReadUserModel
         }
+        if (intent.hasExtra(UserItemActivity.FRIEND_DETAILS)) {
+            readUserModel = intent.getSerializableExtra(UserItemActivity.FRIEND_DETAILS)
+                    as ReadUserModel
+        }
+
         if (readUserModel != null) {
 //            readFullUser()
             supportActionBar!!.title = readUserModel!!.email

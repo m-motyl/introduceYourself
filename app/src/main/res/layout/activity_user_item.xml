@@ -34,6 +34,20 @@
             app:tint="?attr/icon_color" />
 
         <ImageView
+            android:id="@+id/user_item_message_user"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="15dp"
+            android:layout_marginEnd="50dp"
+            android:adjustViewBounds="true"
+            android:cropToPadding="true"
+            android:src="@drawable/ic_baseline_message_24"
+            android:visibility="gone"
+            app:tint="?attr/icon_color" />
+
+        <ImageView
             android:id="@+id/user_item_remove_user"
             android:layout_width="25dp"
             android:layout_height="25dp"
@@ -44,7 +58,8 @@
             android:adjustViewBounds="true"
             android:cropToPadding="true"
             android:src="@drawable/ic_baseline_person_remove_24"
-            android:visibility="gone" />
+            android:visibility="gone"
+            app:tint="?attr/icon_color"/>
 
     </RelativeLayout>
 

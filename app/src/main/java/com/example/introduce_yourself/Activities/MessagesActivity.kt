@@ -85,7 +85,7 @@ class MessagesActivity : AppCompatActivity() {
         })
     }
 
-    private fun getCommunityList(
+    private fun getCommunityList( //TODO WITOLD read users current user wrote with
         who: Int,
         desired_status: Int,
         offset: Long = 0L

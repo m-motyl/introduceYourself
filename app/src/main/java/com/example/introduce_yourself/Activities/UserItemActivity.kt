@@ -42,10 +42,12 @@ class UserItemActivity : AppCompatActivity(), View.OnClickListener {
     private var readUserModel: ReadUserModel? = null
     private var userLinksList = ArrayList<UserLinksModel>()
     private var initLinksList = ArrayList<UserLinksModel>()
-
     private var userPostsList = ArrayList<UserPostModel>()
-
     private var stalked_user: User? = null
+
+    companion object {
+        const val FRIEND_DETAILS = "user_details"
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         when (currentUser!!.color_nr) {
@@ -133,6 +135,7 @@ class UserItemActivity : AppCompatActivity(), View.OnClickListener {
             if (checkIfAlreadyFriends(readUserModel!!.id)) {
                 user_item_invite_user.visibility = View.GONE
                 user_item_remove_user.visibility = View.VISIBLE
+                user_item_message_user.visibility = View.VISIBLE
             }
         }
         user_item_links_expand_more.setOnClickListener(this)
@@ -141,6 +144,7 @@ class UserItemActivity : AppCompatActivity(), View.OnClickListener {
         user_item_remove_user.setOnClickListener(this)
         user_item_prev_posts.setOnClickListener(this)
         user_item_next_posts.setOnClickListener(this)
+        user_item_message_user.setOnClickListener(this)
     }
 
 
@@ -269,6 +273,19 @@ class UserItemActivity : AppCompatActivity(), View.OnClickListener {
 
     override fun onClick(v: View?) {
         when (v!!.id) {
+            R.id.user_item_message_user -> {
+                val intent = Intent(
+                    this@UserItemActivity,
+                    DirectMessageActivity::class.java
+                )
+
+                intent.putExtra(
+                    FRIEND_DETAILS,
+                    readUserModel
+                )
+
+                startActivity(intent)
+            }
             R.id.user_item_prev_posts -> {
                 userPostsList = readUserPosts(stalked_user!!.id.value, offset - 5)
                 postsRecyclerView(userPostsList)
