@@ -13,10 +13,7 @@ import androidx.drawerlayout.widget.DrawerLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.introduce_yourself.Models.ReadUserModel
 import com.example.introduce_yourself.R
-import com.example.introduce_yourself.database.PostLike
-import com.example.introduce_yourself.database.PostLikes
-import com.example.introduce_yourself.database.User
-import com.example.introduce_yourself.database.Users
+import com.example.introduce_yourself.database.*
 import com.example.introduce_yourself.utils.byteArrayToBitmap
 import com.example.introduce_yourself.utils.currentUser
 import com.google.android.material.navigation.NavigationView
@@ -97,11 +94,13 @@ class MainActivity : AppCompatActivity() {
                     )
                     startActivity(intent)
                 }
-                R.id.nav_message -> Toast.makeText(
-                    applicationContext,
-                    "Clicked message",
-                    Toast.LENGTH_SHORT
-                ).show()
+                R.id.nav_message -> {
+                    val intent = Intent(
+                        this@MainActivity,
+                        MessagesActivity::class.java
+                    )
+                    startActivity(intent)
+                }
                 R.id.nav_settings -> {
                     val intent = Intent(
                         this@MainActivity,

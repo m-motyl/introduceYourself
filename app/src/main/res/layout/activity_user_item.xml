@@ -168,11 +168,11 @@
                             android:id="@+id/user_item_user_likes_number"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_centerInParent="true"
+                            android:text="125"
                             android:textColor="?attr/colorOnSecondary"
                             android:textSize="@dimen/user_item_title_size"
-                            android:textStyle="bold"
-                            android:layout_centerInParent="true"
-                            android:text="125"/>
+                            android:textStyle="bold" />
                     </RelativeLayout>
                 </LinearLayout>
             </LinearLayout>

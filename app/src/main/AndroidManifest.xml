@@ -15,6 +15,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme2.Introduce_yourself">
         <activity
+            android:name=".Activities.DirectMessageActivity"
+            android:exported="true" />
+        <activity
             android:name=".Activities.MessagesActivity"
             android:exported="true" />
         <activity

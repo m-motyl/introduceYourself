@@ -57,7 +57,6 @@ class SignInActivity : AppCompatActivity(), View.OnClickListener {
                         ).show()
                     }
                     else -> {
-                        Log.e("haslo", hashString("Motyl!"))
                         signInModel = SignInModel(
                             email = si_et_email.text.toString(),
                             password = si_et_password.text.toString()
