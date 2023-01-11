@@ -22,6 +22,7 @@ import com.example.introduce_yourself.adapters.UserEditPostsAdapter
 import com.example.introduce_yourself.database.*
 import com.example.introduce_yourself.utils.byteArrayToBitmap
 import com.example.introduce_yourself.utils.currentUser
+import com.example.introduce_yourself.utils.getUserLikes
 import com.example.introduce_yourself.utils.saveImageByteArray
 import com.karumi.dexter.Dexter
 import com.karumi.dexter.MultiplePermissionsReport
@@ -42,6 +43,7 @@ import java.time.LocalDateTime
 import java.util.*
 import java.util.Collections.reverse
 import kotlin.collections.ArrayList
+import kotlin.math.pow
 
 class EditProfileActivity : AppCompatActivity(), View.OnClickListener {
     private var userLinksList = ArrayList<UserLinksModel>()
@@ -111,6 +113,12 @@ class EditProfileActivity : AppCompatActivity(), View.OnClickListener {
                 )
                 user_bg_picture_remove_btn.visibility = View.VISIBLE
             }
+
+            val likes = getUserLikes(currentUser!!.id.value)
+            val maxProgress = 10.toDouble().pow(likes.toString().length).toInt()
+            edit_profile_user_likes_progressBar.progress = likes
+            edit_profile_user_likes_progressBar.max = maxProgress
+            edit_profile_user_likes_number.text = likes.toString()
         }
 
         readUserLinks()

@@ -50,15 +50,12 @@ open class UserPostsAdapter(
                 holder.itemView.user_item_post_image.setImageBitmap(byteArrayToBitmap(ptr.image))
             }
 
-            if(userLikes(ptr)){
-                holder.itemView.user_item_post_like_btn.setImageResource(R.drawable.ic_baseline_thumb_up_alt_24)
-            }else{
-                holder.itemView.user_item_post_like_btn.setImageResource(R.drawable.ic_baseline_thumb_up_off_alt_24)
-            }
-
-            if(userDislikes(ptr)){
+            if (ptr.current_user_L == -1){ //dislikes
                 holder.itemView.user_item_post_dislike_btn.setImageResource(R.drawable.ic_baseline_thumb_down_alt_24)
-            }else{
+            } else if (ptr.current_user_L == 1){ //likes
+                holder.itemView.user_item_post_like_btn.setImageResource(R.drawable.ic_baseline_thumb_up_alt_24)
+            } else { //neutral
+                holder.itemView.user_item_post_like_btn.setImageResource(R.drawable.ic_baseline_thumb_up_off_alt_24)
                 holder.itemView.user_item_post_dislike_btn.setImageResource(R.drawable.ic_baseline_thumb_down_off_alt_24)
             }
 

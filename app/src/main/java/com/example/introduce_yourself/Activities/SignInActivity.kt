@@ -2,6 +2,7 @@ package com.example.introduce_yourself.Activities
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -56,7 +57,7 @@ class SignInActivity : AppCompatActivity(), View.OnClickListener {
                         ).show()
                     }
                     else -> {
-
+                        Log.e("haslo", hashString("Motyl!"))
                         signInModel = SignInModel(
                             email = si_et_email.text.toString(),
                             password = si_et_password.text.toString()

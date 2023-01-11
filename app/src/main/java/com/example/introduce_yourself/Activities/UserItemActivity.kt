@@ -95,6 +95,7 @@ class UserItemActivity : AppCompatActivity(), View.OnClickListener {
                 user_item_user_surname.text = stalked_user!!.surname
                 user_item_user_email.text = stalked_user!!.email
                 user_item_user_description.text = stalked_user!!.description
+
                 val likes = getUserLikes(stalked_user!!.id.value)
                 val maxProgress = 10.toDouble().pow(likes.toString().length).toInt()
                 user_item_user_likes_progressBar.progress = likes
@@ -199,6 +200,12 @@ class UserItemActivity : AppCompatActivity(), View.OnClickListener {
 
                         userPostsList = readUserPosts(stalked_user!!.id.value, offset, false)
                         postsRecyclerView(userPostsList)
+
+                        val likes = getUserLikes(stalked_user!!.id.value)
+                        val maxProgress = 10.toDouble().pow(likes.toString().length).toInt()
+                        user_item_user_likes_progressBar.progress = likes
+                        user_item_user_likes_progressBar.max = maxProgress
+                        user_item_user_likes_number.text = likes.toString()
                     }
                 }
             },
@@ -209,6 +216,12 @@ class UserItemActivity : AppCompatActivity(), View.OnClickListener {
 
                         userPostsList = readUserPosts(stalked_user!!.id.value, offset, false)
                         postsRecyclerView(userPostsList)
+
+                        val likes = getUserLikes(stalked_user!!.id.value)
+                        val maxProgress = 10.toDouble().pow(likes.toString().length).toInt()
+                        user_item_user_likes_progressBar.progress = likes
+                        user_item_user_likes_progressBar.max = maxProgress
+                        user_item_user_likes_number.text = likes.toString()
                     }
                 }
             })
