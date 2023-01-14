@@ -15,10 +15,7 @@ import com.example.introduce_yourself.Models.ReadUserModel
 import com.example.introduce_yourself.Models.UserLinksModel
 import com.example.introduce_yourself.R
 import com.example.introduce_yourself.adapters.DirectMessagesAdapter
-import com.example.introduce_yourself.database.Messages
-import com.example.introduce_yourself.database.User
-import com.example.introduce_yourself.database.UserLink
-import com.example.introduce_yourself.database.UserLinks
+import com.example.introduce_yourself.database.*
 import com.example.introduce_yourself.utils.currentUser
 import com.recyclerviewapp.UsersList
 import kotlinx.android.synthetic.main.activity_direct_message.*
@@ -27,7 +24,10 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.runBlocking
 import org.jetbrains.exposed.sql.SortOrder
 import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
+import org.jetbrains.exposed.sql.and
+import org.jetbrains.exposed.sql.or
 import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransaction
+import java.time.LocalDateTime
 
 class DirectMessageActivity : AppCompatActivity(), View.OnClickListener {
     private var stalked_user: User? = null
@@ -35,6 +35,8 @@ class DirectMessageActivity : AppCompatActivity(), View.OnClickListener {
     private var messagesList = ArrayList<MessageModel>()
     private val current = true
     private val other = false
+    private var offset: Long = 0L
+    private var end = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         when (currentUser!!.color_nr) {
@@ -65,7 +67,7 @@ class DirectMessageActivity : AppCompatActivity(), View.OnClickListener {
         }
         if (intent.hasExtra(UserItemActivity.FRIEND_DETAILS)) {
             readUserModel = intent.getSerializableExtra(UserItemActivity.FRIEND_DETAILS)
-                    as ReadUserModel
+                    as ReadUserModel //>???
         }
 
         if (readUserModel != null) {
@@ -75,17 +77,18 @@ class DirectMessageActivity : AppCompatActivity(), View.OnClickListener {
 
         direct_message_send.setOnClickListener(this)
 
-        conversation() //delete if not necessary
-
-        direct_messages_list_rv.addOnScrollListener(object : RecyclerView.OnScrollListener(){
+//        conversation() //delete if not necessary
+        loadMessages(0)
+        messagesRecyclerView(messagesList)
+        direct_messages_list_rv.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
 
-                if(!recyclerView.canScrollVertically(RecyclerView.FOCUS_DOWN)){ //TODO WITOLD read some prev msg
-                    Log.e("reached", "bottom")                          //MessageModel(text, user)
-                }                                                                //user => 0 = other user, 1 = current user
+                if (!recyclerView.canScrollVertically(RecyclerView.FOCUS_DOWN)) {
+                    Log.e("reached", "bottom")
+                }
 
-                if(!recyclerView.canScrollVertically(-1)){ //TODO WITOLD read some next msg
-                    Log.e("reached", "top")
+                if (!recyclerView.canScrollVertically(-1)) {
+                    loadMessages(offset + 20)
                 }
 
                 super.onScrolled(recyclerView, dx, dy)
@@ -95,14 +98,40 @@ class DirectMessageActivity : AppCompatActivity(), View.OnClickListener {
         direct_messages_list_rv.smoothScrollToPosition(messagesList.size - 1)
     }
 
+    private fun loadMessages(offset: Long) {
+        runBlocking {
+            newSuspendedTransaction(Dispatchers.IO) {
+                val l = Message.find {
+                    ((Messages.from eq currentUser!!.id) and (Messages.to eq readUserModel!!.id)) or
+                            ((Messages.from eq readUserModel!!.id) and (Messages.to eq currentUser!!.id))
+                }.limit(20, offset).orderBy(Messages.time to SortOrder.DESC).toList()
+                if (l.size < 20)
+                    end = true
+
+                for (i in l) {
+                    messagesList.add(
+                        MessageModel(
+                            text = i.content,
+                            user = i.from != currentUser //todo mateusz it is backwards false == currentUser
+                        )
+                    )
+                }
+            }
+        }
+        this.offset = offset
+    }
+
+
     override fun onClick(v: View?) {
-        when(v!!.id){
+        when (v!!.id) {
             R.id.direct_message_send -> {
                 sendMessage(direct_message_text.text.toString())
-                messagesList.add(MessageModel(
-                    direct_message_text.text.toString(),
-                    current
-                ))
+                messagesList.add(
+                    MessageModel(
+                        direct_message_text.text.toString(),
+                        current
+                    )
+                )
                 direct_message_text.text.clear()
                 messagesRecyclerView(messagesList)
                 direct_messages_list_rv.smoothScrollToPosition(messagesList.size - 1)
@@ -110,13 +139,27 @@ class DirectMessageActivity : AppCompatActivity(), View.OnClickListener {
         }
     }
 
-    private fun sendMessage(msg: String) { //TODO WITOLD send message from current user
-
+    private fun sendMessage(msg: String) {
+        runBlocking {
+            newSuspendedTransaction(Dispatchers.IO) {
+                Message.new {
+                    content = msg
+                    time = LocalDateTime.now()
+                    from = currentUser!!
+                    to = User.findById(readUserModel!!.id)!!
+                }
+            }
+        }
     }
 
-    private fun conversation(){
+    private fun conversation() {
 
-        messagesList.add(MessageModel("siema siema siema siema siema siema siema siema siema", current))
+        messagesList.add(
+            MessageModel(
+                "siema siema siema siema siema siema siema siema siema",
+                current
+            )
+        )
         messagesList.add(MessageModel("hej", other))
         messagesList.add(MessageModel("co tam", current))
         messagesList.add(MessageModel("hej", other))
