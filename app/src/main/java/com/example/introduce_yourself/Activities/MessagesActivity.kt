@@ -8,9 +8,7 @@ import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.introduce_yourself.Models.ReadUserModel
 import com.example.introduce_yourself.R
-import com.example.introduce_yourself.database.Friend
-import com.example.introduce_yourself.database.Friends
-import com.example.introduce_yourself.database.User
+import com.example.introduce_yourself.database.*
 import com.example.introduce_yourself.utils.currentUser
 import com.example.introduce_yourself.utils.getUserLikes
 import com.recyclerviewapp.UsersList
@@ -18,10 +16,11 @@ import kotlinx.android.synthetic.main.activity_community.*
 import kotlinx.android.synthetic.main.activity_messages.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.runBlocking
+import org.jetbrains.exposed.sql.*
 import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
-import org.jetbrains.exposed.sql.and
-import org.jetbrains.exposed.sql.or
+import org.jetbrains.exposed.sql.SqlExpressionBuilder.greater
 import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransaction
+import java.time.LocalDateTime
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -62,6 +61,7 @@ class MessagesActivity : AppCompatActivity() {
         friendsRecyclerView(friendsList)
 
     }
+
     private fun friendsRecyclerView(readUserModelList: ArrayList<ReadUserModel>) {
         messages_friends_list_rv.layoutManager = LinearLayoutManager(this)
         messages_friends_list_rv.setHasFixedSize(true)
@@ -85,7 +85,7 @@ class MessagesActivity : AppCompatActivity() {
         })
     }
 
-    private fun getCommunityList( //TODO WITOLD read users current user wrote with
+    private fun getCommunityList(
         who: Int,
         desired_status: Int,
         offset: Long = 0L
@@ -93,32 +93,23 @@ class MessagesActivity : AppCompatActivity() {
         val usersList = ArrayList<ReadUserModel>()
         runBlocking {
             newSuspendedTransaction(Dispatchers.IO) {
-
-                var l = if (desired_status == 1) {
-                    Friend.find {
-                        ((Friends.from eq who) or (Friends.to eq who)) and
-                                (Friends.status eq desired_status)
-                    }.toList()
-                } else {
-                    Friend.find { (Friends.to eq who) and (Friends.status eq desired_status) }
-                        .limit(6, offset).toList()
-                }
+                val x = Messages.innerJoin(Users, {Messages.from},{Users.id}).slice(Users.columns)
+                    .select { Messages.to eq currentUser!!.id }
+                    .withDistinct().limit(5,offset).orderBy(Messages.time to SortOrder.DESC)
+                var l = User.wrapRows(x).toList()
                 end_backward = offset == 0L
                 end_forward = l.size < 6
                 if (l.size == 6 && desired_status == 0)
                     l = l.dropLast(1)
                 for (i in l) {
-                    val tmp: User =
-                        if (i.from.id.value == who && desired_status == 1) i.to else i.from
-                    if (tmp.id.value != who)
                         usersList.add(
                             ReadUserModel(
-                                id = tmp.id.value,
-                                name = tmp.name,
-                                surname = tmp.surname,
-                                email = tmp.email,
-                                description = tmp.description,
-                                profile_picture = tmp.profile_picture.bytes,
+                                id = i.id.value,
+                                name = i.name,
+                                surname = i.surname,
+                                email = i.email,
+                                description = i.description,
+                                profile_picture = i.profile_picture.bytes,
                                 ranking = getUserLikes(i.id.value)
                             )
                         )
