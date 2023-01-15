@@ -20,6 +20,7 @@ import com.example.introduce_yourself.utils.currentUser
 import com.recyclerviewapp.UsersList
 import kotlinx.android.synthetic.main.activity_direct_message.*
 import kotlinx.android.synthetic.main.activity_messages.*
+import kotlinx.android.synthetic.main.message_item.view.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.runBlocking
 import org.jetbrains.exposed.sql.SortOrder
@@ -38,6 +39,7 @@ class DirectMessageActivity : AppCompatActivity(), View.OnClickListener {
     private val other = false
     private var offset: Long = 0L
     private var end = false
+    private var counter = 1
 
     override fun onCreate(savedInstanceState: Bundle?) {
         when (currentUser!!.color_nr) {
@@ -72,15 +74,17 @@ class DirectMessageActivity : AppCompatActivity(), View.OnClickListener {
         }
 
         if (readUserModel != null) {
-//            readFullUser()
             supportActionBar!!.title = readUserModel!!.email
         }
 
         direct_message_send.setOnClickListener(this)
 
-//        conversation() //delete if not necessary
         loadMessages(0)
-        messagesRecyclerView(ArrayList(messagesList.reversed()))
+        if(end) {
+            messagesRecyclerView(ArrayList(messagesList.reversed()), loadMore=false)
+        }else{
+            messagesRecyclerView(ArrayList(messagesList.reversed()))
+        }
 
         if(messagesList.size > 0) {
             direct_messages_list_rv.smoothScrollToPosition(messagesList.size - 1)
@@ -168,10 +172,10 @@ class DirectMessageActivity : AppCompatActivity(), View.OnClickListener {
         }
     }
 
-    private fun messagesRecyclerView(messagesModelList: ArrayList<MessageModel>) {
+    private fun messagesRecyclerView(messagesModelList: ArrayList<MessageModel>, loadMore: Boolean=true) {
         direct_messages_list_rv.layoutManager = LinearLayoutManager(this)
         direct_messages_list_rv.setHasFixedSize(true)
-        val messages = DirectMessagesAdapter(this, messagesModelList)
+        val messages = DirectMessagesAdapter(this, messagesModelList, loadMore)
         direct_messages_list_rv.adapter = messages
 
         messages.setOnClickListener(object : DirectMessagesAdapter.OnClickListener {
@@ -181,9 +185,26 @@ class DirectMessageActivity : AppCompatActivity(), View.OnClickListener {
         },
         object: DirectMessagesAdapter.OnLoadMoreClickListener{
             override fun onClick(position: Int, model: MessageModel) {
+
+                direct_messages_list_rv.measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED)
+                val h1 = direct_messages_list_rv.measuredHeight
+
                 loadMessages(offset + 20)
-                messagesRecyclerView(ArrayList(messagesList.reversed()))
-                Log.e("wiadomosci", messagesList.toString())
+                if(end) {
+                    messagesRecyclerView(ArrayList(messagesList.reversed()), loadMore=false)
+                }else{
+                    messagesRecyclerView(ArrayList(messagesList.reversed()))
+                }
+
+                direct_messages_list_rv.measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED)
+                val h2 = direct_messages_list_rv.measuredHeight
+
+                if(messagesList.size > 0) {
+                    direct_messages_list_rv.scrollBy(0, h2 - h1)
+                }
+//                if(end){
+//                    direct_messages_list_rv.message_load_more_msg.visibility = View.GONE
+//                }
             }
         })
     }

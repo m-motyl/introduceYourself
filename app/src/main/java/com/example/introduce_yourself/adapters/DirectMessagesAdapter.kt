@@ -13,7 +13,8 @@ import kotlinx.android.synthetic.main.user_item_links_item_row.view.*
 
 open class DirectMessagesAdapter(
     private val context: Context,
-    private var listOfUsers: ArrayList<MessageModel>
+    private var listOfUsers: ArrayList<MessageModel>,
+    private var loadMoreButton: Boolean = true
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     private var onClickListener: OnClickListener? = null
     private var onLoadMoreClickListener: OnLoadMoreClickListener? = null
@@ -35,7 +36,7 @@ open class DirectMessagesAdapter(
         val ptr = listOfUsers[position]
         if (holder is OwnViewHolder) {
 
-            if(position == 0){
+            if(position == 0 && loadMoreButton){
                 holder.itemView.message_load_more_msg.visibility = View.VISIBLE
             }else{
                 holder.itemView.message_load_more_msg.visibility = View.GONE
