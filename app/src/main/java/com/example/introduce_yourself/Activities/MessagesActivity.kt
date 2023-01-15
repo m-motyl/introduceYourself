@@ -95,7 +95,7 @@ class MessagesActivity : AppCompatActivity() {
             newSuspendedTransaction(Dispatchers.IO) {
                 val x = Messages.innerJoin(Users, {Messages.from},{Users.id}).slice(Users.columns)
                     .select { Messages.to eq currentUser!!.id }
-                    .withDistinct().limit(5,offset).orderBy(Messages.time to SortOrder.DESC)
+                    .withDistinct().limit(5,offset)
                 var l = User.wrapRows(x).toList()
                 end_backward = offset == 0L
                 end_forward = l.size < 6

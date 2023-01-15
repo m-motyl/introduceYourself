@@ -84,7 +84,7 @@ class DirectMessageActivity : AppCompatActivity(), View.OnClickListener {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
 
                 if (!recyclerView.canScrollVertically(RecyclerView.FOCUS_DOWN)) {
-                    Log.e("reached", "bottom")
+                    loadMessages(offset + 20)
                 }
 
                 if (!recyclerView.canScrollVertically(-1)) {
@@ -95,7 +95,9 @@ class DirectMessageActivity : AppCompatActivity(), View.OnClickListener {
             }
         })
 
-        direct_messages_list_rv.smoothScrollToPosition(messagesList.size - 1)
+        if(messagesList.size > 0) {
+            direct_messages_list_rv.smoothScrollToPosition(messagesList.size - 1)
+        }
     }
 
     private fun loadMessages(offset: Long) {
@@ -107,13 +109,13 @@ class DirectMessageActivity : AppCompatActivity(), View.OnClickListener {
                 }.limit(20, offset).orderBy(Messages.time to SortOrder.DESC).toList()
                 if (l.size < 20)
                     end = true
-
                 for (i in l) {
                     messagesList.add(
                         MessageModel(
                             text = i.content,
-                            user = i.from != currentUser //todo mateusz it is backwards false == currentUser
+                            user = i.from.id == currentUser!!.id
                         )
+
                     )
                 }
             }
