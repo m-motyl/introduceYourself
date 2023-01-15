@@ -131,5 +131,4 @@ class MessagesActivity : AppCompatActivity() {
         Collections.reverse(usersList)
         return usersList
     }
-
 }

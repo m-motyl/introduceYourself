@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.ScrollView
+import android.widget.Toast
 import androidx.core.view.get
 import androidx.core.view.size
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -89,31 +90,6 @@ class DirectMessageActivity : AppCompatActivity(), View.OnClickListener {
         if(messagesList.size > 0) {
             direct_messages_list_rv.smoothScrollToPosition(messagesList.size - 1)
         }
-
-        direct_messages_list_rv.addOnScrollListener(object : RecyclerView.OnScrollListener() {
-            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-
-                if (!recyclerView.canScrollVertically(RecyclerView.FOCUS_DOWN)) {
-                    Log.e("reached", "bottom")
-                }
-
-                if (!recyclerView.canScrollVertically(-1)) {
-                    if(!loadMore){
-                        loadMore = true
-                    }
-                    else{
-                        Log.e("top", "reached")
-//                        Log.e("wiadomosciprzed", messagesList.toString())
-//                        loadMessages(offset + 20)
-//                        messagesRecyclerView(messagesList)
-//                        Thread.sleep(1_000)
-////                        Log.e("wiadomosci", messagesList.toString())
-                    }
-                }
-
-                super.onScrolled(recyclerView, dx, dy)
-            }
-        })
     }
 
     private fun loadMessages(offset: Long) {
@@ -143,18 +119,37 @@ class DirectMessageActivity : AppCompatActivity(), View.OnClickListener {
     override fun onClick(v: View?) {
         when (v!!.id) {
             R.id.direct_message_send -> {
-                sendMessage(direct_message_text.text.toString())
-                messagesList.add(
-                    MessageModel(
-                        direct_message_text.text.toString(),
-                        current
-                    )
-                )
-                direct_message_text.text.clear()
-                messagesList.clear()
-                loadMessages(0)
-                messagesRecyclerView(ArrayList(messagesList.reversed()))
-                direct_messages_list_rv.scrollToPosition(messagesList.size - 1)
+                when {
+                    direct_message_text.length() > 500 -> {
+                        Toast.makeText(
+                            this,
+                            "Wiadomość może zawierać maksymalnie 500 znaków!",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                    direct_message_text.text.trim().isEmpty() -> {
+                        Toast.makeText(
+                            this,
+                            "Wiadomość nie może składać się z samych znaków białych!",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+
+                    else -> {
+                        sendMessage(direct_message_text.text.toString())
+                        messagesList.add(
+                            MessageModel(
+                                direct_message_text.text.toString(),
+                                current
+                            )
+                        )
+                        direct_message_text.text.clear()
+                        messagesList.clear()
+                        loadMessages(0)
+                        messagesRecyclerView(ArrayList(messagesList.reversed()))
+                        direct_messages_list_rv.scrollToPosition(messagesList.size - 1)
+                    }
+                }
             }
         }
     }
@@ -202,9 +197,6 @@ class DirectMessageActivity : AppCompatActivity(), View.OnClickListener {
                 if(messagesList.size > 0) {
                     direct_messages_list_rv.scrollBy(0, h2 - h1)
                 }
-//                if(end){
-//                    direct_messages_list_rv.message_load_more_msg.visibility = View.GONE
-//                }
             }
         })
     }
