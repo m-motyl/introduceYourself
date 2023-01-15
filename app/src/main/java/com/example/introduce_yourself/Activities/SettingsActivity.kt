@@ -140,7 +140,6 @@ class SettingsActivity : AppCompatActivity(), View.OnClickListener {
         newSuspendedTransaction(Dispatchers.IO) {
             User.findById(currentUser!!.id)!!.password = hashString(newPassword)
         }
-
     }
 
     private fun checkIfCorrectPassword(oldPassword: String): Boolean {

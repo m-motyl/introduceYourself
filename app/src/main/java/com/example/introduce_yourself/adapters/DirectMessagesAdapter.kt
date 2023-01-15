@@ -16,6 +16,7 @@ open class DirectMessagesAdapter(
     private var listOfUsers: ArrayList<MessageModel>
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     private var onClickListener: OnClickListener? = null
+    private var onLoadMoreClickListener: OnLoadMoreClickListener? = null
 
     private class OwnViewHolder(
         view: View
@@ -34,6 +35,12 @@ open class DirectMessagesAdapter(
         val ptr = listOfUsers[position]
         if (holder is OwnViewHolder) {
 
+            if(position == 0){
+                holder.itemView.message_load_more_msg.visibility = View.VISIBLE
+            }else{
+                holder.itemView.message_load_more_msg.visibility = View.GONE
+            }
+
             if (ptr.user) { //current
                 holder.itemView.message_item_other_user_card_view.visibility = View.GONE
                 holder.itemView.message_item_current_user_card_view.visibility = View.VISIBLE
@@ -51,6 +58,12 @@ open class DirectMessagesAdapter(
                     onClickListener!!.onClick(position, ptr)
                 }
             }
+
+            holder.itemView.message_load_more_msg.setOnClickListener {
+                if (onLoadMoreClickListener != null) {
+                    onLoadMoreClickListener!!.onClick(position, ptr)
+                }
+            }
         }
     }
 
@@ -58,11 +71,18 @@ open class DirectMessagesAdapter(
         return listOfUsers.size
     }
 
-    fun setOnClickListener(onClickListener: OnClickListener) {
+    fun setOnClickListener(
+        onClickListener: OnClickListener,
+        onLoadMoreClickListener: OnLoadMoreClickListener
+    ) {
         this.onClickListener = onClickListener
+        this.onLoadMoreClickListener = onLoadMoreClickListener
     }
 
     interface OnClickListener {
+        fun onClick(position: Int, model: MessageModel)
+    }
+    interface OnLoadMoreClickListener {
         fun onClick(position: Int, model: MessageModel)
     }
 }

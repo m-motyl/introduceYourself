@@ -102,17 +102,17 @@ class MessagesActivity : AppCompatActivity() {
                 if (l.size == 6 && desired_status == 0)
                     l = l.dropLast(1)
                 for (i in l) {
-                        usersList.add(
-                            ReadUserModel(
-                                id = i.id.value,
-                                name = i.name,
-                                surname = i.surname,
-                                email = i.email,
-                                description = i.description,
-                                profile_picture = i.profile_picture.bytes,
-                                ranking = getUserLikes(i.id.value)
-                            )
+                    usersList.add(
+                        ReadUserModel(
+                            id = i.id.value,
+                            name = i.name,
+                            surname = i.surname,
+                            email = i.email,
+                            description = i.description,
+                            profile_picture = i.profile_picture.bytes,
+                            ranking = getUserLikes(i.id.value)
                         )
+                    )
                 }
             }
         }

@@ -307,6 +307,7 @@ class UserItemActivity : AppCompatActivity(), View.OnClickListener {
                             removeFriend(readUserModel)
                             user_item_invite_user.visibility = View.VISIBLE
                             user_item_remove_user.visibility = View.GONE
+                            user_item_message_user.visibility = View.GONE
                         }
                         1 -> {}
                     }

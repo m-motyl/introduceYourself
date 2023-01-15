@@ -34,6 +34,7 @@ class DirectMessageActivity : AppCompatActivity(), View.OnClickListener {
     private var readUserModel: ReadUserModel? = null
     private var messagesList = ArrayList<MessageModel>()
     private val current = true
+    private var loadMore = false
     private val other = false
     private var offset: Long = 0L
     private var end = false
@@ -79,25 +80,36 @@ class DirectMessageActivity : AppCompatActivity(), View.OnClickListener {
 
 //        conversation() //delete if not necessary
         loadMessages(0)
-        messagesRecyclerView(messagesList)
+        messagesRecyclerView(ArrayList(messagesList.reversed()))
+
+        if(messagesList.size > 0) {
+            direct_messages_list_rv.smoothScrollToPosition(messagesList.size - 1)
+        }
+
         direct_messages_list_rv.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
 
                 if (!recyclerView.canScrollVertically(RecyclerView.FOCUS_DOWN)) {
-                    loadMessages(offset + 20)
+                    Log.e("reached", "bottom")
                 }
 
                 if (!recyclerView.canScrollVertically(-1)) {
-                    loadMessages(offset + 20)
+                    if(!loadMore){
+                        loadMore = true
+                    }
+                    else{
+                        Log.e("top", "reached")
+//                        Log.e("wiadomosciprzed", messagesList.toString())
+//                        loadMessages(offset + 20)
+//                        messagesRecyclerView(messagesList)
+//                        Thread.sleep(1_000)
+////                        Log.e("wiadomosci", messagesList.toString())
+                    }
                 }
 
                 super.onScrolled(recyclerView, dx, dy)
             }
         })
-
-        if(messagesList.size > 0) {
-            direct_messages_list_rv.smoothScrollToPosition(messagesList.size - 1)
-        }
     }
 
     private fun loadMessages(offset: Long) {
@@ -109,13 +121,13 @@ class DirectMessageActivity : AppCompatActivity(), View.OnClickListener {
                 }.limit(20, offset).orderBy(Messages.time to SortOrder.DESC).toList()
                 if (l.size < 20)
                     end = true
+
                 for (i in l) {
                     messagesList.add(
                         MessageModel(
                             text = i.content,
                             user = i.from.id == currentUser!!.id
                         )
-
                     )
                 }
             }
@@ -135,8 +147,10 @@ class DirectMessageActivity : AppCompatActivity(), View.OnClickListener {
                     )
                 )
                 direct_message_text.text.clear()
-                messagesRecyclerView(messagesList)
-                direct_messages_list_rv.smoothScrollToPosition(messagesList.size - 1)
+                messagesList.clear()
+                loadMessages(0)
+                messagesRecyclerView(ArrayList(messagesList.reversed()))
+                direct_messages_list_rv.scrollToPosition(messagesList.size - 1)
             }
         }
     }
@@ -154,59 +168,22 @@ class DirectMessageActivity : AppCompatActivity(), View.OnClickListener {
         }
     }
 
-    private fun conversation() {
-
-        messagesList.add(
-            MessageModel(
-                "siema siema siema siema siema siema siema siema siema",
-                current
-            )
-        )
-        messagesList.add(MessageModel("hej", other))
-        messagesList.add(MessageModel("co tam", current))
-        messagesList.add(MessageModel("hej", other))
-        messagesList.add(MessageModel("co tam", current))
-        messagesList.add(MessageModel("hej", other))
-        messagesList.add(MessageModel("co tam", current))
-        messagesList.add(MessageModel("hej", other))
-        messagesList.add(MessageModel("co tam", current))
-        messagesList.add(MessageModel("hej", other))
-        messagesList.add(MessageModel("co tam", current))
-        messagesList.add(MessageModel("hej", other))
-        messagesList.add(MessageModel("co tam", current))
-        messagesList.add(MessageModel("hej", other))
-        messagesList.add(MessageModel("co tam", current))
-        messagesList.add(MessageModel("hej", other))
-        messagesList.add(MessageModel("co tam", current))
-        messagesList.add(MessageModel("hej", other))
-        messagesList.add(MessageModel("co tam", current))
-        messagesList.add(MessageModel("hej", other))
-        messagesList.add(MessageModel("co tam", current))
-        messagesList.add(MessageModel("hej", other))
-        messagesList.add(MessageModel("co tam", current))
-        messagesList.add(MessageModel("hej", other))
-        messagesList.add(MessageModel("co tam", current))
-        messagesList.add(MessageModel("hej", other))
-        messagesList.add(MessageModel("co tam", current))
-        messagesList.add(MessageModel("hej", other))
-        messagesList.add(MessageModel("co tam", current))
-        messagesList.add(MessageModel("hej", other))
-        messagesList.add(MessageModel("co tam", current))
-        messagesList.add(MessageModel("hej", other))
-        messagesList.add(MessageModel("co tam?", current))
-
-        messagesRecyclerView(messagesList)
-    }
-
     private fun messagesRecyclerView(messagesModelList: ArrayList<MessageModel>) {
         direct_messages_list_rv.layoutManager = LinearLayoutManager(this)
         direct_messages_list_rv.setHasFixedSize(true)
-        val messagesList = DirectMessagesAdapter(this, messagesModelList)
-        direct_messages_list_rv.adapter = messagesList
+        val messages = DirectMessagesAdapter(this, messagesModelList)
+        direct_messages_list_rv.adapter = messages
 
-        messagesList.setOnClickListener(object : DirectMessagesAdapter.OnClickListener {
+        messages.setOnClickListener(object : DirectMessagesAdapter.OnClickListener {
             override fun onClick(position: Int, model: MessageModel) {
 
+            }
+        },
+        object: DirectMessagesAdapter.OnLoadMoreClickListener{
+            override fun onClick(position: Int, model: MessageModel) {
+                loadMessages(offset + 20)
+                messagesRecyclerView(ArrayList(messagesList.reversed()))
+                Log.e("wiadomosci", messagesList.toString())
             }
         })
     }
