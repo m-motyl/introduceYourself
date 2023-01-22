@@ -109,28 +109,25 @@ https://letsintroduceurself.atlassian.net/jira/software/projects/IY/boards/1
 * **Patryk Zarzycki**
   * Strona główna - GUI
   * Wysuwane boczne menu z zakładkami
-  * RecyclerView z profilami (prototyp)
-  * Adapter do widoku
-  * GUI - frontend
+  * RecyclerView z profilami
+  * Adapter do RecyclerView z profilami
   * GUI - frontend
   * NavigationBar - przełączanie między aktywnościami
   * Profil użytkownika - frontend
-  * relacyjny układ strony i stron tekstowych
-  * Edycja profilu użytkownika -front
-  * Edycja profilu - treści tekstowe (opis użytk.)
-  * pola danych osobowych i opisu użytkownika
-  * recyclerView do wyświetlania postów
-  * recyclerView do wyświetlania linów
-  * Edycja postów oraz dodawanie nowych - layout
-  * Edycja linków oraz dodawanie nowych - layout
+  * Relacyjny układ strony i stron tekstowych
+  * Edycja profilu użytkownika - frontend
+  * Edycja profilu - treści tekstowe, opis użytkownika
+  * Edycja profilu - pola danych osobowych i opisu użytkownika
+  * RecyclerView do wyświetlania postów
+  * RecyclerView do wyświetlania linów
+  * Edycja oraz dodawanie postów - frontend
+  * Edycja oraz dodawanie linków - frontend
   * Rozwijane listy linków i postów
-  * Wyświetlanie profilu
-  * Edycja profilu
   * Karta społeczności - frontend
   * Podgląd zaproszeń
-  * Zakładka "znajomi"
-  * Kolorystyka aktywności logowania i rejestracji zmienia się wraz ze zmianą motywu (powinna być stała)
-  * Ustawienia aplikacji
+  * Zakładka "znajomi" - frontend
+  * Ustawienia aplikacji - frontend
   * Zmiana ikony aplikacji
-  * Podświetlanie aktywnej karty w aktywności społeczność (i chyba jeszcze gdzieś)
+  * Możliwość zmiany motywu aplikacji
+  * Dobór kolorystyki - implementacja kilku motywów (w tym ciemnego)
   
