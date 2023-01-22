@@ -63,3 +63,74 @@ https://letsintroduceurself.atlassian.net/jira/software/projects/IY/boards/1
 
 **10. Komunikator tekstowy (do 23.01)**
   * Rozszerzenie karty społeczności > znajomi
+
+## PODZIAŁ PRACY
+
+* **Witold Gliwa**
+  * Baza danych
+  * Diagram bazy danych
+  * Utworzenie bd w PostgreSQL
+  * Utworzenie modeli DAO
+  * PostgreSQL
+  * Zapis do bazy
+  * Karta społeczności - backend
+  * Wyszukiwarka
+  * Walidacja i hashowanie hasła
+  * Odczyt z bazy
+  * Profilu użytkownika - backend
+  * Wczytywanie kolejnych postów - paginacja/scrollowanie
+  * System oceniania użytkowników
+  * wyświetlanie likeów w karcie społeczności
+
+* **Mateusz Motyl**
+  * Konfiguracja środowiska
+  * Instalacja pluginu Kotlin Exposed
+  * Android Studio 
+  * Emulator
+  * Walidacja wprowadzanych wartości
+  * Instalacja Dexter - obsługa uprawnień
+  * Konwersja zdjęć do przechowywania w bazie danych
+  * Walidacja wielopolowa
+  * Walidacja użytkownika
+  * Utworzenie modelu użytkownika
+  * Edycja profilu użytkownika - backend
+  * Walidacja danych osobowych
+  * Po wyjściu z edycji profilu, na stronie głównej widnieją stare dane
+  * Skaner kodów QR
+  * Generowanie kodów QR
+  * Instalacja pluginu QRGenerator:1.0.3
+  * Przycisk "zobacz więcej" wyświetla się gdy nie ma żadnych elementów (postów)
+  * Funkcja usuwania linków dostępna gdy nie ma żadnych linków
+  * Widoczność przycisków paginacji w wyszukiwarce buguje
+  * Pozycjonowanie kont na stronie głównej według rankingu
+  * daty w wiadomościach
+  * Dezaktywowanie automatyczniego przełączania na Themes/Night po włączeniu trybu oszczędzania baterii (link w opisie)	
+  
+* **Patryk Zarzycki**
+  * Strona główna - GUI
+  * Wysuwane boczne menu z zakładkami
+  * RecyclerView z profilami (prototyp)
+  * Adapter do widoku
+  * GUI - frontend
+  * GUI - frontend
+  * NavigationBar - przełączanie między aktywnościami
+  * Profil użytkownika - frontend
+  * relacyjny układ strony i stron tekstowych
+  * Edycja profilu użytkownika -front
+  * Edycja profilu - treści tekstowe (opis użytk.)
+  * pola danych osobowych i opisu użytkownika
+  * recyclerView do wyświetlania postów
+  * recyclerView do wyświetlania linów
+  * Edycja postów oraz dodawanie nowych - layout
+  * Edycja linków oraz dodawanie nowych - layout
+  * Rozwijane listy linków i postów
+  * Wyświetlanie profilu
+  * Edycja profilu
+  * Karta społeczności - frontend
+  * Podgląd zaproszeń
+  * Zakładka "znajomi"
+  * Kolorystyka aktywności logowania i rejestracji zmienia się wraz ze zmianą motywu (powinna być stała)
+  * Ustawienia aplikacji
+  * Zmiana ikony aplikacji
+  * Podświetlanie aktywnej karty w aktywności społeczność (i chyba jeszcze gdzieś)
+  
