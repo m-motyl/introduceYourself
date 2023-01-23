@@ -67,20 +67,26 @@ https://letsintroduceurself.atlassian.net/jira/software/projects/IY/boards/1
 ## PODZIAŁ PRACY
 
 * **Witold Gliwa**
-  * Baza danych
   * Diagram bazy danych
-  * Utworzenie bd w PostgreSQL
-  * Utworzenie modeli DAO
-  * PostgreSQL
-  * Zapis do bazy
-  * Karta społeczności - backend
-  * Wyszukiwarka
-  * Walidacja i hashowanie hasła
-  * Odczyt z bazy
-  * Profilu użytkownika - backend
-  * Wczytywanie kolejnych postów - paginacja/scrollowanie
-  * System oceniania użytkowników
-  * wyświetlanie likeów w karcie społeczności
+  * Utworzenie encji w PostgreSQL
+  * Utworzenie modeli DAO/DSL
+  * Odczyt / zapis danych z bazy danych
+  * Hashowanie hasła
+  * Backend użytkownika
+  * Backend systemu znajomych
+  * System oceniania użytkowników / postów
+  * Obróbka danych z wielu tabel do modeli
+  * Wyszukiwanie użytkowników
+  * Popularni użytkownicy danego dnia
+  * Paginacja
+    * wyszukiwarki
+    * znajomych / zaproszeń
+    * postów użytkownika
+    * wiadomości
+    
+    
+    ![diagram](https://user-images.githubusercontent.com/58432170/214069054-129db0b6-bbef-4c1e-af75-585e0e4958e9.png)
+
 
 * **Mateusz Motyl**
    * Konfiguracja środowiska
