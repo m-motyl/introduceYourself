@@ -83,27 +83,64 @@ https://letsintroduceurself.atlassian.net/jira/software/projects/IY/boards/1
   * wyświetlanie likeów w karcie społeczności
 
 * **Mateusz Motyl**
-  * Konfiguracja środowiska (Android Studio, Emulator)
-   * Walidacje wielopolowe (długości pól, regexy)
-   * Przełączanie między aktywnościami (zgodnie z cyklem życia aktywności)
-   * Instalacja Dextera - plugin obsługi uprawnień do pamięci wewnętrznej telefonu
-   * Wgrywnie zdjęć z pamięci wewnętrznej telefonu, konwesja zdjęc do przechowywania w bazie danych
-   * Tworzenie modeli Kotlinowych (pakiet Models)
-   * Adaptery list modeli do widoku recycler view (strona główna, wyszukiwarka, społeczność, linki, posty, wiadomości, itd.)
-   * Serializacja danych z widoku do kolejnej aktywności (np. strona główna > profil użytkownika)
-   * Toolbary aktywności z możliwością zamykania/ wracania do poprzedniej aktywności
-   * Karta społeczności, switch między podzakładkami [znajomi, zaproszenia], dodawanie/ usuwanie znajomych
-   * Aktualnie zalogowany użytkownik w side barze menu
-   * Instalacja qrgenerator, code-scanner; pluginy do obsługi kodów qr [skanowanie, wytwarzanie], wyświetlanie kodu, wyszukiwanie profilu użytkownika po zeskanowaniu kodu
-   * karta wiadomości, przesyłanie wiadomości między użytkownikami, stronicowanie wiadomości, równanie wiadomości do krawędzi w zależności od użytkownika, 
-znaczniki czasu w wiadomościach (+ daty co 15 minut przerwy/ dzień różnicy)
-   * przyciski dodawania/ usuwania znajomego w profilu
-   * przycisk direct message w profilu znajomego
-   * wybór motywu i globalna reakcja programu na wybrany motyw
-   * zmiana hasła użytkownika
-   * system oceniania, clickery
-   * edycja profilu; edycja zdjęcia użytkownika; edycja/ usuwanie zdjęcia w tle, edycja i zapis danych osobistych użytkownika, edycja i zapis profilu, dodawanie, edycja, usuwanie i aktualizacja postów użytkownika, zaznaczanie/odznaczanie łapek w góre/ dół, przełączanie miedzy stronami postów, rozwijanie listy postów, rozwijanie listy linków (pierwszy link sugerowany), usuwanie/ dodawanie linków, otwieranie linków z poziomu aplikacji
-   * wylogowywanie (wyczyszczenie stosu programu)
+   * Konfiguracja środowiska
+      * android studio
+      * emulator
+   * Instalacja dextera - plugin obsługi uprawnień do pamięci wewnętrznej telefonu
+      * kodowanie/ rozkodowanie zdjęć z bazy danych
+      * wgrywanie zdjęć z pamięci wewnętrznej telefonu
+   * Tworzenie modeli klas (pakiet Models)
+   * Logowanie i rejestracja
+      * walidacje pól wejściowych (długości napisów, regexy: [imie, nazwisko, hasło, email], wymaganie zdjęcia)
+      * tworzenie konta uzytkownika
+   * Strona główna
+      * adapter listy modeli do widoku
+      * serializacja danych z adaptera do kolejnej aktywności (użytkownik z listy -> profil użytkownika, onClickListener)
+      * dane aktualnie zalogowanego użytkownika w side barze strony głównej (i aktualizacja po edycji)
+      * przełączanie między aktywnościami (zgodnie z cyklem życia aktywności); wylogowywanie - czyszczenie stosu programu
+   * Wyszukiwarka
+      * wyszukiwanie w zależności od wprowadzonych wartości (regex: wyszukiwanie po mailu; wyszukiwanie po imieniu, nazwisku)
+      * serializacja (onClickListener)
+      * toolbar z możliwością cofania
+   * Karta społeczności
+      * switch między kartami: znajomi, zaproszenia
+      * adapter do wyświetlania listy zaproszeń
+      * toolbar z możliwością cofania
+      * przyjmowanie/ usuwanie zaproszenia do znajomych (onAcceptClickListner, onDeclineClickListener)
+   * Skaner QR
+      * pluginy QRgenerator, Code-Scanner; pluginy do obsługi kodów QR, skanowanie, tworzenie kodu
+      * switch pomiędzy kartami: udostepnij kod, zeskanuj kod
+      * tworzenie kodu z emailem użytkownika
+      * toolbar z możliwością cofania
+      * skanowanie kodu i serializacja do profilu użytkownika po wyszukaniu (+ dostęp do kamerki internetowej w emulatorze)
+   * Wiadomości
+      * adapter do wyświetlania wiadomości; pozycjonowanie wiadomości przy krawędziach ekranu w zależności od użytkownika, przesyłanie wiadomości, stronicowanie wiadomości (przycisk załaduj więcej), znaczniki czasu przy wiadomościach, daty w przerwach 15-minutowych między wiadomościami i w różnicach dni
+      * toolabr z możliwością cofania i mailem użytkownika
+      * scrollowanie przy wczytywaniu wiadomości/ przy wysłaniu nowej wiadomości
+   * Profil użytkownika
+      * wyświetlanie danych użytkownika w profilu
+      * wyświetlanie postów (adapter)
+      * wyświetlanie linków (adapter)
+      * toolbar z możliwością cofania
+      * otwieranie linków i przekierowywanie aplikacji
+      * system oceniania; zaznaczanie/ odznaczanie łapek
+      * dodawanie/ usuwanie znajomego
+      * otwieranie (i serializacja do) direct message
+   * Ustawienia
+      * zmiana motywu i reakcja aplikacji na wybrany motyw
+      * zmiana hasła (walidacja regex)
+      * toolbar z możliwością cofania
+   * Edycja profilu
+      * edycja zdjęcia profilowego
+      * edycja/ usuwanie zdjęcia w tle
+      * edycja danych osobowych (walidacja pól tekstowych)
+      * edycja opisu (walidacja pól tekstowych)
+      * toolbar z możliwością cofania
+      * dodawanie postów (walidacja pól tektsowych)
+      * przełączanie między stroniami postów
+      * rozwijanie list postów i linków
+      * edycja/ usuwanie postów (walidacja pól tekstowych)
+      * dodawanie/ usuwanie linków (regex)
   
   
 * **Patryk Zarzycki**
