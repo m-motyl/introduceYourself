@@ -83,28 +83,28 @@ https://letsintroduceurself.atlassian.net/jira/software/projects/IY/boards/1
   * wyświetlanie likeów w karcie społeczności
 
 * **Mateusz Motyl**
-  * Konfiguracja środowiska
-  * Instalacja pluginu Kotlin Exposed
-  * Android Studio 
-  * Emulator
-  * Walidacja wprowadzanych wartości
-  * Instalacja Dexter - obsługa uprawnień
-  * Konwersja zdjęć do przechowywania w bazie danych
-  * Walidacja wielopolowa
-  * Walidacja użytkownika
-  * Utworzenie modelu użytkownika
-  * Edycja profilu użytkownika - backend
-  * Walidacja danych osobowych
-  * Po wyjściu z edycji profilu, na stronie głównej widnieją stare dane
-  * Skaner kodów QR
-  * Generowanie kodów QR
-  * Instalacja pluginu QRGenerator:1.0.3
-  * Przycisk "zobacz więcej" wyświetla się gdy nie ma żadnych elementów (postów)
-  * Funkcja usuwania linków dostępna gdy nie ma żadnych linków
-  * Widoczność przycisków paginacji w wyszukiwarce buguje
-  * Pozycjonowanie kont na stronie głównej według rankingu
-  * daty w wiadomościach
-  * Dezaktywowanie automatyczniego przełączania na Themes/Night po włączeniu trybu oszczędzania baterii (link w opisie)	
+  * Konfiguracja środowiska (Android Studio, Emulator)
+   * Walidacje wielopolowe (długości pól, regexy)
+   * Przełączanie między aktywnościami (zgodnie z cyklem życia aktywności)
+   * Instalacja Dextera - plugin obsługi uprawnień do pamięci wewnętrznej telefonu
+   * Wgrywnie zdjęć z pamięci wewnętrznej telefonu, konwesja zdjęc do przechowywania w bazie danych
+   * Tworzenie modeli Kotlinowych (pakiet Models)
+   * Adaptery list modeli do widoku recycler view (strona główna, wyszukiwarka, społeczność, linki, posty, wiadomości, itd.)
+   * Serializacja danych z widoku do kolejnej aktywności (np. strona główna > profil użytkownika)
+   * Toolbary aktywności z możliwością zamykania/ wracania do poprzedniej aktywności
+   * Karta społeczności, switch między podzakładkami [znajomi, zaproszenia], dodawanie/ usuwanie znajomych
+   * Aktualnie zalogowany użytkownik w side barze menu
+   * Instalacja qrgenerator, code-scanner; pluginy do obsługi kodów qr [skanowanie, wytwarzanie], wyświetlanie kodu, wyszukiwanie profilu użytkownika po zeskanowaniu kodu
+   * karta wiadomości, przesyłanie wiadomości między użytkownikami, stronicowanie wiadomości, równanie wiadomości do krawędzi w zależności od użytkownika, 
+znaczniki czasu w wiadomościach (+ daty co 15 minut przerwy/ dzień różnicy)
+   * przyciski dodawania/ usuwania znajomego w profilu
+   * przycisk direct message w profilu znajomego
+   * wybór motywu i globalna reakcja programu na wybrany motyw
+   * zmiana hasła użytkownika
+   * system oceniania, clickery
+   * edycja profilu; edycja zdjęcia użytkownika; edycja/ usuwanie zdjęcia w tle, edycja i zapis danych osobistych użytkownika, edycja i zapis profilu, dodawanie, edycja, usuwanie i aktualizacja postów użytkownika, zaznaczanie/odznaczanie łapek w góre/ dół, przełączanie miedzy stronami postów, rozwijanie listy postów, rozwijanie listy linków (pierwszy link sugerowany), usuwanie/ dodawanie linków, otwieranie linków z poziomu aplikacji
+   * wylogowywanie (wyczyszczenie stosu programu)
+  
   
 * **Patryk Zarzycki**
   * Strona główna - GUI
