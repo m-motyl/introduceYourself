@@ -85,7 +85,7 @@ https://letsintroduceurself.atlassian.net/jira/software/projects/IY/boards/1
     * wiadomości
     
     
-    ![diagram](https://user-images.githubusercontent.com/58432170/214069054-129db0b6-bbef-4c1e-af75-585e0e4958e9.png)
+  ![diagram](https://user-images.githubusercontent.com/58432170/214069054-129db0b6-bbef-4c1e-af75-585e0e4958e9.png)
 
 
 * **Mateusz Motyl**
