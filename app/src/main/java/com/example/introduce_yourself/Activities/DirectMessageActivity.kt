@@ -30,6 +30,7 @@ import org.jetbrains.exposed.sql.and
 import org.jetbrains.exposed.sql.or
 import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransaction
 import java.time.LocalDateTime
+import java.time.temporal.ChronoUnit
 
 class DirectMessageActivity : AppCompatActivity(), View.OnClickListener {
     private var stalked_user: User? = null
@@ -82,13 +83,18 @@ class DirectMessageActivity : AppCompatActivity(), View.OnClickListener {
 
         loadMessages(0)
         if(end) {
-            messagesRecyclerView(ArrayList(messagesList.reversed()), loadMore=false)
+            messagesRecyclerView(
+                messagesTimeStamps(messagesList),
+                loadMore=false
+            )
         }else{
-            messagesRecyclerView(ArrayList(messagesList.reversed()))
+            messagesRecyclerView(
+                messagesTimeStamps(messagesList)
+            )
         }
 
         if(messagesList.size > 0) {
-            direct_messages_list_rv.smoothScrollToPosition(messagesList.size - 1)
+            direct_messages_list_rv.scrollToPosition(messagesList.size - 1)
         }
     }
 
@@ -106,6 +112,7 @@ class DirectMessageActivity : AppCompatActivity(), View.OnClickListener {
                     messagesList.add(
                         MessageModel(
                             text = i.content,
+                            time = i.time,
                             user = i.from.id == currentUser!!.id
                         )
                     )
@@ -137,16 +144,19 @@ class DirectMessageActivity : AppCompatActivity(), View.OnClickListener {
 
                     else -> {
                         sendMessage(direct_message_text.text.toString())
-                        messagesList.add(
-                            MessageModel(
-                                direct_message_text.text.toString(),
-                                current
-                            )
-                        )
                         direct_message_text.text.clear()
                         messagesList.clear()
                         loadMessages(0)
-                        messagesRecyclerView(ArrayList(messagesList.reversed()))
+                        if(end) {
+                            messagesRecyclerView(
+                                messagesTimeStamps(messagesList),
+                                loadMore=false
+                            )
+                        }else{
+                            messagesRecyclerView(
+                                messagesTimeStamps(messagesList)
+                            )
+                        }
                         direct_messages_list_rv.scrollToPosition(messagesList.size - 1)
                     }
                 }
@@ -186,9 +196,14 @@ class DirectMessageActivity : AppCompatActivity(), View.OnClickListener {
 
                 loadMessages(offset + 20)
                 if(end) {
-                    messagesRecyclerView(ArrayList(messagesList.reversed()), loadMore=false)
+                    messagesRecyclerView(
+                        messagesTimeStamps(messagesList),
+                        loadMore=false
+                    )
                 }else{
-                    messagesRecyclerView(ArrayList(messagesList.reversed()))
+                    messagesRecyclerView(
+                        messagesTimeStamps(messagesList)
+                    )
                 }
 
                 direct_messages_list_rv.measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED)
@@ -199,5 +214,38 @@ class DirectMessageActivity : AppCompatActivity(), View.OnClickListener {
                 }
             }
         })
+    }
+    private fun messagesTimeStamps(messagesModelList: ArrayList<MessageModel>): ArrayList<MessageModel> {
+        if (messagesModelList.size > 0) {
+            val messagesList = ArrayList<MessageModel>()
+            ArrayList(messagesModelList.reversed()).forEachIndexed { index, messageModel ->
+                if(
+                    index == 0 || //time stamp at the top of the page
+                    timeDifference(messageModel.time, messagesList.last().time) || //when there is more than 15 min diff
+                    dayDifference(messageModel.time, messagesList.last().time) //when there is a days diff
+                ){
+                    messagesList.add(
+                        MessageModel(
+                            " ",
+                            messageModel.time,
+                            true
+                        )
+                    )
+                }
+                messagesList.add(messageModel)
+            }
+
+            return messagesList
+        } else {
+            return ArrayList(messagesModelList.reversed())
+        }
+    }
+
+    private fun timeDifference(date1: LocalDateTime, date2: LocalDateTime): Boolean {
+        return ChronoUnit.MINUTES.between(date2, date1) > 15
+    }
+
+    private fun dayDifference(date1: LocalDateTime, date2: LocalDateTime): Boolean {
+        return date2.dayOfYear != date1.dayOfYear
     }
 }

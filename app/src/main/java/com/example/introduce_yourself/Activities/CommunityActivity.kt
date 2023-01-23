@@ -248,7 +248,7 @@ class CommunityActivity : AppCompatActivity(), View.OnClickListener {
                                 email = tmp.email,
                                 description = tmp.description,
                                 profile_picture = tmp.profile_picture.bytes,
-                                ranking = getUserLikes(i.id.value)
+                                ranking = getUserLikes(tmp.id.value)
                             )
                         )
                 }

@@ -10,6 +10,7 @@ import com.example.introduce_yourself.Models.UserLinksModel
 import com.example.introduce_yourself.R
 import kotlinx.android.synthetic.main.message_item.view.*
 import kotlinx.android.synthetic.main.user_item_links_item_row.view.*
+import java.time.format.DateTimeFormatter
 
 open class DirectMessagesAdapter(
     private val context: Context,
@@ -34,6 +35,7 @@ open class DirectMessagesAdapter(
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val ptr = listOfUsers[position]
+
         if (holder is OwnViewHolder) {
 
             if(position == 0 && loadMoreButton){
@@ -43,15 +45,31 @@ open class DirectMessagesAdapter(
             }
 
             if (ptr.user) { //current
-                holder.itemView.message_item_other_user_card_view.visibility = View.GONE
-                holder.itemView.message_item_current_user_card_view.visibility = View.VISIBLE
+                if (ptr.text == " ") {
+                    holder.itemView.message_item_other_user_card_view.visibility = View.GONE
+                    holder.itemView.message_item_current_user_card_view.visibility = View.GONE
+                    holder.itemView.message_item_time_stamp.visibility = View.VISIBLE
 
-                holder.itemView.message_item_current_user_text.text = ptr.text
+                    holder.itemView.message_item_time_stamp.text =
+                        ptr.time.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"))
+                }
+                else {
+                    holder.itemView.message_item_other_user_card_view.visibility = View.GONE
+                    holder.itemView.message_item_current_user_card_view.visibility = View.VISIBLE
+                    holder.itemView.message_item_time_stamp.visibility = View.GONE
+
+                    holder.itemView.message_item_current_user_text.text = ptr.text
+                    holder.itemView.message_item_current_user_time_stamp.text =
+                        ptr.time.format(DateTimeFormatter.ofPattern("HH:mm"))
+                }
             } else { //other
                 holder.itemView.message_item_other_user_card_view.visibility = View.VISIBLE
                 holder.itemView.message_item_current_user_card_view.visibility = View.GONE
+                holder.itemView.message_item_time_stamp.visibility = View.GONE
 
                 holder.itemView.message_item_other_user_text.text = ptr.text
+                holder.itemView.message_item_other_user_time_stamp.text =
+                    ptr.time.format(DateTimeFormatter.ofPattern("HH:mm"))
             }
 
             holder.itemView.setOnClickListener {

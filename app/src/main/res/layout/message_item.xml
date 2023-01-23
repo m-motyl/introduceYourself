@@ -18,6 +18,18 @@
         android:text="Załaduj więcej wiadomości"
         android:visibility="gone"/>
 
+    <TextView
+        android:id="@+id/message_item_time_stamp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="10dp"
+        android:textColor="?attr/colorOnSecondary"
+        android:gravity="start"
+        android:padding="5dp"
+        android:textSize="13sp"
+        android:visibility="gone"
+        android:text="99-99-9999" />
+
     <LinearLayout
         android:id="@+id/message_msg_ll"
         android:layout_width="match_parent"
@@ -39,9 +51,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"
+                android:minWidth="60dp"
                 android:orientation="vertical"
                 tools:ignore="UseCompoundDrawables"
-                android:padding="5dp"
                 android:background="?attr/colorSecondary">
 
                 <TextView
@@ -51,8 +63,19 @@
                     android:layout_marginHorizontal="10dp"
                     android:textColor="?attr/colorOnSecondary"
                     android:gravity="start"
+                    android:padding="5dp"
                     android:textSize="18sp"
                     tools:text="Wiadomość" />
+
+                <TextView
+                    android:id="@+id/message_item_other_user_time_stamp"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="4dp"
+                    android:textColor="?attr/colorOnSecondary"
+                    android:gravity="end"
+                    android:textSize="10sp"
+                    tools:text="10:50" />
             </LinearLayout>
         </androidx.cardview.widget.CardView>
 
@@ -76,9 +99,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="center"
+                    android:minWidth="60dp"
                     android:orientation="vertical"
                     tools:ignore="UseCompoundDrawables"
-                    android:padding="5dp"
                     android:background="?attr/colorPrimary">
 
                     <TextView
@@ -86,10 +109,21 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:gravity="end"
+                        android:padding="5dp"
                         android:layout_marginHorizontal="10dp"
                         android:textColor="?attr/colorOnPrimary"
                         android:textSize="18sp"
                         tools:text="Wiadomość" />
+
+                    <TextView
+                        android:id="@+id/message_item_current_user_time_stamp"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="4dp"
+                        android:textColor="?attr/colorOnPrimary"
+                        android:gravity="start"
+                        android:textSize="10sp"
+                        tools:text="10:50" />
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
         </LinearLayout>
