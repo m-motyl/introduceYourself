@@ -67,44 +67,87 @@ https://letsintroduceurself.atlassian.net/jira/software/projects/IY/boards/1
 ## PODZIAŁ PRACY
 
 * **Witold Gliwa**
-  * Baza danych
   * Diagram bazy danych
-  * Utworzenie bd w PostgreSQL
-  * Utworzenie modeli DAO
-  * PostgreSQL
-  * Zapis do bazy
-  * Karta społeczności - backend
-  * Wyszukiwarka
-  * Walidacja i hashowanie hasła
-  * Odczyt z bazy
-  * Profilu użytkownika - backend
-  * Wczytywanie kolejnych postów - paginacja/scrollowanie
-  * System oceniania użytkowników
-  * wyświetlanie likeów w karcie społeczności
+  * Utworzenie encji w PostgreSQL
+  * Utworzenie modeli DAO/DSL
+  * Odczyt / zapis danych z bazy danych
+  * Hashowanie hasła
+  * Backend użytkownika
+  * Backend systemu znajomych
+  * System oceniania użytkowników / postów
+  * Obróbka danych z wielu tabel do modeli
+  * Wyszukiwanie użytkowników
+  * Popularni użytkownicy danego dnia
+  * Paginacja
+    * wyszukiwarki
+    * znajomych / zaproszeń
+    * postów użytkownika
+    * wiadomości
+    
+    
+  ![diagram](https://user-images.githubusercontent.com/58432170/214069054-129db0b6-bbef-4c1e-af75-585e0e4958e9.png)
+
 
 * **Mateusz Motyl**
-  * Konfiguracja środowiska
-  * Instalacja pluginu Kotlin Exposed
-  * Android Studio 
-  * Emulator
-  * Walidacja wprowadzanych wartości
-  * Instalacja Dexter - obsługa uprawnień
-  * Konwersja zdjęć do przechowywania w bazie danych
-  * Walidacja wielopolowa
-  * Walidacja użytkownika
-  * Utworzenie modelu użytkownika
-  * Edycja profilu użytkownika - backend
-  * Walidacja danych osobowych
-  * Po wyjściu z edycji profilu, na stronie głównej widnieją stare dane
-  * Skaner kodów QR
-  * Generowanie kodów QR
-  * Instalacja pluginu QRGenerator:1.0.3
-  * Przycisk "zobacz więcej" wyświetla się gdy nie ma żadnych elementów (postów)
-  * Funkcja usuwania linków dostępna gdy nie ma żadnych linków
-  * Widoczność przycisków paginacji w wyszukiwarce buguje
-  * Pozycjonowanie kont na stronie głównej według rankingu
-  * daty w wiadomościach
-  * Dezaktywowanie automatyczniego przełączania na Themes/Night po włączeniu trybu oszczędzania baterii (link w opisie)	
+   * Konfiguracja środowiska
+      * android studio
+      * emulator
+   * Instalacja dextera - plugin obsługi uprawnień do pamięci wewnętrznej telefonu
+      * kodowanie/ rozkodowanie zdjęć z bazy danych
+      * wgrywanie zdjęć z pamięci wewnętrznej telefonu
+   * Tworzenie modeli klas (pakiet Models)
+   * Logowanie i rejestracja
+      * walidacje pól wejściowych (długości napisów, regexy: [imie, nazwisko, hasło, email], wymaganie zdjęcia)
+      * tworzenie konta uzytkownika
+   * Strona główna
+      * adapter listy modeli do widoku
+      * serializacja danych z adaptera do kolejnej aktywności (użytkownik z listy -> profil użytkownika, onClickListener)
+      * dane aktualnie zalogowanego użytkownika w side barze strony głównej (i aktualizacja po edycji)
+      * przełączanie między aktywnościami (zgodnie z cyklem życia aktywności); wylogowywanie - czyszczenie stosu programu
+   * Wyszukiwarka
+      * wyszukiwanie w zależności od wprowadzonych wartości (regex: wyszukiwanie po mailu; wyszukiwanie po imieniu, nazwisku)
+      * serializacja (onClickListener)
+      * toolbar z możliwością cofania
+   * Karta społeczności
+      * switch między kartami: znajomi, zaproszenia
+      * adapter do wyświetlania listy zaproszeń
+      * toolbar z możliwością cofania
+      * przyjmowanie/ usuwanie zaproszenia do znajomych (onAcceptClickListner, onDeclineClickListener)
+   * Skaner QR
+      * pluginy QRgenerator, Code-Scanner; pluginy do obsługi kodów QR, skanowanie, tworzenie kodu
+      * switch pomiędzy kartami: udostepnij kod, zeskanuj kod
+      * tworzenie kodu z emailem użytkownika
+      * toolbar z możliwością cofania
+      * skanowanie kodu i serializacja do profilu użytkownika po wyszukaniu (+ dostęp do kamerki internetowej w emulatorze)
+   * Wiadomości
+      * adapter do wyświetlania wiadomości; pozycjonowanie wiadomości przy krawędziach ekranu w zależności od użytkownika, przesyłanie wiadomości, stronicowanie wiadomości (przycisk załaduj więcej), znaczniki czasu przy wiadomościach, daty w przerwach 15-minutowych między wiadomościami i w różnicach dni
+      * toolabr z możliwością cofania i mailem użytkownika
+      * scrollowanie przy wczytywaniu wiadomości/ przy wysłaniu nowej wiadomości
+   * Profil użytkownika
+      * wyświetlanie danych użytkownika w profilu
+      * wyświetlanie postów (adapter)
+      * wyświetlanie linków (adapter)
+      * toolbar z możliwością cofania
+      * otwieranie linków i przekierowywanie aplikacji
+      * system oceniania; zaznaczanie/ odznaczanie łapek
+      * dodawanie/ usuwanie znajomego
+      * otwieranie (i serializacja do) direct message
+   * Ustawienia
+      * zmiana motywu i reakcja aplikacji na wybrany motyw
+      * zmiana hasła (walidacja regex)
+      * toolbar z możliwością cofania
+   * Edycja profilu
+      * edycja zdjęcia profilowego
+      * edycja/ usuwanie zdjęcia w tle
+      * edycja danych osobowych (walidacja pól tekstowych)
+      * edycja opisu (walidacja pól tekstowych)
+      * toolbar z możliwością cofania
+      * dodawanie postów (walidacja pól tektsowych)
+      * przełączanie między stroniami postów
+      * rozwijanie list postów i linków
+      * edycja/ usuwanie postów (walidacja pól tekstowych)
+      * dodawanie/ usuwanie linków (regex)
+  
   
 * **Patryk Zarzycki**
   * Strona główna - GUI
