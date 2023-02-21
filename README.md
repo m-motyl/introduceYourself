@@ -2,7 +2,7 @@
 
 Introduce yourself is a mobile application in the form of a social network focused on sharing your thoughts as posts and links to your social media (or other). The user can register and invite friends using the social tab. Users connected by friendship can exchange messages with each other. Finding users can be done not only using the search card but also by the QR scanner card where we can share or scan the shared QR code. Created posts can be rated by others - top users by positive posts ratings from the period of a given day are positioned on the main page of the application.
 
-**App uses polish language pack - to change language it's neccessary to translate the file \app\src\main\res\values\strings.xml**
+**The application uses the Polish language pack - to change the language, you need to translate the file  \app\src\main\res\values\strings.xml**
 
 ## Sign Up & Sign In cards
 The entered values are length validated and there is regex used to check if inputs match patterns (ex. surname validation accepts: two-part names separated with a dash, first letter in uppercase and the rest in lowercase, string from 2 to 30 characters). A profile picture is required when registering.
