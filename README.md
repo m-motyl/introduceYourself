@@ -1,176 +1,66 @@
 # INTRODUCE YOURSELF - android mobile app
 
-## COLLABOLATORS:
-* Witold Gliwa
-* Mateusz Motyl
-* Patryk Zarzycki
+Introduce yourself is a mobile application in the form of a social network focused on sharing your thoughts as posts and links to your social media (or other). The user can register and invite friends using the social tab. Users connected by friendship can exchange messages with each other. Finding users can be done not only using the search card but also by the QR scanner card where we can share or scan the shared QR code. Created posts can be rated by others - top users by positive posts ratings from the period of a given day are positioned on the main page of the application.
 
-## JIRA
-https://letsintroduceurself.atlassian.net/jira/software/projects/IY/boards/1
+**App uses polish language pack - to change language it's neccessary to translate the file \app\src\main\res\values\strings.xml**
 
-## SPRINTS
-~~**1. Konfiguracja środowiska (do 17.10)**~~
-* Android Studio Arctic Fox 2020 3.1
-* Pixel 4 API 30
-* Android 11.0 (Google Play)
-* PostgreSQL (+ pgAdmin 4)
-
-~~**2. Baza danych (do 24.10)**~~
-* Diagram bazy danych
-* Instalacja pluginów Kotlin Exposed
-* Utworzenie modeli DAO
-
-**3. Rejestracja i logowanie (do 3.11)**
- * Backend
-    * Walidacja wprowadzanych wartości
-    * Odczyt/ zapis do bazy 
- * Frontend
-
-**4. Strona główna (do 14.11)**
-   * Wysuwane boczne menu z zakładkami:
-     * Profil
-     * Skaner
-     * ...
-     * Wyloguj
-   * RecyclerView z profilami (prototyp)
-   * Adapter do widoku
-
-**5. Profil użytkownika (do 28.11)**
-  * Edycja profilu
-    * Zdjęcia
-    * Treści tekstowe (posty)
-    * Linki do stron
-  * Backend
-    * instalacja pluginu Dexter - obsługa uprawnień (wczytywanie zdjęć)
-  * Frontend
-    * relacyjny układ strony i stron tekstowych
-
-**6. Kody QR (do 12.12)**
-  * Tworzenie kodów QR
-  * Skaner kodów QR
-
-**7. Karta społeczności (do 22.12)**
-  * Podzakładki:
-    * Zaproszenia
-    * Znajomi
-
-**8. Wyszukiwarka (do 2.01)**
-  * Paginacja wyników wyszukiwania
-
-**9. System oceniania i ranking użytkowników (do 12.01)**
-  * Ocena profilu wyszukanego/ znajomego
-  * Pozycjonowanie użytkowników na stronie głównej
-
-**10. Komunikator tekstowy (do 23.01)**
-  * Rozszerzenie karty społeczności > znajomi
-
-## PODZIAŁ PRACY
-
-* **Witold Gliwa**
-  * Diagram bazy danych
-  * Utworzenie encji w PostgreSQL
-  * Utworzenie modeli DAO/DSL
-  * Odczyt / zapis danych z bazy danych
-  * Hashowanie hasła
-  * Backend użytkownika
-  * Backend systemu znajomych
-  * System oceniania użytkowników / postów
-  * Obróbka danych z wielu tabel do modeli
-  * Wyszukiwanie użytkowników
-  * Popularni użytkownicy danego dnia
-  * Paginacja
-    * wyszukiwarki
-    * znajomych / zaproszeń
-    * postów użytkownika
-    * wiadomości
-    
-    
-  ![diagram](https://user-images.githubusercontent.com/58432170/214069054-129db0b6-bbef-4c1e-af75-585e0e4958e9.png)
+## Sign Up & Sign In cards
+The entered values are length validated and there is regex used to check if inputs match patterns (ex. surname validation accepts: two-part names separated with a dash, first letter in uppercase and the rest in lowercase, string from 2 to 30 characters). A profile picture is required when registering.
 
 
-* **Mateusz Motyl**
-   * Konfiguracja środowiska
-      * android studio
-      * emulator
-   * Instalacja dextera - plugin obsługi uprawnień do pamięci wewnętrznej telefonu
-      * kodowanie/ rozkodowanie zdjęć z bazy danych
-      * wgrywanie zdjęć z pamięci wewnętrznej telefonu
-   * Tworzenie modeli klas (pakiet Models)
-   * Logowanie i rejestracja
-      * walidacje pól wejściowych (długości napisów, regexy: [imie, nazwisko, hasło, email], wymaganie zdjęcia)
-      * tworzenie konta uzytkownika
-   * Strona główna
-      * adapter listy modeli do widoku
-      * serializacja danych z adaptera do kolejnej aktywności (użytkownik z listy -> profil użytkownika, onClickListener)
-      * dane aktualnie zalogowanego użytkownika w side barze strony głównej (i aktualizacja po edycji)
-      * przełączanie między aktywnościami (zgodnie z cyklem życia aktywności); wylogowywanie - czyszczenie stosu programu
-   * Wyszukiwarka
-      * wyszukiwanie w zależności od wprowadzonych wartości (regex: wyszukiwanie po mailu; wyszukiwanie po imieniu, nazwisku)
-      * serializacja (onClickListener)
-      * toolbar z możliwością cofania
-   * Karta społeczności
-      * switch między kartami: znajomi, zaproszenia
-      * adapter do wyświetlania listy zaproszeń
-      * toolbar z możliwością cofania
-      * przyjmowanie/ usuwanie zaproszenia do znajomych (onAcceptClickListner, onDeclineClickListener)
-   * Skaner QR
-      * pluginy QRgenerator, Code-Scanner; pluginy do obsługi kodów QR, skanowanie, tworzenie kodu
-      * switch pomiędzy kartami: udostepnij kod, zeskanuj kod
-      * tworzenie kodu z emailem użytkownika
-      * toolbar z możliwością cofania
-      * skanowanie kodu i serializacja do profilu użytkownika po wyszukaniu (+ dostęp do kamerki internetowej w emulatorze)
-   * Wiadomości
-      * adapter do wyświetlania wiadomości; pozycjonowanie wiadomości przy krawędziach ekranu w zależności od użytkownika, przesyłanie wiadomości, stronicowanie wiadomości (przycisk załaduj więcej), znaczniki czasu przy wiadomościach, daty w przerwach 15-minutowych między wiadomościami i w różnicach dni
-      * toolabr z możliwością cofania i mailem użytkownika
-      * scrollowanie przy wczytywaniu wiadomości/ przy wysłaniu nowej wiadomości
-   * Profil użytkownika
-      * wyświetlanie danych użytkownika w profilu
-      * wyświetlanie postów (adapter)
-      * wyświetlanie linków (adapter)
-      * toolbar z możliwością cofania
-      * otwieranie linków i przekierowywanie aplikacji
-      * system oceniania; zaznaczanie/ odznaczanie łapek
-      * dodawanie/ usuwanie znajomego
-      * otwieranie (i serializacja do) direct message
-   * Ustawienia
-      * zmiana motywu i reakcja aplikacji na wybrany motyw
-      * zmiana hasła (walidacja regex)
-      * toolbar z możliwością cofania
-   * Edycja profilu
-      * edycja zdjęcia profilowego
-      * edycja/ usuwanie zdjęcia w tle
-      * edycja danych osobowych (walidacja pól tekstowych)
-      * edycja opisu (walidacja pól tekstowych)
-      * toolbar z możliwością cofania
-      * dodawanie postów (walidacja pól tektsowych)
-      * przełączanie między stroniami postów
-      * rozwijanie list postów i linków
-      * edycja/ usuwanie postów (walidacja pól tekstowych)
-      * dodawanie/ usuwanie linków (regex)
-  
-  
-* **Patryk Zarzycki**
-  * Strona główna - GUI
-  * Wysuwane boczne menu z zakładkami
-  * RecyclerView z profilami
-  * Adapter do RecyclerView z profilami
-  * GUI - frontend
-  * NavigationBar - przełączanie między aktywnościami
-  * Profil użytkownika - frontend
-  * Relacyjny układ strony i stron tekstowych
-  * Edycja profilu użytkownika - frontend
-  * Edycja profilu - treści tekstowe, opis użytkownika
-  * Edycja profilu - pola danych osobowych i opisu użytkownika
-  * RecyclerView do wyświetlania postów
-  * RecyclerView do wyświetlania linów
-  * Edycja oraz dodawanie postów - frontend
-  * Edycja oraz dodawanie linków - frontend
-  * Rozwijane listy linków i postów
-  * Karta społeczności - frontend
-  * Podgląd zaproszeń
-  * Zakładka "znajomi" - frontend
-  * Ustawienia aplikacji - frontend
-  * Zmiana ikony aplikacji
-  * Możliwość zmiany motywu aplikacji
-  * Dobór kolorystyki - implementacja kilku motywów (w tym ciemnego)
-  
+![plot](app-screenshots/rej.png)
+![plot](app-screenshots/log.png)
+
+
+## Main page with sliding side menu bar
+
+
+Main page shows some top users by sum of positive posts ratings from the period of a given day. You can go to their account by clicking on an item from the main list. There is a sliding side menu bar in the top left corner from where you can move between the pages of the application.
+
+![plot](app-screenshots/men.png)
+![plot](app-screenshots/men-men.png)
+
+
+## User profile
+The user's profile displays his profile picture, background picture (if added, not neccessary), personal data, shared posts and links. There is also a daily like counter which reacts to changes in posts likes. As it is in many other activities of this app there is a toolbar at the top which allows to move back to the previous page. There are also two other buttons on it - remove friend (by default: add friend, but accounts are already friends on the photo below) and messages (by default: invisible, but already friends on the photo below). Posts can be rated by clicking thumb up or thumb down (or undo the rating by clicking the same button one more time). Maximum number of added links is 20, but the number of posts is unlimited - there is a posts pagination that only shows 5 posts and two buttons: read 5 more, read 5 previous - if any.
+
+![plot](app-screenshots/pro-usr-1.png)
+![plot](app-screenshots/pro-usr-2.png)
+
+
+## Community card - friends, invitations
+It is a card divided into two sub-cards: friends (displayed by default) - displays list of friends; invitations - display list of friend invitations, where user can decide wheter to add or remove an invitation.
+
+
+![plot](app-screenshots/spo-zna.png)
+![plot](app-screenshots/spo-zap.png)
+
+
+## Messages
+Message activity is available from the side menu bar on the home page or by clicking the message icon in the toolbar in the user's profile. The messages of the already logged user are on the right side of the page. Every message buble has a timestamp on it and there is also date displayed under several conditions: new conversation, 15 minutues difference between messages, date difference between messages (ex. msg1 time = 23:59 21.02.2023, msg2 time = 00:01 22.02.2023 <- there is a date difference even if it's two minutes difference).
+
+
+![plot](app-screenshots/msg.png)
+
+
+## QR CODE card - code sharing, code scanning
+The QR code stores the user's email which is unique to other users - duplication is not possible. Card is divided into two sub-cards: the one which displays user QR code and the one to scan the code (app was tested using an android emulator, so it was necessary to use a webcam). To change the sub-card user needs to move the switch to the right direction. 
+
+
+![plot](app-screenshots/qr-cod.png)
+![plot](app-screenshots/qr-sca.png)
+
+
+## Search card & Settings card
+Search card and settings card are accessory cards. First one is for searching users and uses pagination when there is more than 5 search results. The other card is for changing password and changing app theme - default theme is blue/ yellow. There is also a dark style (night mode) and a green/ pink style. Once changed theme will be displayed until the next change.
+
+
+![plot](app-screenshots/ser.png)
+![plot](app-screenshots/ust.png)
+
+## Contributors & Contrubutions
+**Mateusz Motyl - backend (app functionality)**
+
+Witold Gliwa - backend (database)
+
+Patryk Zarzycki - frontend
