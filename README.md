@@ -9,8 +9,8 @@ The entered values are length validated and there is regex used to check if inpu
 
 
 <p float="center">
-  <img src="app-screenshots/rej.png" width="350" />
-  <img src="app-screenshots/log.png" width="350" /> 
+  <img src="app-screenshots/rej.png" width="350" height="650" />
+  <img src="app-screenshots/log.png" width="350" height="650" /> 
 </p>
 
 
@@ -21,18 +21,28 @@ Main page shows some top users by sum of positive posts ratings from the period 
 
 
 <p float="center">
-  <img src="app-screenshots/men.png" width="350" />
-  <img src="app-screenshots/men-men.png" width="350" /> 
+  <img src="app-screenshots/men.png" width="350" height="650" />
+  <img src="app-screenshots/men-men.png" width="350" height="650" /> 
 </p>
 
 
 ## User profile
-The user's profile displays his profile picture, background picture (if added, not neccessary), personal data, shared posts and links. There is also a daily like counter which reacts to changes in posts likes. As it is in many other activities of this app there is a toolbar at the top which allows to move back to the previous page. There are also two other buttons on it - remove friend (by default: add friend, but accounts are already friends on the photo below) and messages (by default: invisible, but already friends on the photo below). Posts can be rated by clicking thumb up or thumb down (or undo the rating by clicking the same button one more time). Maximum number of added links is 20, but the number of posts is unlimited - there is a posts pagination that only shows 5 posts and two buttons: read 5 more, read 5 previous - if any.
+The user's profile displays his profile picture, background picture (if added, not neccessary, by default there is a color gradient), personal data, shared posts and links. There is also a daily like counter which reacts to changes in posts likes. As it is in many other activities of this app there is a toolbar at the top which allows to move back to the previous page. There are also two other buttons on it - remove friend (by default: add friend, but accounts are already friends on the photo below) and messages (by default: invisible, but already friends on the photo below). Posts can be rated by clicking thumb up or thumb down (or undo the rating by clicking the same button one more time). Maximum number of added links is 20, but the number of posts is unlimited - there is a posts pagination that only shows 5 posts and two buttons: read 5 more, read 5 previous - if any.
 
 
 <p float="center">
-  <img src="app-screenshots/pro-usr-1.png" width="350" />
-  <img src="app-screenshots/pro-usr-2.png" width="350" /> 
+  <img src="app-screenshots/pro-usr-1.png" width="350" height="650" />
+  <img src="app-screenshots/pro-usr-2.png" width="350" height="650" /> 
+</p>
+
+
+## Edit profile
+Edit profile card is a place where user can change his profile picture, remove, add or change background picture. User can also edit his personal data. What's more, it is a tab where you can add/ remove links and posts (posts are editable - post's timestamp is updated to the current time when edited). Displaying data works in a similar way as in the view of the user's profile.
+
+
+<p float="center">
+  <img src="app-screenshots/pro-edi-1.png" width="350" height="650" />
+  <img src="app-screenshots/pro-edi-2.png" width="350" height="650" /> 
 </p>
 
 
@@ -41,8 +51,8 @@ It is a card divided into two sub-cards: friends (displayed by default) - displa
 
 
 <p float="center">
-  <img src="app-screenshots/spo-zna.png" width="350" />
-  <img src="app-screenshots/spo-zap.png" width="350" /> 
+  <img src="app-screenshots/spo-zna.png" width="350" height="650" />
+  <img src="app-screenshots/spo-zap.png" width="350" height="650" /> 
 </p>
 
 
@@ -51,7 +61,7 @@ Message activity is available from the side menu bar on the home page or by clic
 
 
 <p float="center">
-  <img src="app-screenshots/msg.png" width="350" />
+  <img src="app-screenshots/msg.png" width="350" height="650" />
 </p>
 
 
@@ -60,8 +70,8 @@ The QR code stores the user's email which is unique to other users - duplication
 
 
 <p float="center">
-  <img src="app-screenshots/qr-cod.png" width="350" />
-  <img src="app-screenshots/qr-sca.png" width="350" /> 
+  <img src="app-screenshots/qr-cod.png" width="350" height="650" />
+  <img src="app-screenshots/qr-sca.png" width="350" height="650" /> 
 </p>
 
 
@@ -70,8 +80,17 @@ Search card and settings card are accessory cards. First one is for searching us
 
 
 <p float="center">
-  <img src="app-screenshots/ser.png" width="350" />
-  <img src="app-screenshots/ust.png" width="350" /> 
+  <img src="app-screenshots/ser.png" width="350" height="650" />
+  <img src="app-screenshots/ust.png" width="350" height="650" /> 
+</p>
+
+
+Examples of other themes:
+
+
+<p float="center">
+  <img src="app-screenshots/dark-mode.png" width="350" height="650" />
+  <img src="app-screenshots/green-mode.png" width="350" height="650" /> 
 </p>
 
 
